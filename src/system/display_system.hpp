@@ -2,6 +2,8 @@
 
 #include "system/system_interface.hpp"
 
+#include <glm/glm.hpp>
+
 struct GLFWwindow;
 
 namespace engine
