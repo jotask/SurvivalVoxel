@@ -9,10 +9,6 @@
 
 #include <algorithm>
 
-// TODO : Remove this dependency and use some event system to remove dependency between system
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
 namespace engine
 {
     Engine::Engine()
@@ -48,9 +44,7 @@ namespace engine
 
         init();
 
-        auto* window = m_displaySystem->getWindow();
-
-        while (glfwWindowShouldClose(window) == false)
+        while (m_displaySystem->shouldWindowClose() == false)
         {
 
             // Update all systems
@@ -70,7 +64,8 @@ namespace engine
             std::for_each(m_systems.begin(), m_systems.end(), [](auto& sys) { sys->render(); });
             std::for_each(m_systems.begin(), m_systems.end(), [](auto& sys) { sys->postRender(); });
 
-            glfwSwapBuffers(window);
+            m_renderSystem->swapBuffers();
+
         }
 
     }
