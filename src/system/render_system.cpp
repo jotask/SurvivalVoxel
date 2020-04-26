@@ -1,5 +1,10 @@
 #include "system/render_system.hpp"
 
+#include "system/display_system.hpp"
+
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 namespace engine
 {
     RenderSystem::RenderSystem()
@@ -10,6 +15,7 @@ namespace engine
 
     bool RenderSystem::init()
     {
+        glEnable(GL_DEPTH_TEST);
         return true;
     }
 
@@ -36,7 +42,7 @@ namespace engine
 
     void RenderSystem::preRender()
     {
-
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
     void RenderSystem::render()
