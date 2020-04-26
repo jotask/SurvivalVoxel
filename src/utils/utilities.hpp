@@ -1,5 +1,7 @@
 #pragma once
 
+#include "SOIL2.h"
+
 #include <string>
 #include <fstream>
 #include <filesystem>
@@ -8,6 +10,10 @@ namespace engine
 {
     namespace utils
     {
+        static unsigned int loadBMPTexture(const std::string& fileName)
+        {
+            return SOIL_load_OGL_texture(fileName.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS);
+        }
 
         static std::string readFile(const std::string& fileName)
         {
