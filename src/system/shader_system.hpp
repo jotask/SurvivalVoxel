@@ -34,8 +34,6 @@ namespace engine
 
         void createProgram(const std::string& shaderName, const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename);
 
-        std::string readShader(const std::string& fileName);
-
         GLuint createShader(GLenum shader_type, const std::string& source, const std::string& shaderName);
 
         std::map<std::string, GLuint> m_programs;

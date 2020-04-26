@@ -1,8 +1,8 @@
 #include "system/shader_system.hpp"
 
+#include "utils/utilities.hpp"
+
 #include <algorithm>
-#include <fstream>
-#include <filesystem>
 
 namespace engine
 {
@@ -75,8 +75,8 @@ namespace engine
 
     void ShaderSystem::createProgram(const std::string & shaderName, const std::string & vertexShaderFilename, const std::string & fragmentShaderFilename)
     {
-        const auto vertexShaderCode = readShader(vertexShaderFilename);
-        const auto fragmentShaderCode = readShader(fragmentShaderFilename);
+        const auto vertexShaderCode = utils::readFile(vertexShaderFilename);
+        const auto fragmentShaderCode = utils::readFile(fragmentShaderFilename);
 
         const auto vertexShader = createShader(GL_VERTEX_SHADER, vertexShaderCode, "vertex shader");
         const auto fragmentShader = createShader(GL_FRAGMENT_SHADER, fragmentShaderCode, "fragment shader");
@@ -101,29 +101,6 @@ namespace engine
         }
 
         m_programs[shaderName] = program;
-    }
-
-    std::string ShaderSystem::readShader(const std::string& fileName)
-    {
-
-        // TODO : Not happy with this, find other solution
-        auto fullPathToFile = std::filesystem::current_path() / ("../assets/" + fileName);
-
-        std::string shaderCode;
-        std::ifstream file(fullPathToFile, std::ios::in);
-
-        if (file.good() == false)
-        {
-            printf("Cannot read shader file %s\n", fileName.c_str());
-            std::terminate();
-        }
-
-        file.seekg(0, std::ios::end);
-        shaderCode.resize(static_cast<unsigned int>(file.tellg()));
-        file.seekg(0, std::ios::beg);
-        file.read(&shaderCode[0], shaderCode.size());
-        file.close();
-        return shaderCode;
     }
 
     GLuint ShaderSystem::createShader(GLenum shader_type, const std::string & source, const std::string & shaderName)
