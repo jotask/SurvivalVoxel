@@ -4,6 +4,7 @@
 #include "system/render_system.hpp"
 #include "system/imgui_system.hpp"
 #include "system/input_system.hpp"
+#include "system/shader_system.hpp"
 #include "system/system_connector.hpp"
 
 #include <algorithm>
@@ -30,6 +31,7 @@ namespace engine
         m_systems.push_back(std::make_unique<ImguiSystem>());
         m_systems.push_back(std::make_unique<InputSystem>());
 
+        m_systems.push_back(std::make_unique<ShaderSystem>());
         // Connect all system before we initialize them
         auto systemConnector = SystemConnector(m_systems);
         m_displaySystem = systemConnector.findSystem<DisplaySystem>();
