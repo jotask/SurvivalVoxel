@@ -18,7 +18,7 @@ project "GLAD"
         pic "On"
 
         systemversion "latest"
-        staticruntime "On"
+        staticruntime "Off"
 
         defines {
         "_GLAD_X11"
@@ -26,7 +26,7 @@ project "GLAD"
 
     filter "system:windows"
         systemversion "latest"
-        staticruntime "On"
+        staticruntime "Off"
 
         defines { 
             "_GLAD_WIN32",

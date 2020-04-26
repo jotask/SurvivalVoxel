@@ -18,7 +18,7 @@ project "GLM"
         pic "On"
 
         systemversion "latest"
-        staticruntime "On"
+        staticruntime "Off"
 
         defines {
             "_GLM_X11"
@@ -26,7 +26,7 @@ project "GLM"
 
     filter "system:windows"
         systemversion "latest"
-        staticruntime "On"
+        staticruntime "Off"
 
         defines {
             "_GLM_WIN32",

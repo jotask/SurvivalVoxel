@@ -26,7 +26,7 @@ project "GLFW"
         pic "On"
 
         systemversion "latest"
-        staticruntime "On"
+        staticruntime "Off"
 
         files {
             "glfw/src/x11_init.c",
@@ -47,7 +47,7 @@ project "GLFW"
 
     filter "system:windows"
         systemversion "latest"
-        staticruntime "On"
+        staticruntime "Off"
 
         files {
             "glfw/src/win32_init.c",

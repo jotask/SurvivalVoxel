@@ -27,7 +27,7 @@ project "ImGui"
         pic "On"
 
         systemversion "latest"
-        staticruntime "On"
+        staticruntime "Off"
 
         defines {
             "_IMGUI_X11"
@@ -35,7 +35,7 @@ project "ImGui"
 
     filter "system:windows"
         systemversion "latest"
-        staticruntime "On"
+        staticruntime "Off"
 
         defines {
             "_IMGUI_WIN32",
