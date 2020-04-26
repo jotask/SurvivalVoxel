@@ -30,7 +30,7 @@ namespace engine
 
         printf("GLFW version: %s\n", glfwGetVersionString());
 
-        m_window = glfwCreateWindow(500, 300, "Window Title", NULL, NULL);
+        m_window = glfwCreateWindow(800, 600, "Survival Voxel", nullptr, nullptr);
 
         if (m_window == nullptr)
         {
