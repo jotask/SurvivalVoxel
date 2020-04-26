@@ -9,7 +9,7 @@ namespace engine
     namespace utils
     {
 
-        std::string readFile(const std::string& fileName)
+        static std::string readFile(const std::string& fileName)
         {
 
             // TODO : Not happy with this, find other solution
