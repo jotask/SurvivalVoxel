@@ -94,4 +94,12 @@ namespace engine
         return m_window;
     }
 
+    glm::vec2 DisplaySystem::getWindowSize() const
+    {
+        int width = 0;
+        int height = 0;
+        glfwGetWindowSize(m_window, &width, &height);
+        return glm::vec2(width, height);
+    }
+
 }

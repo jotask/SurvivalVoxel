@@ -27,6 +27,8 @@ namespace engine
 
             GLFWwindow* getWindow() const;
 
+            glm::vec2 getWindowSize() const;
+
     private:
 
         GLFWwindow* m_window;
