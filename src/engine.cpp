@@ -21,6 +21,26 @@ namespace engine
 
     }
 
+    void Engine::init()
+    {
+
+        // Create all systems first
+        m_systems.push_back(std::make_unique<DisplaySystem>());
+        m_systems.push_back(std::make_unique<RenderSystem>());
+        m_systems.push_back(std::make_unique<ImguiSystem>());
+        m_systems.push_back(std::make_unique<InputSystem>());
+
+        // Connect all system before we initialize them
+        auto systemConnector = SystemConnector(m_systems);
+        m_displaySystem = systemConnector.findSystem<DisplaySystem>();
+        m_renderSystem = systemConnector.findSystem<RenderSystem>();
+        std::for_each(m_systems.begin(), m_systems.end(), [&systemConnector](auto& sys) { sys->connect(systemConnector); });
+
+        // Initialise all systems
+        std::for_each(m_systems.begin(), m_systems.end(), [](auto& sys) { sys->init(); });
+
+    }
+
     void Engine::run()
     {
 
@@ -50,26 +70,6 @@ namespace engine
 
             glfwSwapBuffers(window);
         }
-
-    }
-
-    void Engine::init()
-    {
-
-        // Create all systems first
-        m_systems.push_back(std::make_unique<DisplaySystem>());
-        m_systems.push_back(std::make_unique<RenderSystem>());
-        m_systems.push_back(std::make_unique<ImguiSystem>());
-        m_systems.push_back(std::make_unique<InputSystem>());
-
-        // Connect all system before we initialize them
-        auto systemConnector = SystemConnector(m_systems);
-        m_displaySystem = systemConnector.findSystem<DisplaySystem>();
-        m_renderSystem = systemConnector.findSystem<RenderSystem>();
-        std::for_each(m_systems.begin(), m_systems.end(), [&systemConnector](auto& sys) { sys->connect(systemConnector); });
-
-        // Initialise all systems
-        std::for_each(m_systems.begin(), m_systems.end(), [](auto& sys) { sys->init(); });
 
     }
 
