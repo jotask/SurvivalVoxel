@@ -3,6 +3,7 @@
 #include "system/display_system.hpp"
 #include "system/render_system.hpp"
 #include "system/imgui_system.hpp"
+#include "system/input_system.hpp"
 #include "system/system_connector.hpp"
 
 #include <algorithm>
@@ -29,10 +30,6 @@ namespace engine
 
         while (glfwWindowShouldClose(window) == false)
         {
-            
-            // Poll window events
-            // TODO : Replace this with a input module
-            glfwPollEvents();
 
             // Update all systems
             std::for_each(m_systems.begin(), m_systems.end(), [](auto& sys) { sys->preUpdate(); });
@@ -45,7 +42,7 @@ namespace engine
             glfwGetFramebufferSize(window, &display_w, &display_h);
             glViewport(0, 0, display_w, display_h);
             glClear(GL_COLOR_BUFFER_BIT);
-        
+
             // Render all systems
             std::for_each(m_systems.begin(), m_systems.end(), [](auto& sys) { sys->preRender(); });
             std::for_each(m_systems.begin(), m_systems.end(), [](auto& sys) { sys->render(); });
@@ -63,6 +60,7 @@ namespace engine
         m_systems.push_back(std::make_unique<DisplaySystem>());
         m_systems.push_back(std::make_unique<RenderSystem>());
         m_systems.push_back(std::make_unique<ImguiSystem>());
+        m_systems.push_back(std::make_unique<InputSystem>());
 
         // Connect all system before we initialize them
         auto systemConnector = SystemConnector(m_systems);
