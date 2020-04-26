@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "shared.hpp"
+#include "utils/shared.hpp"
 
 namespace engine
 {
