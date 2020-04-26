@@ -2,14 +2,20 @@
 
 namespace engine
 {
+    RenderSystem::RenderSystem()
+        : m_displaySystem(nullptr)
+    {
+
+    }
 
     bool RenderSystem::init()
     {
         return true;
     }
 
-    bool RenderSystem::connect(SystemConnector &)
+    bool RenderSystem::connect(SystemConnector & connector)
     {
+        m_displaySystem = connector.findSystem<DisplaySystem>();
         return true;
     }
 
@@ -41,6 +47,11 @@ namespace engine
     void RenderSystem::postRender()
     {
 
+    }
+
+    void RenderSystem::swapBuffers() const
+    {
+        glfwSwapBuffers(m_displaySystem->getWindow());
     }
 
 }

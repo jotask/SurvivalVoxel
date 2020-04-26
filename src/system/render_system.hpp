@@ -4,12 +4,13 @@
 
 namespace engine
 {
+    class DisplaySystem;
 
     class RenderSystem : public System
     {
     public:
 
-        RenderSystem() = default;
+        RenderSystem();
         virtual ~RenderSystem() override = default;
 
         virtual bool init() override;
@@ -22,6 +23,12 @@ namespace engine
         virtual void preRender() override;
         virtual void render() override;
         virtual void postRender() override;
+
+        // Not happy but only solution for now.Maybe change this for an event
+        void swapBuffers() const;
+
+    private:
+        DisplaySystem* m_displaySystem;
 
     };
 
