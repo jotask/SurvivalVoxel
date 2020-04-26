@@ -24,6 +24,7 @@ namespace engine
     bool ShaderSystem::init()
     {
         createProgram("colorShader", "vertex_shader.glsl", "fragment_shader.glsl");
+        createProgram("cubeShader", "cube_vertex_shader.glsl", "cube_fragment_shader.glsl");
         return true;
     }
 
