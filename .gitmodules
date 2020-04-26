@@ -7,3 +7,6 @@
 [submodule "dependencies/imgui"]
 	path = dependencies/imgui
 	url = https://github.com/ocornut/imgui.git
+[submodule "dependencies/soil2"]
+	path = dependencies/soil2
+	url = https://github.com/SpartanJ/soil2
