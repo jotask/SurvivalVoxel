@@ -42,7 +42,8 @@ project "SurvivalVoxel"
         "dependencies/glfw/include/",
         "dependencies/glm/",
         "dependencies/imgui/",
-        "dependencies/imgui/examples"
+        "dependencies/imgui/examples",
+        "dependencies/soil2/src/SOIL2"
     }
 
     files {
@@ -55,7 +56,8 @@ project "SurvivalVoxel"
         "GLFW",
         "GLM",
         "GLAD",
-        "ImGui"
+        "ImGui",
+        "Soil2"
     }
 
     filter "system:linux"
@@ -77,3 +79,4 @@ include "dependencies/glfw.lua"
 include "dependencies/glad.lua"
 include "dependencies/glm.lua"
 include "dependencies/imgui.lua"
+include "dependencies/soil2.lua"
