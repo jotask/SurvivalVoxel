@@ -12,7 +12,8 @@ namespace engine
     {
         static unsigned int loadBMPTexture(const std::string& fileName)
         {
-            return SOIL_load_OGL_texture(fileName.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS);
+            auto fullPathToFile = std::filesystem::current_path() / ("../assets/" + fileName);
+            return SOIL_load_OGL_texture(fullPathToFile.string().c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS);
         }
 
         static std::string readFile(const std::string& fileName)
