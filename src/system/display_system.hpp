@@ -31,6 +31,9 @@ namespace engine
 
         glm::vec2 getWindowSize() const;
 
+        // Not happy but maybe change this for an event?
+        bool shouldWindowClose() const;
+
     private:
 
         GLFWwindow* m_window;

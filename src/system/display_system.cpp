@@ -102,4 +102,9 @@ namespace engine
         return glm::vec2(width, height);
     }
 
+    bool DisplaySystem::shouldWindowClose() const
+    {
+        return glfwWindowShouldClose(m_window);
+    }
+
 }
