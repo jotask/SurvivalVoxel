@@ -7,6 +7,7 @@
 #include "system/camera_system.hpp"
 #include "system/model_system.hpp"
 #include "system/shader_system.hpp"
+#include "system/event_system.hpp"
 #include "system/system_connector.hpp"
 
 #include <algorithm>
@@ -24,6 +25,8 @@ namespace engine
     {
 
         // Create all systems first
+        // Engine systems first
+        m_systems.push_back(std::make_unique<EventSystem>());
         m_systems.push_back(std::make_unique<DisplaySystem>());
         m_systems.push_back(std::make_unique<RenderSystem>());
         m_systems.push_back(std::make_unique<ImguiSystem>());
