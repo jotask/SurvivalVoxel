@@ -9,7 +9,7 @@
 namespace engine
 {
     ImguiSystem::ImguiSystem()
-        : showDemoWindow(true)
+        : showDemoWindow(false)
         , m_displaySystem(nullptr)
     {
 
