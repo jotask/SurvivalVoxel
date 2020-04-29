@@ -31,6 +31,8 @@ namespace engine
 
         Transform& getTransform();
 
+        Mesh* getMesh() const;
+
     private:
 
         friend class Mesh;

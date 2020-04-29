@@ -88,6 +88,11 @@ namespace engine
         return m_transform;
     }
 
+    Mesh* Chunk::getMesh() const
+    {
+        return m_mesh.get();
+    }
+
     unsigned int Chunk::convertToVoxelIndex(const glm::ivec3& pos) const
     {
         return pos.x + s_chunkSize.x * (pos.y + s_chunkSize.z * pos.z);
