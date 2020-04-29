@@ -23,14 +23,14 @@ namespace engine
 
     bool ChunkSystem::init()
     {
-        constexpr auto size = 2u;
-        for (auto z = 0; z < size; z++)
+        constexpr auto size = 2;
+        for (auto z = -size; z < size; z++)
         {
-            for (auto x = 0; x < size; x++)
+            for (auto x = -size; x < size; x++)
             {
-                 auto chunk = Chunk(this, x, z);
-                 chunk.generate();
-                 m_chunks.push_back(std::move(chunk));
+                auto chunk = Chunk(this, x, z);
+                chunk.generate();
+                m_chunks.push_back(std::move(chunk));
             }
         }
         return true;
