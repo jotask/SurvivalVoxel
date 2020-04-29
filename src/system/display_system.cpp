@@ -1,5 +1,8 @@
 #include "system/display_system.hpp"
 
+#include "system/event_system.hpp"
+#include "system/engine_events.hpp"
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -49,6 +52,9 @@ namespace engine
         printf("OpenGL version: %s\n", glGetString(GL_VERSION));
 
         glfwSwapInterval(1);
+
+        glfwSetWindowSizeCallback(m_window,  [](GLFWwindow* window, int width, int height) { EventSystem::it().sendEvent(WindowResizeEvent(width, height)); });
+        glfwSetWindowCloseCallback(m_window, [](GLFWwindow* window) { EventSystem::it().sendEvent(WindowCloseEvent()); });
 
         return true;
 
