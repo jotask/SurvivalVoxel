@@ -14,8 +14,18 @@ namespace engine
     class EventSystem
     {
     public:
-
+        static EventSystem& it()
+        {
+            static EventSystem instance;
+            return instance;
+        }
+    private:
         EventSystem() = default;
+
+    public:
+        EventSystem(EventSystem const&) = delete;
+        void operator=(EventSystem const&) = delete;
+
         ~EventSystem() = default;
 
         template<class Evnt>
