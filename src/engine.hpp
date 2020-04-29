@@ -16,7 +16,18 @@ namespace engine
     class Engine
     {
     public:
+        static Engine& getInstance()
+        {
+            static Engine instance;
+            return instance;
+        }
+        Engine(Engine const&) = delete;
+        void operator=(Engine const&) = delete;
+    private:
+
         Engine();
+
+    public:
         ~Engine() = default;
 
         void run();

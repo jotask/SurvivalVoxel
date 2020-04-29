@@ -5,8 +5,7 @@
 int main()
 {
 
-    auto engine = engine::Engine();
-    engine.run();
+    engine::Engine::getInstance().run();
 
     return EXIT_SUCCESS;
 
