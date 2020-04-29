@@ -26,7 +26,6 @@ namespace engine
 
         // Create all systems first
         // Engine systems first
-        m_systems.push_back(std::make_unique<EventSystem>());
         m_systems.push_back(std::make_unique<DisplaySystem>());
         m_systems.push_back(std::make_unique<RenderSystem>());
         m_systems.push_back(std::make_unique<ImguiSystem>());

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "system/system_interface.hpp"
 #include "system/event.hpp"
 
 #include <memory>
@@ -12,12 +11,12 @@
 namespace engine
 {
 
-    class EventSystem : public System
+    class EventSystem
     {
     public:
 
         EventSystem() = default;
-        virtual ~EventSystem() override = default;
+        ~EventSystem() = default;
 
         template<class Evnt>
         void bind(void(*const fun)(Event&));
