@@ -147,6 +147,21 @@ namespace engine
                     indices.push_back(idx + 3);
                 }
 
+                for (auto idx = 0 ; idx < indices.size() ; idx += 3)
+                {
+                    auto v1 = vertices[indices[idx + 1]].m_position - vertices[indices[idx]].m_position;
+                    auto v2 = vertices[indices[idx + 2]].m_position - vertices[indices[idx]].m_position;
+                    auto faceNormal = glm::cross(v1, v2);
+                    vertices[indices[idx + 0]].m_normal += faceNormal;
+                    vertices[indices[idx + 1]].m_normal += faceNormal;
+                    vertices[indices[idx + 2]].m_normal += faceNormal;
+                }
+
+                for (auto& vertex : vertices)
+                {
+                    vertex.m_normal = glm::normalize(vertex.m_normal);
+                }
+
                 auto mesh = std::make_unique<Mesh>(chunk, vertices, indices);
                 mesh->create();
 
