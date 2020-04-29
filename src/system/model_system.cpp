@@ -19,13 +19,15 @@ namespace engine
     {
 
         // TODO : Move this to a assets class maybe, but definetly not here
-        unsigned int texture = utils::loadBMPTexture("crate.bmp");
-
-        constexpr auto testName = "test";
-        m_models.insert({ testName, std::make_unique<model::Model>() });
-        m_models.at(testName)->setProgram(m_shaderSystem->getShader("cubeShader"));
-        m_models.at(testName)->setTexture("Crate", texture);
-        m_models.at(testName)->create();
+        if (false)
+        {
+            unsigned int texture = utils::loadBMPTexture("crate.bmp");
+            constexpr auto testName = "test";
+            m_models.insert({ testName, std::make_unique<model::Model>() });
+            m_models.at(testName)->setProgram(m_shaderSystem->getShader("cubeShader"));
+            m_models.at(testName)->setTexture("Crate", texture);
+            m_models.at(testName)->create();
+        }
         
         return true;
     }
