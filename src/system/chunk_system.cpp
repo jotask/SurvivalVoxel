@@ -23,7 +23,7 @@ namespace engine
 
     bool ChunkSystem::init()
     {
-        constexpr auto size = 2;
+        constexpr auto size = 8;
         for (auto z = -size; z < size; z++)
         {
             for (auto x = -size; x < size; x++)
