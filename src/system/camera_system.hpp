@@ -57,6 +57,7 @@ namespace engine
 
         glm::vec4 m_viewport;
         glm::vec3 m_position;
+        glm::vec3 m_targetPosition;
         glm::quat m_rotation;
         glm::mat4 m_viewMatrix;
         glm::mat4 m_projectionMatrix;
@@ -64,6 +65,9 @@ namespace engine
         bool isViewDirty;
 
         DisplaySystem* m_displaySystem;
+
+        float m_radius;
+        bool  m_autoRotationEnblad;
 
     };
 

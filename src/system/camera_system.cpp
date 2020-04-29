@@ -3,6 +3,8 @@
 #include "system/display_system.hpp"
 
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <imgui.h>
 
 namespace engine
 {
@@ -10,11 +12,14 @@ namespace engine
     CameraSystem::CameraSystem()
         : m_viewport(0.f)
         , m_position(0.f)
+        , m_targetPosition(0.f, 0.f, 0.f)
         , m_rotation()
         , m_viewMatrix(1.f)
         , m_projectionMatrix(1.f)
         , isViewDirty(false)
         , m_displaySystem(nullptr)
+        , m_radius (10.0f)
+        , m_autoRotationEnblad(true)
     {
 
     }
@@ -30,7 +35,7 @@ namespace engine
 
         const auto windowSize = m_displaySystem->getWindowSize();
 
-        setPosition({0.f, 0.f, 5.f});
+        setPosition({0.f, 10.f, 15.f});
         setProjectionMatrix(45.f, windowSize.x / windowSize.y, 0.1f, 100.f);
 
         setViewport(0, 0, static_cast<int>(windowSize.x), static_cast<int>(windowSize.y));
@@ -59,7 +64,18 @@ namespace engine
 
     void CameraSystem::render()
     {
-
+        ImGui::Begin("Camera settings");
+        ImGui::Checkbox("Rotation enabled", &m_autoRotationEnblad);
+        ImGui::SliderFloat("Radius", &m_radius, 0, 100);
+        ImGui::SliderFloat("Position X", &m_position.x, -50, 100);
+        ImGui::SliderFloat("Position Y", &m_position.y, -50, 100);
+        ImGui::SliderFloat("Position Z", &m_position.z, -50, 100);
+        ImGui::SliderFloat("Target X", &m_targetPosition.x, -50, 100);
+        ImGui::SliderFloat("Target Y", &m_targetPosition.y, -50, 100);
+        ImGui::SliderFloat("Target Z", &m_targetPosition.z, -50, 100);
+        ImGui::End();
+        isViewDirty = true;
+        updateViewMatrix();
     }
 
     void CameraSystem::postRender()
@@ -152,27 +168,43 @@ namespace engine
 
     glm::vec3 CameraSystem::getForward() const
     {
-        return m_rotation * glm::vec3({ 0.0f, 0.0f, -1.0f });
+        return { 0.0f, 0.0f, -1.0f };
     }
 
     glm::vec3 CameraSystem::getRight() const
     {
-        return m_rotation * glm::vec3({ 1.0f, 0.0f, 0.0f });
+        return { 1.0f, 0.0f, 0.0f };
     }
 
     glm::vec3 CameraSystem::getUp() const
     {
-        return m_rotation * glm::vec3({ 0.0f, 1.0f, 0.0f });
+        return { 0.0f, 1.0f, 0.0f };
     }
 
     void CameraSystem::updateViewMatrix()
     {
         if (isViewDirty == true)
         {
-            glm::mat4 translate = glm::translate(-m_position);
-            glm::mat4 rotate = glm::transpose(glm::toMat4(m_rotation));
-            m_viewMatrix = rotate * translate;
-            isViewDirty = false;
+            // glm::mat4 translate = glm::translate(-m_position);
+            // glm::mat4 rotate = glm::transpose(glm::toMat4(m_rotation));
+            // m_viewMatrix = rotate * translate;
+            // m_viewMatrix = glm::lookAt(m_position, {0.f, 0.f, 0.f}, getUp());
+            // isViewDirty = false;
+
+            m_viewMatrix = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+
+            float camX = m_position.x;
+            float camY = m_position.y;
+            float camZ = m_position.z;
+
+            if (m_autoRotationEnblad == true)
+            {
+                camX += sin(glfwGetTime()) * m_radius;
+                camZ += cos(glfwGetTime()) * m_radius;
+            }
+
+            m_viewMatrix = glm::lookAt(glm::vec3(camX, camY, camZ), m_targetPosition, getUp());
+
         }
     }
 
