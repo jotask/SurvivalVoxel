@@ -10,6 +10,8 @@
 #include "system/event_system.hpp"
 #include "system/system_connector.hpp"
 
+#include "system/chunk_system.hpp"
+
 #include <algorithm>
 
 namespace engine
@@ -33,6 +35,9 @@ namespace engine
         m_systems.push_back(std::make_unique<CameraSystem>());
         m_systems.push_back(std::make_unique<ShaderSystem>());
         m_systems.push_back(std::make_unique<ModelSystem>());
+
+        // Game systems
+        m_systems.push_back(std::make_unique<ChunkSystem>());
 
         // Connect all system before we initialize them
         auto systemConnector = SystemConnector(m_systems);
