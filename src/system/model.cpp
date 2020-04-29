@@ -45,40 +45,40 @@ namespace engine
                 20, 21, 22, 20, 22, 23 };
 
             // Front Face Vertices + Texture Coordinates
-            vertices.push_back(VertexInfo(glm::vec3(-1.0, -1.0, 1.0), glm::vec2(0, 0)));
-            vertices.push_back(VertexInfo(glm::vec3(1.0, -1.0, 1.0), glm::vec2(1, 0)));
-            vertices.push_back(VertexInfo(glm::vec3(1.0, 1.0, 1.0), glm::vec2(1, 1)));
-            vertices.push_back(VertexInfo(glm::vec3(-1.0, 1.0, 1.0), glm::vec2(0, 1)));
-
-            // Right Face Vertices + Texture Coordinates
-            vertices.push_back(VertexInfo(glm::vec3(1.0, 1.0, 1.0), glm::vec2(0, 0)));
-            vertices.push_back(VertexInfo(glm::vec3(1.0, 1.0, -1.0), glm::vec2(1, 0)));
-            vertices.push_back(VertexInfo(glm::vec3(1.0, -1.0, -1.0), glm::vec2(1, 1)));
-            vertices.push_back(VertexInfo(glm::vec3(1.0, -1.0, 1.0), glm::vec2(0, 1)));
-
-            // Back Face Vertices + Texture Coordinates
-            vertices.push_back(VertexInfo(glm::vec3(-1.0, -1.0, -1.0), glm::vec2(0, 0)));
-            vertices.push_back(VertexInfo(glm::vec3(1.0, -1.0, -1.0), glm::vec2(1, 0)));
-            vertices.push_back(VertexInfo(glm::vec3(1.0, 1.0, -1.0), glm::vec2(1, 1)));
-            vertices.push_back(VertexInfo(glm::vec3(-1.0, 1.0, -1.0), glm::vec2(0, 1)));
-
-            // Left Face Vertices + Texture Coordinates
-            vertices.push_back(VertexInfo(glm::vec3(-1.0, -1.0, -1.0), glm::vec2(0, 0)));
-            vertices.push_back(VertexInfo(glm::vec3(-1.0, -1.0, 1.0), glm::vec2(1, 0)));
-            vertices.push_back(VertexInfo(glm::vec3(-1.0, 1.0, 1.0), glm::vec2(1, 1)));
-            vertices.push_back(VertexInfo(glm::vec3(-1.0, 1.0, -1.0), glm::vec2(0, 1)));
-
-            // Top Face Vertices + Texture Coordinates
-            vertices.push_back(VertexInfo(glm::vec3(1.0, 1.0, 1.0), glm::vec2(0, 0)));
-            vertices.push_back(VertexInfo(glm::vec3(-1.0, 1.0, 1.0), glm::vec2(1, 0)));
-            vertices.push_back(VertexInfo(glm::vec3(-1.0, 1.0, -1.0), glm::vec2(1, 1)));
-            vertices.push_back(VertexInfo(glm::vec3(1.0, 1.0, -1.0), glm::vec2(0, 1)));
-
-            // Bottom Face Vertices + Texture Coordinates
-            vertices.push_back(VertexInfo(glm::vec3(-1.0, -1.0, -1.0), glm::vec2(0, 0)));
-            vertices.push_back(VertexInfo(glm::vec3(1.0, -1.0, -1.0), glm::vec2(1, 0)));
-            vertices.push_back(VertexInfo(glm::vec3(1.0, -1.0, 1.0), glm::vec2(1, 1)));
-            vertices.push_back(VertexInfo(glm::vec3(-1.0, -1.0, 1.0), glm::vec2(0, 1)));
+            // vertices.push_back(VertexInfo(glm::vec3(-1.0, -1.0, 1.0), glm::vec2(0, 0)));
+            // vertices.push_back(VertexInfo(glm::vec3(1.0, -1.0, 1.0), glm::vec2(1, 0)));
+            // vertices.push_back(VertexInfo(glm::vec3(1.0, 1.0, 1.0), glm::vec2(1, 1)));
+            // vertices.push_back(VertexInfo(glm::vec3(-1.0, 1.0, 1.0), glm::vec2(0, 1)));
+            // 
+            // // Right Face Vertices + Texture Coordinates
+            // vertices.push_back(VertexInfo(glm::vec3(1.0, 1.0, 1.0), glm::vec2(0, 0)));
+            // vertices.push_back(VertexInfo(glm::vec3(1.0, 1.0, -1.0), glm::vec2(1, 0)));
+            // vertices.push_back(VertexInfo(glm::vec3(1.0, -1.0, -1.0), glm::vec2(1, 1)));
+            // vertices.push_back(VertexInfo(glm::vec3(1.0, -1.0, 1.0), glm::vec2(0, 1)));
+            // 
+            // // Back Face Vertices + Texture Coordinates
+            // vertices.push_back(VertexInfo(glm::vec3(-1.0, -1.0, -1.0), glm::vec2(0, 0)));
+            // vertices.push_back(VertexInfo(glm::vec3(1.0, -1.0, -1.0), glm::vec2(1, 0)));
+            // vertices.push_back(VertexInfo(glm::vec3(1.0, 1.0, -1.0), glm::vec2(1, 1)));
+            // vertices.push_back(VertexInfo(glm::vec3(-1.0, 1.0, -1.0), glm::vec2(0, 1)));
+            // 
+            // // Left Face Vertices + Texture Coordinates
+            // vertices.push_back(VertexInfo(glm::vec3(-1.0, -1.0, -1.0), glm::vec2(0, 0)));
+            // vertices.push_back(VertexInfo(glm::vec3(-1.0, -1.0, 1.0), glm::vec2(1, 0)));
+            // vertices.push_back(VertexInfo(glm::vec3(-1.0, 1.0, 1.0), glm::vec2(1, 1)));
+            // vertices.push_back(VertexInfo(glm::vec3(-1.0, 1.0, -1.0), glm::vec2(0, 1)));
+            // 
+            // // Top Face Vertices + Texture Coordinates
+            // vertices.push_back(VertexInfo(glm::vec3(1.0, 1.0, 1.0), glm::vec2(0, 0)));
+            // vertices.push_back(VertexInfo(glm::vec3(-1.0, 1.0, 1.0), glm::vec2(1, 0)));
+            // vertices.push_back(VertexInfo(glm::vec3(-1.0, 1.0, -1.0), glm::vec2(1, 1)));
+            // vertices.push_back(VertexInfo(glm::vec3(1.0, 1.0, -1.0), glm::vec2(0, 1)));
+            // 
+            // // Bottom Face Vertices + Texture Coordinates
+            // vertices.push_back(VertexInfo(glm::vec3(-1.0, -1.0, -1.0), glm::vec2(0, 0)));
+            // vertices.push_back(VertexInfo(glm::vec3(1.0, -1.0, -1.0), glm::vec2(1, 0)));
+            // vertices.push_back(VertexInfo(glm::vec3(1.0, -1.0, 1.0), glm::vec2(1, 1)));
+            // vertices.push_back(VertexInfo(glm::vec3(-1.0, -1.0, 1.0), glm::vec2(0, 1)));
 
             // Bind vbo
             glGenBuffers(1, &vbo);
