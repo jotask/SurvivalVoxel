@@ -19,9 +19,9 @@ namespace engine
         public:
 
             Model();
-            ~Model();
+            virtual ~Model();
 
-            void create();
+            virtual void create();
 
             void setProgram(GLuint);
             void setTexture(const std::string& textureName, GLuint textureId);
