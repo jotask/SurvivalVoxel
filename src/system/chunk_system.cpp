@@ -14,8 +14,8 @@ namespace engine
     ChunkSystem::ChunkSystem()
         : m_renderSystem(nullptr)
         , m_cameraSystem(nullptr)
-        , m_lightPos(0.f)
-        , m_lightCol(1.f, 0.f, 0.25f)
+        , m_lightPos(0.f, 15.f, 0.f)
+        , m_lightCol(1.f, 1.f, 1.f)
     {
 
     }
