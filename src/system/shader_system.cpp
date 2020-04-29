@@ -25,6 +25,7 @@ namespace engine
     {
         createProgram("colorShader", "vertex_shader.glsl", "fragment_shader.glsl");
         createProgram("cubeShader", "cube_vertex_shader.glsl", "cube_fragment_shader.glsl");
+        createProgram("chunkShader", "chunk_vertex_shader.glsl", "chunk_fragment_shader.glsl");
         return true;
     }
 
