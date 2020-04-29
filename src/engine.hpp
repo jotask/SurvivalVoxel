@@ -32,6 +32,19 @@ namespace engine
 
         void run();
 
+        // TODO : Find better design for free dependency
+        template<class T>
+        T* getSystem()
+        {
+            for (auto& m : m_systems)
+            {
+                if (T* tmp = dynamic_cast<T*>(m.get())) {
+                    return tmp;
+                }
+            }
+            return nullptr;
+        }
+
     private:
 
         void init();
