@@ -69,15 +69,14 @@ namespace engine
 
     void ChunkSystem::render()
     {
-        if (ImGui::Begin("Light") == true)
-        {
-            ImGui::SliderFloat("XPos", &m_lightPos.x, -100, 100);
-            ImGui::SliderFloat("YPos", &m_lightPos.y, -100, 100);
-            ImGui::SliderFloat("ZPos", &m_lightPos.z, -100, 100);
-            ImGui::ColorEdit3("RColor", &m_lightCol.x);
-            ImGui::End();
-        }
-        auto program = m_chunks[0].getMesh()->getProgram();
+        ImGui::Begin("Light");
+        ImGui::SliderFloat("XPos", &m_lightPos.x, -100, 100);
+        ImGui::SliderFloat("YPos", &m_lightPos.y, -100, 100);
+        ImGui::SliderFloat("ZPos", &m_lightPos.z, -100, 100);
+        ImGui::ColorEdit3("RColor", &m_lightCol.x);
+        ImGui::End();
+
+        const auto program = m_chunks[0].getMesh()->getProgram();
         glUniform3f(glGetUniformLocation(program, "u_lightPos"), m_lightPos.x, m_lightPos.y, m_lightPos.z);
         glUniform3f(glGetUniformLocation(program, "u_lightCol"), m_lightCol.x, m_lightCol.y, m_lightCol.z);
         for (auto& chunk : m_chunks)
