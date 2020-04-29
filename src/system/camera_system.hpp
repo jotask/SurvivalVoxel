@@ -2,6 +2,8 @@
 
 #include "system/system_interface.hpp"
 
+#include "system/event.hpp"
+
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
@@ -52,6 +54,8 @@ namespace engine
         glm::vec3 getUp() const;
 
     private:
+
+        void onWindowResize(Event&);
 
         void updateViewMatrix();
 

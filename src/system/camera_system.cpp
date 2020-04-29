@@ -1,6 +1,8 @@
 #include "system/camera_system.hpp"
 
 #include "system/display_system.hpp"
+#include "system/event_system.hpp"
+#include "system/engine_events.hpp"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -33,6 +35,8 @@ namespace engine
 
     bool CameraSystem::init()
     {
+
+        EventSystem::it().bind<WindowResizeEvent>(this, &CameraSystem::onWindowResize);
 
         const auto windowSize = m_displaySystem->getWindowSize();
 
@@ -190,6 +194,12 @@ namespace engine
     glm::vec3 CameraSystem::getUp() const
     {
         return { 0.0f, 1.0f, 0.0f };
+    }
+
+    void CameraSystem::onWindowResize(Event & evnt)
+    {
+        const auto& msg = static_cast<const WindowResizeEvent&>(evnt);
+        setViewport(0, 0, static_cast<int>(msg.height), static_cast<int>(msg.height));
     }
 
     void CameraSystem::updateViewMatrix()
