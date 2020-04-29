@@ -8,9 +8,10 @@ namespace engine
     {
 
     public:
-        VertexInfo(const glm::vec3& vertexPosition, const glm::vec4& vertexColor)
+        VertexInfo(const glm::vec3& vertexPosition, const glm::vec4& vertexColor, const glm::vec3 normal = glm::vec3(0.f))
             : m_position(vertexPosition)
             , m_color(vertexColor)
+            , m_normal(normal)
             , m_texture(0)
         {
 
@@ -29,6 +30,11 @@ namespace engine
             return m_position;
         }
 
+        glm::vec3 getVertexNormal() const
+        {
+            return m_normal;
+        }
+
         glm::vec4 getVertexColor() const
         {
             return m_color;
@@ -41,6 +47,7 @@ namespace engine
 
     // private:
         glm::vec3 m_position;
+        glm::vec3 m_normal;
         glm::vec4 m_color;
         glm::vec2 m_texture;
 
