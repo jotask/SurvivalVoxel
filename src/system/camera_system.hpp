@@ -67,6 +67,7 @@ namespace engine
         DisplaySystem* m_displaySystem;
 
         float m_radius;
+        float m_speed;
         bool  m_autoRotationEnblad;
 
     };

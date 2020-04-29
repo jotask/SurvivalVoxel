@@ -18,7 +18,8 @@ namespace engine
         , m_projectionMatrix(1.f)
         , isViewDirty(false)
         , m_displaySystem(nullptr)
-        , m_radius (10.0f)
+        , m_radius (50.0f)
+        , m_speed(0.25f)
         , m_autoRotationEnblad(true)
     {
 
@@ -35,8 +36,8 @@ namespace engine
 
         const auto windowSize = m_displaySystem->getWindowSize();
 
-        setPosition({0.f, 10.f, 15.f});
-        setProjectionMatrix(45.f, windowSize.x / windowSize.y, 0.1f, 100.f);
+        setPosition({0.f, 25.f, 0.f});
+        setProjectionMatrix(45.f, windowSize.x / windowSize.y, 0.1f, 1000.f);
 
         setViewport(0, 0, static_cast<int>(windowSize.x), static_cast<int>(windowSize.y));
         return true;
@@ -66,13 +67,23 @@ namespace engine
     {
         ImGui::Begin("Camera settings");
         ImGui::Checkbox("Rotation enabled", &m_autoRotationEnblad);
-        ImGui::SliderFloat("Radius", &m_radius, 0, 100);
-        ImGui::SliderFloat("Position X", &m_position.x, -50, 100);
-        ImGui::SliderFloat("Position Y", &m_position.y, -50, 100);
-        ImGui::SliderFloat("Position Z", &m_position.z, -50, 100);
-        ImGui::SliderFloat("Target X", &m_targetPosition.x, -50, 100);
-        ImGui::SliderFloat("Target Y", &m_targetPosition.y, -50, 100);
-        ImGui::SliderFloat("Target Z", &m_targetPosition.z, -50, 100);
+        if (m_autoRotationEnblad == true)
+        {
+            ImGui::SliderFloat("Radius", &m_radius, 0.f, 100.f);
+            ImGui::SliderFloat("Speed", &m_speed, 0.f, 1.f);
+        }
+        if (ImGui::CollapsingHeader("Position") == true)
+        {
+            ImGui::SliderFloat("X", &m_position.x, -50, 100);
+            ImGui::SliderFloat("Y", &m_position.y, -50, 100);
+            ImGui::SliderFloat("Z", &m_position.z, -50, 100);
+        }
+        if (ImGui::CollapsingHeader("Target") == true)
+        {
+            ImGui::SliderFloat("X", &m_targetPosition.x, -50, 100);
+            ImGui::SliderFloat("Y", &m_targetPosition.y, -50, 100);
+            ImGui::SliderFloat("Z", &m_targetPosition.z, -50, 100);
+        }
         ImGui::End();
         isViewDirty = true;
         updateViewMatrix();
@@ -199,8 +210,8 @@ namespace engine
 
             if (m_autoRotationEnblad == true)
             {
-                camX += sin(glfwGetTime()) * m_radius;
-                camZ += cos(glfwGetTime()) * m_radius;
+                camX += static_cast<float>(sin(glfwGetTime() * m_speed) * m_radius);
+                camZ += static_cast<float>(cos(glfwGetTime() * m_speed) * m_radius);
             }
 
             m_viewMatrix = glm::lookAt(glm::vec3(camX, camY, camZ), m_targetPosition, getUp());
