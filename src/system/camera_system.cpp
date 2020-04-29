@@ -200,6 +200,7 @@ namespace engine
     {
         const auto& msg = static_cast<const WindowResizeEvent&>(evnt);
         setViewport(0, 0, static_cast<int>(msg.width), static_cast<int>(msg.height));
+        setProjectionMatrix(45.f, msg.width / static_cast<float>(msg.height), 0.1f, 1000.f);
     }
 
     void CameraSystem::updateViewMatrix()
