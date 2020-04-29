@@ -2,6 +2,8 @@
 
 #include "system/system_interface.hpp"
 
+#include <glm/glm.hpp>
+
 #include <vector>
 
 namespace engine
@@ -37,6 +39,10 @@ namespace engine
 
         RenderSystem* m_renderSystem;
         CameraSystem* m_cameraSystem;
+
+        // TEMP
+        glm::vec3 m_lightPos;
+        glm::vec3 m_lightCol;
 
     };
 
