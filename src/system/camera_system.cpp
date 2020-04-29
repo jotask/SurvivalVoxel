@@ -199,7 +199,7 @@ namespace engine
     void CameraSystem::onWindowResize(Event & evnt)
     {
         const auto& msg = static_cast<const WindowResizeEvent&>(evnt);
-        setViewport(0, 0, static_cast<int>(msg.height), static_cast<int>(msg.height));
+        setViewport(0, 0, static_cast<int>(msg.width), static_cast<int>(msg.height));
     }
 
     void CameraSystem::updateViewMatrix()
