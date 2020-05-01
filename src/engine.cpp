@@ -7,6 +7,7 @@
 #include "system/camera_system.hpp"
 #include "system/model_system.hpp"
 #include "system/shader_system.hpp"
+#include "system/light_system.hpp"
 #include "system/event_system.hpp"
 #include "system/system_connector.hpp"
 
@@ -34,6 +35,7 @@ namespace engine
         m_systems.push_back(std::make_unique<InputSystem>());
         m_systems.push_back(std::make_unique<CameraSystem>());
         m_systems.push_back(std::make_unique<ShaderSystem>());
+        m_systems.push_back(std::make_unique<LightSystem>());
         m_systems.push_back(std::make_unique<ModelSystem>());
 
         // Game systems
