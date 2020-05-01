@@ -10,6 +10,13 @@ namespace engine
 {
     namespace utils
     {
+
+        template<class T>
+        static T map(T value, T inFrom, T inTo, T outFrom, T outTo)
+        {
+            return (value - inFrom) * (outTo - outFrom) / (inTo - inFrom) + outFrom;
+        }
+
         static unsigned int loadBMPTexture(const std::string& fileName)
         {
             auto fullPathToFile = std::filesystem::current_path() / ("../assets/" + fileName);
