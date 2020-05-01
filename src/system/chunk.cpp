@@ -18,7 +18,6 @@ namespace engine
 
     void Chunk::generate()
     {
-        static auto on = true;
         for (auto y = 0; y < s_chunkSize.y; y++)
         {
             for (auto x = 0; x < s_chunkSize.x; x++)
@@ -49,12 +48,8 @@ namespace engine
                     auto voxel = Voxel(voxelType, voxelId);
                     auto id = convertToVoxelIndex({ x, y, z });
                     m_voxels.emplace(id, voxel);
-
-                    on = !on;
                 }
-                on = !on;
             }
-            on = !on;
         }
 
         if (m_mesh == nullptr)
