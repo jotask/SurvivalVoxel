@@ -2,11 +2,14 @@
 
 #include "system/mesh_helper.hpp"
 #include "system/chunk_system.hpp"
+#include "utils/utilities.hpp"
+
+#include "PerlinNoise.hpp"
 
 namespace engine
 {
 
-    const glm::ivec3 Chunk::s_chunkSize = glm::ivec3( 6, 6, 6 );
+    const glm::ivec3 Chunk::s_chunkSize = glm::ivec3( 16, 16, 16 );
 
     Chunk::Chunk(ChunkSystem* chunkSystem, const int x, const int z)
         : m_chunkSystem(chunkSystem)
@@ -18,29 +21,41 @@ namespace engine
 
     void Chunk::generate()
     {
-        for (auto y = 0; y < s_chunkSize.y; y++)
+        for (auto z = 0; z < s_chunkSize.z ; z++)
         {
             for (auto x = 0; x < s_chunkSize.x; x++)
             {
-                for (auto z = 0; z < s_chunkSize.z ; z++)
+
+                const std::uint32_t seed = 1234;
+                const std::uint32_t octaves = 1;
+                const double frequency = 1.0;
+
+                auto noise = siv::PerlinNoise(seed);
+
+                const auto fx = s_chunkSize.x / frequency;
+                const auto fz = s_chunkSize.z / frequency;
+
+                const auto terrainLevel = noise.accumulatedOctaveNoise2D_0_1((x + m_transform.position.x) / fx, (z + m_transform.position.z) / fz, octaves);
+                const auto groundLevel = utils::map(terrainLevel, 0.0, 1.0, 0.0, static_cast<double>(s_chunkSize.y));
+
+                for (auto y = 0; y < s_chunkSize.y; y++)
                 {
 
                     auto voxelType = VoxelInfo::VoxelType::AIR;
                     auto voxelId = VoxelInfo::VoxelId::BEDROCK;
 
-                    if (y == 0)
+                    if (y <= groundLevel)
                     {
                         voxelType = VoxelInfo::VoxelType::SOLID;
-                        voxelId = VoxelInfo::VoxelId::BEDROCK;
-                    }
-                    else
-                    {
-                        std::random_device rd;
-                        std::mt19937 eng(rd());
-                        std::uniform_real_distribution<float> distr(0.f, 1.f);
-                        if (distr(eng) < .5f)
+                        if (y == 0)
                         {
-                            voxelType = VoxelInfo::VoxelType::SOLID;
+                            voxelId = VoxelInfo::VoxelId::BEDROCK;
+                        }
+                        else
+                        {
+                            std::random_device rd;
+                            std::mt19937 eng(rd());
+                            std::uniform_real_distribution<float> distr(0.f, 1.f);
                             voxelId = (distr(eng) < .5f) ? VoxelInfo::VoxelId::GRASS : VoxelInfo::VoxelId::DIRT;
                         }
                     }
