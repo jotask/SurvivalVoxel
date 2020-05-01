@@ -43,7 +43,8 @@ project "SurvivalVoxel"
         "dependencies/glm/",
         "dependencies/imgui/",
         "dependencies/imgui/examples",
-        "dependencies/soil2/src/SOIL2"
+        "dependencies/soil2/src/SOIL2",
+        "dependencies/PerlinNoise/"
     }
 
     files {
