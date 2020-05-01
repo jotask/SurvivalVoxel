@@ -14,9 +14,12 @@ namespace engine
 
     Mesh::Mesh(Chunk* parent, const std::vector<VertexInfo> vertices, std::vector<unsigned int> indices)
         : m_chunk(parent)
-        , m_program(0)
         , m_vertices(vertices)
         , m_indices(indices)
+        , m_program(0)
+        , m_vao(0)
+        , m_vbo(0)
+        , m_ibo(0)
     {
         auto* shaderSystem = Engine::getInstance().getSystem<ShaderSystem>();
         m_program = shaderSystem->getShader("chunkShader");
