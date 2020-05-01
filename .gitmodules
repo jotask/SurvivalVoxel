@@ -10,3 +10,6 @@
 [submodule "dependencies/soil2"]
 	path = dependencies/soil2
 	url = https://github.com/SpartanJ/soil2
+[submodule "dependencies/PerlinNoise"]
+	path = dependencies/PerlinNoise
+	url = https://github.com/Reputeless/PerlinNoise
