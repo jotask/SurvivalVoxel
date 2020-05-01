@@ -119,7 +119,7 @@ namespace engine
         glUniformMatrix4fv(glGetUniformLocation(m_program, "view_matrix"), 1, false, &(cameraSystem->getViewMatrix())[0][0]);
         glUniformMatrix4fv(glGetUniformLocation(m_program, "projection_matrix"), 1, false, &cameraSystem->getProjectionMatrix()[0][0]);
         glBindVertexArray(m_vao);
-        glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indices.size()), GL_UNSIGNED_INT, 0);
     }
 
 }
