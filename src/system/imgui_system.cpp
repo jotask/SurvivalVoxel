@@ -54,14 +54,21 @@ namespace engine
             ImGui::EndMenu();
         }
         ImGui::EndMainMenuBar();
-    }
-
-    void ImguiSystem::postRender()
-    {
         if (m_showDemoWindow == true)
         {
             ImGui::ShowDemoWindow(&m_showDemoWindow);
         }
+    }
+
+    void ImguiSystem::beginFrame()
+    {
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+    }
+
+    void ImguiSystem::endFrame()
+    {
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
