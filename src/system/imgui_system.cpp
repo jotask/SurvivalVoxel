@@ -9,7 +9,7 @@
 namespace engine
 {
     ImguiSystem::ImguiSystem()
-        : showDemoWindow(false)
+        : m_showDemoWindow(false)
         , m_displaySystem(nullptr)
     {
 
@@ -32,6 +32,8 @@ namespace engine
 
         ImGui_ImplGlfw_InitForOpenGL(window, true);
         ImGui_ImplOpenGL3_Init("#version 130");
+
+        registerSystem("ImGuiSystem", m_showDemoWindow);
 
         return true;
 
@@ -62,18 +64,15 @@ namespace engine
     void ImguiSystem::render()
     {
         ImGui::BeginMainMenuBar();
-        if (ImGui::BeginMenu("File"))
+        if (ImGui::BeginMenu("Systems"))
         {
-            ImGui::EndMenu();
-        }
-        if (ImGui::BeginMenu("Edit"))
-        {
-            if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
-            if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
-            ImGui::Separator();
-            if (ImGui::MenuItem("Cut", "CTRL+X")) {}
-            if (ImGui::MenuItem("Copy", "CTRL+C")) {}
-            if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+            for (auto& entry : m_systemsEnabled)
+            {
+                if (ImGui::MenuItem(entry.first.c_str(), "", entry.second, true))
+                {
+                    entry.second = !entry.second;
+                }
+            }
             ImGui::EndMenu();
         }
         ImGui::EndMainMenuBar();
@@ -81,12 +80,17 @@ namespace engine
 
     void ImguiSystem::postRender()
     {
-        if (showDemoWindow == true)
+        if (m_showDemoWindow == true)
         {
-            ImGui::ShowDemoWindow(&showDemoWindow);
+            ImGui::ShowDemoWindow(&m_showDemoWindow);
         }
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    }
+
+    void ImguiSystem::registerSystem(std::string name, bool& activated)
+    {
+        m_systemsEnabled.insert({ name, activated });
     }
 
 }

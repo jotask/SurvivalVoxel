@@ -2,6 +2,9 @@
 
 #include "system/system_interface.hpp"
 
+#include <map>
+#include <string>
+
 namespace engine
 {
 
@@ -25,11 +28,15 @@ namespace engine
         virtual void render() override;
         virtual void postRender() override;
 
+        void registerSystem(std::string, bool&);
+
     private:
 
-        bool showDemoWindow;
+        bool m_showDemoWindow;
 
         DisplaySystem* m_displaySystem;
+
+        std::map<std::string, bool&> m_systemsEnabled;
 
     };
 
