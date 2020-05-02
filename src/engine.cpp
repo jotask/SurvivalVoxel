@@ -21,8 +21,7 @@
 namespace engine
 {
     Engine::Engine()
-        : m_displaySystem(nullptr)
-        , m_renderSystem(nullptr)
+        : m_renderSystem(nullptr)
         , m_shouldBeRunning(true)
     {
 
@@ -55,7 +54,6 @@ namespace engine
 
         // Connect all system before we initialize them
         auto systemConnector = SystemConnector(m_systems);
-        m_displaySystem = systemConnector.findSystem<DisplaySystem>();
         m_renderSystem = systemConnector.findSystem<RenderSystem>();
         std::for_each(m_systems.begin(), m_systems.end(), [&systemConnector](auto& sys) { sys->connect(systemConnector); });
 

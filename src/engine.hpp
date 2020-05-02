@@ -11,7 +11,6 @@
 namespace engine
 {
 
-    class DisplaySystem;
     class RenderSystem;
 
     class Engine
@@ -54,7 +53,6 @@ namespace engine
 
         std::vector<AikoUPtr<System>> m_systems;
 
-        DisplaySystem*  m_displaySystem;
         RenderSystem*   m_renderSystem;
 
         bool m_shouldBeRunning;
