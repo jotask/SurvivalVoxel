@@ -31,6 +31,8 @@ namespace engine
 
         Shader& getShader(const std::string&);
 
+        std::map<std::string, Shader>& getShaders();
+
     private:
 
         void createProgram(const std::string& shaderName, const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename);

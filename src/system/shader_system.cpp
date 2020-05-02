@@ -69,6 +69,11 @@ namespace engine
         std::terminate();
     }
 
+    std::map<std::string, Shader>& ShaderSystem::getShaders()
+    {
+        return m_programs;
+    }
+
     void ShaderSystem::createProgram(const std::string & shaderName, const std::string & vertexShaderFilename, const std::string & fragmentShaderFilename)
     {
         const auto vertexShaderCode = utils::readFile(vertexShaderFilename);
