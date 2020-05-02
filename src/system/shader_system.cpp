@@ -13,11 +13,6 @@ namespace engine
 
     ShaderSystem::~ShaderSystem()
     {
-        auto deleteShader = [](auto& entry) {
-            auto shaderId = entry.second;
-            glDeleteProgram(shaderId);
-        };
-        std::for_each(m_programs.begin(), m_programs.end(), deleteShader);
         m_programs.clear();
     }
 
@@ -64,7 +59,7 @@ namespace engine
 
     }
 
-    GLuint ShaderSystem::getShader(const std::string & shader) const
+    Shader& ShaderSystem::getShader(const std::string & shader)
     {
         if (m_programs.find(shader) != m_programs.end())
         {
@@ -72,7 +67,6 @@ namespace engine
         }
         printf("Shader with name %s does not exist.\n", shader.c_str());
         std::terminate();
-        return 0;
     }
 
     void ShaderSystem::createProgram(const std::string & shaderName, const std::string & vertexShaderFilename, const std::string & fragmentShaderFilename)
@@ -102,7 +96,7 @@ namespace engine
             std::terminate();
         }
 
-        m_programs[shaderName] = program;
+        m_programs.insert({ shaderName, Shader(program) });
     }
 
     GLuint ShaderSystem::createShader(GLenum shader_type, const std::string & source, const std::string & shaderName)

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "system/system_interface.hpp"
+#include "system/shader.hpp"
 
 #include <glad/glad.h>
 
@@ -28,7 +29,7 @@ namespace engine
         virtual void render() override;
         virtual void postRender() override;
 
-        GLuint getShader(const std::string&) const;
+        Shader& getShader(const std::string&);
 
     private:
 
@@ -36,7 +37,7 @@ namespace engine
 
         GLuint createShader(GLenum shader_type, const std::string& source, const std::string& shaderName);
 
-        std::map<std::string, GLuint> m_programs;
+        std::map<std::string, Shader> m_programs;
 
     };
 
