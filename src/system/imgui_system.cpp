@@ -39,28 +39,6 @@ namespace engine
 
     }
 
-    void ImguiSystem::preUpdate()
-    {
-
-    }
-
-    void ImguiSystem::update()
-    {
-
-    }
-
-    void ImguiSystem::postUpdate()
-    {
-
-    }
-
-    void ImguiSystem::preRender()
-    {
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
-    }
-
     void ImguiSystem::render()
     {
         ImGui::BeginMainMenuBar();

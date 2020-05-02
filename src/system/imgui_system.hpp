@@ -20,13 +20,10 @@ namespace engine
         virtual bool connect(SystemConnector&) override;
         virtual bool init() override;
 
-        virtual void preUpdate() override;
-        virtual void update() override;
-        virtual void postUpdate() override;
-
-        virtual void preRender() override;
         virtual void render() override;
-        virtual void postRender() override;
+
+        virtual void beginFrame() override;
+        virtual void endFrame() override;
 
         void registerSystem(std::string, bool&);
 
