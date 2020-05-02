@@ -68,9 +68,11 @@ namespace engine
             std::for_each(m_systems.begin(), m_systems.end(), [](auto& sys) { sys->postUpdate(); });
 
             // Render all systems
+            std::for_each(m_systems.begin(), m_systems.end(), [](auto& sys) { sys->beginFrame(); });
             std::for_each(m_systems.begin(), m_systems.end(), [](auto& sys) { sys->preRender(); });
             std::for_each(m_systems.begin(), m_systems.end(), [](auto& sys) { sys->render(); });
             std::for_each(m_systems.begin(), m_systems.end(), [](auto& sys) { sys->postRender(); });
+            std::for_each(m_systems.begin(), m_systems.end(), [](auto& sys) { sys->endFrame(); });
 
             m_renderSystem->swapBuffers();
 
