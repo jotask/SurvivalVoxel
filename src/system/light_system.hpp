@@ -2,8 +2,15 @@
 
 #include "system/system_interface.hpp"
 
+#include "system/light.hpp"
+
+#include <vector>
+
 namespace engine
 {
+
+    class ImguiSystem;
+    class ShaderSystem;
 
     class LightSystem : public System
     {
@@ -23,7 +30,16 @@ namespace engine
         virtual void render() override;
         virtual void postRender() override;
 
+        void addLight(Light& l);
+
     private:
+
+        bool m_renderImgui;
+
+        ImguiSystem* m_imguiSystem;
+        ShaderSystem* m_shaderSystem;
+
+        std::vector<Light> m_lights;
 
     };
 
