@@ -13,6 +13,8 @@
 
 #include "system/chunk_system.hpp"
 
+#include <GLFW/glfw3.h>
+
 #include <algorithm>
 
 namespace engine
