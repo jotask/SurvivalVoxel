@@ -1,6 +1,7 @@
 #pragma once
 
 #include "system/vertex_info.hpp"
+#include "system/shader.hpp"
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
@@ -19,18 +20,17 @@ namespace engine
 
     public:
 
-        Mesh(Chunk* parent, const std::vector<VertexInfo> vertices, std::vector<unsigned int> indices);
+        Mesh(Chunk* parent, Shader& shader, const std::vector<VertexInfo> vertices, std::vector<unsigned int> indices);
         ~Mesh();
 
         void create();
 
-        void setProgram(GLuint);
         void setTexture(const std::string& textureName, GLuint textureId);
         GLuint getTextureId(const std::string& texture) const;
         GLuint getVao() const;
         GLuint getVbo() const;
         GLuint getIbo() const;
-        GLuint getProgram() const;
+        Shader& getShader() const;
 
         void update();
         void render();
@@ -41,7 +41,7 @@ namespace engine
         friend class Chunk;
 
         Chunk* m_chunk;
-        GLuint m_program;
+        Shader& m_shader;
         GLuint m_vao;
         GLuint m_vbo;
         GLuint m_ibo;

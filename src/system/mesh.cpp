@@ -12,17 +12,16 @@
 namespace engine
 {
 
-    Mesh::Mesh(Chunk* parent, const std::vector<VertexInfo> vertices, std::vector<unsigned int> indices)
+    Mesh::Mesh(Chunk* parent, Shader& shader, const std::vector<VertexInfo> vertices, std::vector<unsigned int> indices)
         : m_chunk(parent)
         , m_vertices(vertices)
         , m_indices(indices)
-        , m_program(0)
+        , m_shader(shader)
         , m_vao(0)
         , m_vbo(0)
         , m_ibo(0)
     {
-        auto* shaderSystem = Engine::getInstance().getSystem<ShaderSystem>();
-        m_program = shaderSystem->getShader("chunkShader");
+
     }
 
     Mesh::~Mesh()
@@ -58,11 +57,7 @@ namespace engine
         glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(VertexInfo), (void*)(offsetof(VertexInfo, VertexInfo::m_color)));
 
         glBindVertexArray(0);
-    }
 
-    void Mesh::setProgram(GLuint programId)
-    {
-        m_program = programId;
     }
 
     void Mesh::setTexture(const std::string & textureName, GLuint textureId)
@@ -97,9 +92,9 @@ namespace engine
         return m_ibo;
     }
 
-    GLuint Mesh::getProgram() const
+    Shader& Mesh::getShader() const
     {
-        return m_program;
+        return m_shader;
     }
 
     void Mesh::destroy()
@@ -117,10 +112,10 @@ namespace engine
     void Mesh::render()
     {
         auto* cameraSystem = Engine::getInstance().getSystem<CameraSystem>();
-        glUseProgram(m_program);
-        glUniformMatrix4fv(glGetUniformLocation(m_program, "model_matrix"), 1, false, &(m_chunk->getTransform().getModelMatrix())[0][0]);
-        glUniformMatrix4fv(glGetUniformLocation(m_program, "view_matrix"), 1, false, &(cameraSystem->getViewMatrix())[0][0]);
-        glUniformMatrix4fv(glGetUniformLocation(m_program, "projection_matrix"), 1, false, &cameraSystem->getProjectionMatrix()[0][0]);
+        m_shader.use();
+        m_shader.setMat4("model_matrix", m_chunk->getTransform().getModelMatrix());
+        m_shader.setMat4("view_matrix", cameraSystem->getViewMatrix());
+        m_shader.setMat4("projection_matrix", cameraSystem->getProjectionMatrix());
         glBindVertexArray(m_vao);
         glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indices.size()), GL_UNSIGNED_INT, 0);
     }

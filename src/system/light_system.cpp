@@ -71,11 +71,11 @@ namespace engine
             ImGui::End();
         }
 
-        const auto program = m_shaderSystem->getShader("chunkShader");
+        auto shader = m_shaderSystem->getShader("chunkShader");
         for (auto & light : m_lights)
         {
-            glUniform3f(glGetUniformLocation(program, "u_lightPos"), light.position.x, light.position.y, light.position.z);
-            glUniform3f(glGetUniformLocation(program, "u_lightCol"), light.color.x, light.color.y, light.color.z);
+            shader.setVec3("u_lightPos", light.position.x, light.position.y, light.position.z);
+            shader.setVec3("u_lightCol", light.color.x, light.color.y, light.color.z);
         }
     }
 
