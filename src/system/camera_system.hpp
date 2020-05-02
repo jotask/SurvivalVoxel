@@ -15,6 +15,7 @@ namespace engine
 
     class DisplaySystem;
     class ImguiSystem;
+    class ShaderSystem;
 
     class CameraSystem : public System
     {
@@ -71,6 +72,7 @@ namespace engine
 
         DisplaySystem* m_displaySystem;
         ImguiSystem* m_imguiSystem;
+        ShaderSystem* m_shaderSystem;
 
         float m_radius;
         float m_speed;

@@ -3,6 +3,7 @@
 #include "system/display_system.hpp"
 #include "system/imgui_system.hpp"
 #include "system/event_system.hpp"
+#include "system/shader_system.hpp"
 #include "system/engine_events.hpp"
 
 #include <glad/glad.h>
@@ -22,6 +23,7 @@ namespace engine
         , isViewDirty(false)
         , m_displaySystem(nullptr)
         , m_imguiSystem(nullptr)
+        , m_shaderSystem(nullptr)
         , m_radius (50.0f)
         , m_speed(0.25f)
         , m_autoRotationEnblad(true)
@@ -34,6 +36,7 @@ namespace engine
     {
         m_displaySystem = connector.findSystem<DisplaySystem>();
         m_imguiSystem = connector.findSystem<ImguiSystem>();
+        m_shaderSystem = connector.findSystem<ShaderSystem>();
         return true;
     }
 
@@ -99,6 +102,15 @@ namespace engine
             ImGui::End();
             isViewDirty = true;
             updateViewMatrix();
+
+            for (auto& shaderPair : m_shaderSystem->getShaders())
+            {
+                auto& shader = shaderPair.second;
+                shader.use();
+                shader.setVec3("viewPos", m_position);
+                shader.setMat4("projection_matrix", getProjectionMatrix());
+                shader.setMat4("view_matrix", getViewMatrix());
+            }
         }
     }
 
@@ -216,25 +228,30 @@ namespace engine
     {
         if (isViewDirty == true)
         {
-            // glm::mat4 translate = glm::translate(-m_position);
-            // glm::mat4 rotate = glm::transpose(glm::toMat4(m_rotation));
-            // m_viewMatrix = rotate * translate;
-            // m_viewMatrix = glm::lookAt(m_position, {0.f, 0.f, 0.f}, getUp());
-            // isViewDirty = false;
-
-            m_viewMatrix = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-
-            float camX = m_position.x;
-            float camY = m_position.y;
-            float camZ = m_position.z;
-
-            if (m_autoRotationEnblad == true)
+            if (false)
             {
-                camX += static_cast<float>(sin(glfwGetTime() * m_speed) * m_radius);
-                camZ += static_cast<float>(cos(glfwGetTime() * m_speed) * m_radius);
+                glm::mat4 translate = glm::translate(-m_position);
+                glm::mat4 rotate = glm::transpose(glm::toMat4(m_rotation));
+                m_viewMatrix = rotate * translate;
+                m_viewMatrix = glm::lookAt(m_position, {0.f, 0.f, 0.f}, getUp());
+                isViewDirty = false;
             }
+            else
+            {
+                m_viewMatrix = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
 
-            m_viewMatrix = glm::lookAt(glm::vec3(camX, camY, camZ), m_targetPosition, getUp());
+                float camX = m_position.x;
+                float camY = m_position.y;
+                float camZ = m_position.z;
+
+                if (m_autoRotationEnblad == true)
+                {
+                    camX += static_cast<float>(sin(glfwGetTime() * m_speed) * m_radius);
+                    camZ += static_cast<float>(cos(glfwGetTime() * m_speed) * m_radius);
+                }
+
+                m_viewMatrix = glm::lookAt(m_position, m_targetPosition, getUp());
+            }
 
         }
     }
