@@ -103,14 +103,14 @@ namespace engine
             isViewDirty = true;
             updateViewMatrix();
 
-            for (auto& shaderPair : m_shaderSystem->getShaders())
-            {
-                auto& shader = shaderPair.second;
-                shader.use();
-                shader.setVec3("viewPos", m_position);
-                shader.setMat4("projection_matrix", getProjectionMatrix());
-                shader.setMat4("view_matrix", getViewMatrix());
-            }
+        }
+        for (auto& shaderPair : m_shaderSystem->getShaders())
+        {
+            auto& shader = shaderPair.second;
+            shader.use();
+            shader.setVec3("viewPos", m_position);
+            shader.setMat4("projection_matrix", getProjectionMatrix());
+            shader.setMat4("view_matrix", getViewMatrix());
         }
     }
 
