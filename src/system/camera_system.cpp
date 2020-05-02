@@ -1,6 +1,7 @@
 #include "system/camera_system.hpp"
 
 #include "system/display_system.hpp"
+#include "system/imgui_system.hpp"
 #include "system/event_system.hpp"
 #include "system/engine_events.hpp"
 
@@ -20,9 +21,11 @@ namespace engine
         , m_projectionMatrix(1.f)
         , isViewDirty(false)
         , m_displaySystem(nullptr)
+        , m_imguiSystem(nullptr)
         , m_radius (50.0f)
         , m_speed(0.25f)
         , m_autoRotationEnblad(true)
+        , m_renderImgui(false)
     {
 
     }
@@ -30,6 +33,7 @@ namespace engine
     bool CameraSystem::connect(SystemConnector & connector)
     {
         m_displaySystem = connector.findSystem<DisplaySystem>();
+        m_imguiSystem = connector.findSystem<ImguiSystem>();
         return true;
     }
 
@@ -37,6 +41,8 @@ namespace engine
     {
 
         EventSystem::it().bind<WindowResizeEvent>(this, &CameraSystem::onWindowResize);
+
+        m_imguiSystem->registerSystem("CameraSystem", m_renderImgui);
 
         const auto windowSize = m_displaySystem->getWindowSize();
 
@@ -69,28 +75,31 @@ namespace engine
 
     void CameraSystem::render()
     {
-        ImGui::Begin("Camera settings");
-        ImGui::Checkbox("Rotation enabled", &m_autoRotationEnblad);
-        if (m_autoRotationEnblad == true)
+        if (m_renderImgui == true)
         {
-            ImGui::SliderFloat("Radius", &m_radius, 0.f, 100.f);
-            ImGui::SliderFloat("Speed", &m_speed, 0.f, 1.f);
+            ImGui::Begin("Camera settings");
+            ImGui::Checkbox("Rotation enabled", &m_autoRotationEnblad);
+            if (m_autoRotationEnblad == true)
+            {
+                ImGui::SliderFloat("Radius", &m_radius, 0.f, 100.f);
+                ImGui::SliderFloat("Speed", &m_speed, 0.f, 1.f);
+            }
+            if (ImGui::CollapsingHeader("Position") == true)
+            {
+                ImGui::SliderFloat("X", &m_position.x, -50, 100);
+                ImGui::SliderFloat("Y", &m_position.y, -50, 100);
+                ImGui::SliderFloat("Z", &m_position.z, -50, 100);
+            }
+            if (ImGui::CollapsingHeader("Target") == true)
+            {
+                ImGui::SliderFloat("X", &m_targetPosition.x, -50, 100);
+                ImGui::SliderFloat("Y", &m_targetPosition.y, -50, 100);
+                ImGui::SliderFloat("Z", &m_targetPosition.z, -50, 100);
+            }
+            ImGui::End();
+            isViewDirty = true;
+            updateViewMatrix();
         }
-        if (ImGui::CollapsingHeader("Position") == true)
-        {
-            ImGui::SliderFloat("X", &m_position.x, -50, 100);
-            ImGui::SliderFloat("Y", &m_position.y, -50, 100);
-            ImGui::SliderFloat("Z", &m_position.z, -50, 100);
-        }
-        if (ImGui::CollapsingHeader("Target") == true)
-        {
-            ImGui::SliderFloat("X", &m_targetPosition.x, -50, 100);
-            ImGui::SliderFloat("Y", &m_targetPosition.y, -50, 100);
-            ImGui::SliderFloat("Z", &m_targetPosition.z, -50, 100);
-        }
-        ImGui::End();
-        isViewDirty = true;
-        updateViewMatrix();
     }
 
     void CameraSystem::postRender()

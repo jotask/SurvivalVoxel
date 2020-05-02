@@ -14,6 +14,7 @@ namespace engine
 {
 
     class DisplaySystem;
+    class ImguiSystem;
 
     class CameraSystem : public System
     {
@@ -69,10 +70,13 @@ namespace engine
         bool isViewDirty;
 
         DisplaySystem* m_displaySystem;
+        ImguiSystem* m_imguiSystem;
 
         float m_radius;
         float m_speed;
         bool  m_autoRotationEnblad;
+
+        bool m_renderImgui;
 
     };
 
