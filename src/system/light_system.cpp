@@ -73,14 +73,18 @@ namespace engine
             ImGui::End();
         }
 
-        auto shader = m_shaderSystem->getShader("chunkShader");
-        shader.use();
-        for (auto & light : m_lights)
+        for (auto& shaderPair : m_shaderSystem->getShaders())
         {
-            shader.setVec3("light.position", light.position);
-            shader.setVec3("light.ambient", light.ambient);
-            shader.setVec3("light.diffuse", light.diffuse);
-            shader.setVec3("light.specular", light.specular);
+            auto& shader = shaderPair.second;
+            shader.use();
+            for (auto & light : m_lights)
+            {
+                shader.setVec3("light.position", light.position);
+                shader.setVec3("light.color", light.color);
+                shader.setVec3("light.ambient", light.ambient);
+                shader.setVec3("light.diffuse", light.diffuse);
+                shader.setVec3("light.specular", light.specular);
+            }
         }
     }
 
