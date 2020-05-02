@@ -19,7 +19,10 @@ namespace engine
         , m_vbo(0)
         , m_ibo(0)
     {
-
+        m_material.ambient = { 1.0f, 0.5f, 0.31f };
+        m_material.diffuse = { 1.0f, 0.5f, 0.31f };
+        m_material.specular = { 0.5f, 0.5f, 0.5f };
+        m_material.shininess = 32.0f;
     }
 
     Mesh::~Mesh()
@@ -110,6 +113,12 @@ namespace engine
     void Mesh::render()
     {
         m_shader.use();
+
+        m_shader.setVec3("material.ambient", m_material.ambient);
+        m_shader.setVec3("material.diffuse", m_material.diffuse);
+        m_shader.setVec3("material.specular", m_material.specular);
+        m_shader.setFloat("material.shininess", m_material.shininess);
+
         m_shader.setMat4("model_matrix", m_chunk->getTransform().getModelMatrix());
         glBindVertexArray(m_vao);
         glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indices.size()), GL_UNSIGNED_INT, 0);

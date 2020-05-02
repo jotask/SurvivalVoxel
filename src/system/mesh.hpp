@@ -2,6 +2,7 @@
 
 #include "system/vertex_info.hpp"
 #include "system/shader.hpp"
+#include "system/material.hpp"
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
@@ -40,6 +41,7 @@ namespace engine
 
         friend class Chunk;
 
+        Material m_material;
         Chunk* m_chunk;
         Shader& m_shader;
         GLuint m_vao;
