@@ -1,6 +1,7 @@
 #include "engine.hpp"
 
 #include "system/display_system.hpp"
+#include "system/debug_system.hpp"
 #include "system/render_system.hpp"
 #include "system/imgui_system.hpp"
 #include "system/input_system.hpp"
@@ -33,6 +34,7 @@ namespace engine
         // Engine systems first
         m_systems.push_back(std::make_unique<DisplaySystem>());
         m_systems.push_back(std::make_unique<RenderSystem>());
+        m_systems.push_back(std::make_unique<DebugSystem>());
         m_systems.push_back(std::make_unique<ImguiSystem>());
         m_systems.push_back(std::make_unique<InputSystem>());
         m_systems.push_back(std::make_unique<CameraSystem>());
