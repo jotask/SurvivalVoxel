@@ -77,7 +77,7 @@ namespace engine
     {
         if (m_renderImgui == true)
         {
-            ImGui::Begin("Camera settings");
+            ImGui::Begin("Camera settings", &m_renderImgui);
             ImGui::Checkbox("Rotation enabled", &m_autoRotationEnblad);
             if (m_autoRotationEnblad == true)
             {

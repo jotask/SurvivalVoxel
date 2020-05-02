@@ -59,7 +59,7 @@ namespace engine
     {
         if (m_renderImgui == true)
         {
-            ImGui::Begin("Light");
+            ImGui::Begin("Light", &m_renderImgui);
             for (auto i = 0 ; i < m_lights.size() ; i++)
             {
                 auto& light = m_lights[i];

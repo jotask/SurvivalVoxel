@@ -64,7 +64,7 @@ namespace engine
     {
         if (m_renderImgui == true)
         {
-            ImGui::Begin("DebugSystem");
+            ImGui::Begin("DebugSystem", &m_renderImgui);
             ImGui::Text("FPS: %lf", m_fps);
             ImGui::End();
         }
