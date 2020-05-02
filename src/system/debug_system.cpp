@@ -3,7 +3,8 @@
 #include "system/imgui_system.hpp"
 #include "system/shader_system.hpp"
 
-#include "imgui.h"
+#include <imgui.h>
+#include <GLFW/glfw3.h>
 
 namespace engine
 {
@@ -11,6 +12,9 @@ namespace engine
         : m_renderImgui(false)
         , m_imguiSystem(nullptr)
         , m_shaderSystem(nullptr)
+        , m_fps(0)
+        , m_previousTime(0.0)
+        , m_framCount(0)
     {
 
     }
@@ -36,7 +40,14 @@ namespace engine
 
     void DebugSystem::update()
     {
-
+        const auto currentTime = glfwGetTime();
+        m_framCount++;
+        if (currentTime - m_previousTime >= 1.0)
+        {
+            m_fps = static_cast<double>(m_framCount) / (currentTime - m_previousTime);
+            m_previousTime = currentTime;
+            m_framCount = 0;
+        }
     }
 
     void DebugSystem::postUpdate()
@@ -51,12 +62,19 @@ namespace engine
 
     void DebugSystem::render()
     {
-
+        ImGui::Begin("DebugSystem");
+        ImGui::Text("Fps: %lf", m_fps);
+        ImGui::End();
     }
 
     void DebugSystem::postRender()
     {
 
+    }
+
+    const double DebugSystem::getFps() const
+    {
+        return m_fps;
     }
 
 }
