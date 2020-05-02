@@ -1,9 +1,12 @@
 #include "system/mesh.hpp"
 
+#include "system/shader_system.hpp"
 #include "system/vertex_info.hpp"
 #include "system/mesh.hpp"
 #include "system/chunk.hpp"
+#include "system/shader.hpp"
 #include "utils/shared.hpp"
+#include "engine.hpp"
 
 #include <memory>
 #include <random>
@@ -162,7 +165,10 @@ namespace engine
                     vertex.m_normal = glm::normalize(vertex.m_normal);
                 }
 
-                auto mesh = std::make_unique<Mesh>(chunk, vertices, indices);
+                
+                auto* shaderSystem = engine::Engine::getInstance().getSystem<ShaderSystem>();
+                auto& shader = shaderSystem->getShader("chunkShader");
+                auto mesh = std::make_unique<Mesh>(chunk, shader, vertices, indices);
                 mesh->create();
 
                 return std::move(mesh);
