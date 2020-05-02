@@ -22,5 +22,8 @@ namespace engine
             virtual void render() { };
             virtual void postRender() { };
 
+            virtual void beginFrame() { };
+            virtual void endFrame() { };
+
     };
 }
