@@ -63,7 +63,7 @@ namespace engine
     void DebugSystem::render()
     {
         ImGui::Begin("DebugSystem");
-        ImGui::Text("Fps: %lf", m_fps);
+        ImGui::Text("FPS: %lf", m_fps);
         ImGui::End();
     }
 
