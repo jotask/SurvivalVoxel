@@ -2,9 +2,12 @@
 
 #include "system/system_interface.hpp"
 
+#include <glm/glm.hpp>
+
 namespace engine
 {
     class DisplaySystem;
+    class ImguiSystem;
 
     class RenderSystem : public System
     {
@@ -16,19 +19,19 @@ namespace engine
         virtual bool init() override;
         virtual bool connect(SystemConnector&) override;
 
-        virtual void preUpdate() override;
-        virtual void update() override;
-        virtual void postUpdate() override;
-
-        virtual void preRender() override;
         virtual void render() override;
-        virtual void postRender() override;
 
-        // Not happy but only solution for now.Maybe change this for an event
+        virtual void beginFrame() override;
+
         void swapBuffers() const;
 
     private:
         DisplaySystem* m_displaySystem;
+        ImguiSystem* m_imguiSystem;
+
+        bool m_renderImgui;
+        bool m_drawWireframes;
+        glm::vec4 m_bgColor;
 
     };
 
