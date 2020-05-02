@@ -1,11 +1,12 @@
 #pragma once
 
+#include "utils/shared.hpp"
+#include "system/event.hpp"
+#include "system/system_interface.hpp"
+
 #include <glm/glm.hpp>
 
 #include <vector>
-
-#include "utils/shared.hpp"
-#include "system/system_interface.hpp"
 
 namespace engine
 {
@@ -26,6 +27,8 @@ namespace engine
     private:
 
         Engine();
+
+        void onWindowClosing(Event&);
 
     public:
         ~Engine() = default;
@@ -53,6 +56,8 @@ namespace engine
 
         DisplaySystem*  m_displaySystem;
         RenderSystem*   m_renderSystem;
+
+        bool m_shouldBeRunning;
 
     };
 

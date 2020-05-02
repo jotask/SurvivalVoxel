@@ -11,6 +11,8 @@
 #include "system/light_system.hpp"
 #include "system/event_system.hpp"
 #include "system/system_connector.hpp"
+#include "system/event_system.hpp"
+#include "system/engine_events.hpp"
 
 #include "system/chunk_system.hpp"
 
@@ -21,12 +23,20 @@ namespace engine
     Engine::Engine()
         : m_displaySystem(nullptr)
         , m_renderSystem(nullptr)
+        , m_shouldBeRunning(true)
     {
 
     }
 
+    void Engine::onWindowClosing(Event & evnt)
+    {
+        m_shouldBeRunning = false;
+    }
+
     void Engine::init()
     {
+
+        EventSystem::it().bind<WindowCloseEvent>(this, &Engine::onWindowClosing);
 
         // Create all systems first
         // Engine systems first
@@ -59,7 +69,7 @@ namespace engine
 
         init();
 
-        while (m_displaySystem->shouldWindowClose() == false)
+        while (m_shouldBeRunning == true)
         {
 
             // Update all systems
