@@ -57,8 +57,23 @@ namespace engine
 
         init();
 
+        double previousTime = glfwGetTime();
+        int frameCount = 0;
+
         while (m_displaySystem->shouldWindowClose() == false)
         {
+            // FPS calculations :: TODO Improve this
+            {
+                double currentTime = glfwGetTime();
+                frameCount++;
+                if (currentTime - previousTime >= 1.0)
+                {
+                    auto fps = static_cast<double>(frameCount) / ( currentTime - previousTime );
+                    previousTime = currentTime;
+                    frameCount = 0;
+                    std::cout << fps << std::endl;
+                }
+            }
 
             // Update all systems
             std::for_each(m_systems.begin(), m_systems.end(), [](auto& sys) { sys->preUpdate(); });
