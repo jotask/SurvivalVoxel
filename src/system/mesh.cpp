@@ -2,8 +2,6 @@
 
 #include "system/chunk.hpp"
 #include "system/chunk_system.hpp"
-#include "system/camera_system.hpp"
-#include "system/shader_system.hpp"
 #include "system/vertex_info.hpp"
 #include "engine.hpp"
 
@@ -111,11 +109,8 @@ namespace engine
 
     void Mesh::render()
     {
-        auto* cameraSystem = Engine::getInstance().getSystem<CameraSystem>();
         m_shader.use();
         m_shader.setMat4("model_matrix", m_chunk->getTransform().getModelMatrix());
-        m_shader.setMat4("view_matrix", cameraSystem->getViewMatrix());
-        m_shader.setMat4("projection_matrix", cameraSystem->getProjectionMatrix());
         glBindVertexArray(m_vao);
         glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indices.size()), GL_UNSIGNED_INT, 0);
     }
