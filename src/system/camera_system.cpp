@@ -86,15 +86,15 @@ namespace engine
             }
             if (ImGui::CollapsingHeader("Position") == true)
             {
-                ImGui::SliderFloat("X", &m_position.x, -50, 100);
-                ImGui::SliderFloat("Y", &m_position.y, -50, 100);
-                ImGui::SliderFloat("Z", &m_position.z, -50, 100);
+                ImGui::SliderFloat("PX", &m_position.x, -50, 100);
+                ImGui::SliderFloat("PY", &m_position.y, -50, 100);
+                ImGui::SliderFloat("PZ", &m_position.z, -50, 100);
             }
             if (ImGui::CollapsingHeader("Target") == true)
             {
-                ImGui::SliderFloat("X", &m_targetPosition.x, -50, 100);
-                ImGui::SliderFloat("Y", &m_targetPosition.y, -50, 100);
-                ImGui::SliderFloat("Z", &m_targetPosition.z, -50, 100);
+                ImGui::SliderFloat("TX", &m_targetPosition.x, -50, 100);
+                ImGui::SliderFloat("TY", &m_targetPosition.y, -50, 100);
+                ImGui::SliderFloat("TZ", &m_targetPosition.z, -50, 100);
             }
             ImGui::End();
             isViewDirty = true;
