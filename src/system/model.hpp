@@ -1,5 +1,7 @@
 #pragma once
 
+#include "system//shader.hpp"
+
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 
@@ -18,16 +20,14 @@ namespace engine
 
         public:
 
-            Model();
+            Model(Shader& shader);
             virtual ~Model();
 
             virtual void create();
 
-            void setProgram(GLuint);
             void setTexture(const std::string& textureName, GLuint textureId);
             GLuint getTextureId(const std::string& texture) const;
             GLuint getVao() const;
-            GLuint getProgram() const;
             std::vector<GLuint> getVbos() const;
             void destroy();
 
@@ -38,7 +38,6 @@ namespace engine
 
         private:
 
-            GLuint m_program;
             GLuint m_vao;
             std::vector<GLuint> m_vbos;
             std::map<std::string, GLuint> m_textures;

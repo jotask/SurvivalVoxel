@@ -10,7 +10,7 @@ namespace engine
     namespace model
     {
 
-        Model::Model()
+        Model::Model(Shader& shader)
         {
 
         }
@@ -105,11 +105,6 @@ namespace engine
             rotation = glm::vec3(0.0, 0.0, 0.0);
         }
 
-        void Model::setProgram(GLuint programId)
-        {
-            m_program = programId;
-        }
-
         void Model::setTexture(const std::string & textureName, GLuint textureId)
         {
             if (textureId != 0)
@@ -130,11 +125,6 @@ namespace engine
         GLuint Model::getVao() const
         {
             return m_vao;
-        }
-
-        GLuint Model::getProgram() const
-        {
-            return m_program;
         }
 
         std::vector<GLuint> Model::getVbos() const
