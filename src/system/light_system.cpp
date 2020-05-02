@@ -30,6 +30,8 @@ namespace engine
         auto light = Light();
         light.position = { 0.f, 15.f, 0.f };
         light.color = { (1.f, 1.f, 1.f) };
+        light.diffuse = light.color * glm::vec3(0.5f);
+        light.ambient = light.diffuse * glm::vec3(0.f);
         addLight(light);
 
         return true;
@@ -72,10 +74,13 @@ namespace engine
         }
 
         auto shader = m_shaderSystem->getShader("chunkShader");
+        shader.use();
         for (auto & light : m_lights)
         {
-            shader.setVec3("u_lightPos", light.position.x, light.position.y, light.position.z);
-            shader.setVec3("u_lightCol", light.color.x, light.color.y, light.color.z);
+            shader.setVec3("light.position", light.position);
+            shader.setVec3("light.ambient", light.ambient);
+            shader.setVec3("light.diffuse", light.diffuse);
+            shader.setVec3("light.specular", light.specular);
         }
     }
 
