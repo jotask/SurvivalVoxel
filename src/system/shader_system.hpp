@@ -31,7 +31,7 @@ namespace engine
 
         Shader& getShader(const std::string&);
 
-        std::map<std::string, Shader>& getShaders();
+        std::map<const std::string, Shader>& getShaders();
 
     private:
 
@@ -39,7 +39,7 @@ namespace engine
 
         GLuint createShader(GLenum shader_type, const std::string& source, const std::string& shaderName);
 
-        std::map<std::string, Shader> m_programs;
+        std::map<const std::string, Shader> m_programs;
 
     };
 

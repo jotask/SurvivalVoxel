@@ -69,7 +69,7 @@ namespace engine
         std::terminate();
     }
 
-    std::map<std::string, Shader>& ShaderSystem::getShaders()
+    std::map<const std::string, Shader>& ShaderSystem::getShaders()
     {
         return m_programs;
     }
