@@ -28,7 +28,7 @@ namespace engine
         m_imguiSystem->registerSystem("LightSystem", m_renderImgui);
 
         auto light = Light();
-        light.position = { 0.f, 15.f, 0.f };
+        light.position = { 0.f, 500.f, 0.f };
         light.color = { (1.f, 1.f, 1.f) };
         light.diffuse = glm::vec3(0.5f);
         light.ambient = glm::vec3(0.f);
