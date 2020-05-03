@@ -36,7 +36,7 @@ void main()
     vec3 norm = normalize(Normal);
     vec3 lightDir = normalize(light.position - FragPos);
     float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = (light.diffuse * light.diffuse) * (diff * material.diffuse);
+    vec3 diffuse = (light.diffuse * light.color) * (diff * material.diffuse);
 
     // specular
     vec3 viewDir = normalize(viewPos - FragPos);
