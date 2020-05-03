@@ -35,6 +35,7 @@ namespace engine
                 auto noise = siv::PerlinNoise(seed);
 
                 const auto fx = (s_chunkSize.x / frequency) * amplitude;
+                const auto fy = (s_chunkSize.y / frequency) * amplitude;
                 const auto fz = (s_chunkSize.z / frequency) * amplitude;
 
                 const auto terrainLevel = noise.accumulatedOctaveNoise2D_0_1((x + m_transform.position.x) / fx, (z + m_transform.position.z) / fz, octaves);
@@ -48,6 +49,7 @@ namespace engine
 
                     if (y <= groundLevel)
                     {
+
                         voxelType = VoxelInfo::VoxelType::SOLID;
                         if (y == 0)
                         {
@@ -55,10 +57,12 @@ namespace engine
                         }
                         else
                         {
-                            std::random_device rd;
-                            std::mt19937 eng(rd());
-                            std::uniform_real_distribution<float> distr(0.f, 1.f);
-                            voxelId = (distr(eng) < .5f) ? VoxelInfo::VoxelId::GRASS : VoxelInfo::VoxelId::DIRT;
+                            const auto blockX = (x + m_transform.position.x) / (fx * 0.25f);
+                            const auto blockY = (y + m_transform.position.y) / (fy * 0.25f);
+                            const auto blockZ = (z + m_transform.position.z) / (fz * 0.25f);
+                            const auto blockType = noise.noise3D_0_1(blockX, blockY, blockZ);
+
+                            voxelId = (blockType < .5f) ? VoxelInfo::VoxelId::GRASS : VoxelInfo::VoxelId::DIRT;
                         }
                     }
 
