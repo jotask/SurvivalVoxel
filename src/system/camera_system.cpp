@@ -250,7 +250,7 @@ namespace engine
                     camZ += static_cast<float>(cos(glfwGetTime() * m_speed) * m_radius);
                 }
 
-                m_viewMatrix = glm::lookAt(m_position, m_targetPosition, getUp());
+                m_viewMatrix = glm::lookAt({camX, camY, camZ}, m_targetPosition, getUp());
             }
 
         }
