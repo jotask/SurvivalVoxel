@@ -30,8 +30,8 @@ namespace engine
         auto light = Light();
         light.position = { 0.f, 15.f, 0.f };
         light.color = { (1.f, 1.f, 1.f) };
-        light.diffuse = light.color * glm::vec3(0.5f);
-        light.ambient = light.diffuse * glm::vec3(0.f);
+        light.diffuse = glm::vec3(0.5f);
+        light.ambient = glm::vec3(0.f);
         addLight(light);
 
         return true;
@@ -69,6 +69,9 @@ namespace engine
                 ImGui::Text(lightName.c_str());
                 ImGui::SliderFloat3("Position", &light.position.x, 0 , 500);
                 ImGui::ColorEdit3("Color", &light.color.x);
+                ImGui::SliderFloat3("ambient", &light.ambient.x, 0.f, 1.f);
+                ImGui::SliderFloat3("diffuse", &light.diffuse.x, 0.f, 1.f);
+                ImGui::SliderFloat3("specular", &light.specular.x, 0.f, 1.f);
             }
             ImGui::End();
         }
