@@ -11,7 +11,7 @@ namespace engine
     class Shader
     {
     public:
-        Shader(GLuint id);
+        Shader(const GLuint id);
         ~Shader();
 
         void setBool(const std::string& name, bool value) const;

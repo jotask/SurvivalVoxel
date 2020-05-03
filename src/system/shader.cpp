@@ -2,7 +2,7 @@
 
 namespace engine
 {
-    Shader::Shader(GLuint id)
+    Shader::Shader(const GLuint id)
         : m_programId(id)
     {
 
