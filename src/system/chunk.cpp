@@ -30,10 +30,12 @@ namespace engine
                 const std::uint32_t octaves = 1;
                 const double frequency = 1.0;
 
+                const auto amplitude = 2.f;
+
                 auto noise = siv::PerlinNoise(seed);
 
-                const auto fx = s_chunkSize.x / frequency;
-                const auto fz = s_chunkSize.z / frequency;
+                const auto fx = (s_chunkSize.x / frequency) * amplitude;
+                const auto fz = (s_chunkSize.z / frequency) * amplitude;
 
                 const auto terrainLevel = noise.accumulatedOctaveNoise2D_0_1((x + m_transform.position.x) / fx, (z + m_transform.position.z) / fz, octaves);
                 const auto groundLevel = utils::map(terrainLevel, 0.0, 1.0, 0.0, static_cast<double>(s_chunkSize.y));
