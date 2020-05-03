@@ -109,8 +109,8 @@ namespace engine
             auto& shader = shaderPair.second;
             shader.use();
             shader.setVec3("viewPos", m_position);
-            shader.setMat4("projection_matrix", getProjectionMatrix());
-            shader.setMat4("view_matrix", getViewMatrix());
+            shader.setMat4("projection", getProjectionMatrix());
+            shader.setMat4("view", getViewMatrix());
         }
     }
 

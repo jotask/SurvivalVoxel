@@ -118,8 +118,7 @@ namespace engine
         m_shader.setVec3("material.diffuse", m_material.diffuse);
         m_shader.setVec3("material.specular", m_material.specular);
         m_shader.setFloat("material.shininess", m_material.shininess);
-
-        m_shader.setMat4("model_matrix", m_chunk->getTransform().getModelMatrix());
+        m_shader.setMat4("model", m_chunk->getTransform().getModelMatrix());
         glBindVertexArray(m_vao);
         glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indices.size()), GL_UNSIGNED_INT, 0);
     }
