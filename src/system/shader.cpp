@@ -10,7 +10,8 @@ namespace engine
 
     Shader::~Shader()
     {
-        glDeleteProgram(m_programId);
+        // FIXME : This is called when inserting this into shader map, commented for now
+        // glDeleteProgram(m_programId);
     }
 
     void Shader::setBool(const std::string & name, bool value) const
