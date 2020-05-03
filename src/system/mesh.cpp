@@ -111,7 +111,7 @@ namespace engine
     void Mesh::render()
     {
 
-        static Material m_material;
+        static Material m_material = { {0.1f, 0.1f, 0.1f}, {0.1f, 0.1f, 0.1f}, {1.f, 1.f, 1.f}, {10.f} };
 
         ImGui::Begin("Material");
         ImGui::SliderFloat3("ambient", &m_material.ambient.x, 0.f, 1.f);

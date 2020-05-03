@@ -32,6 +32,7 @@ namespace engine
         light.color = { (1.f, 1.f, 1.f) };
         light.diffuse = glm::vec3(0.5f);
         light.ambient = glm::vec3(0.f);
+        light.specular = glm::vec3(1.f, 1.f, 1.f);
         addLight(light);
 
         return true;
