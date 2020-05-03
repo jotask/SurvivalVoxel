@@ -5,6 +5,8 @@
 #include "system/vertex_info.hpp"
 #include "engine.hpp"
 
+#include <imgui.h>
+
 #include <iostream>
 
 namespace engine
@@ -19,10 +21,6 @@ namespace engine
         , m_vbo(0)
         , m_ibo(0)
     {
-        m_material.ambient = { 1.0f, 0.5f, 0.31f };
-        m_material.diffuse = { 1.0f, 0.5f, 0.31f };
-        m_material.specular = { 0.5f, 0.5f, 0.5f };
-        m_material.shininess = 32.0f;
     }
 
     Mesh::~Mesh()
@@ -112,6 +110,16 @@ namespace engine
 
     void Mesh::render()
     {
+
+        static Material m_material;
+
+        ImGui::Begin("Material");
+        ImGui::SliderFloat3("ambient", &m_material.ambient.x, 0.f, 1.f);
+        ImGui::SliderFloat3("diffuse", &m_material.diffuse.x, 0.f, 1.f);
+        ImGui::SliderFloat3("specular", &m_material.specular.x, 0.f, 1.f);
+        ImGui::SliderFloat("shininess", &m_material.shininess, 0.f, 100.f);
+        ImGui::End();
+
         m_shader.use();
 
         m_shader.setVec3("material.ambient", m_material.ambient);

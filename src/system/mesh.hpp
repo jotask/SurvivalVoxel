@@ -41,7 +41,6 @@ namespace engine
 
         friend class Chunk;
 
-        Material m_material;
         Chunk* m_chunk;
         Shader& m_shader;
         GLuint m_vao;
