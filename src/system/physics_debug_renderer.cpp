@@ -3,7 +3,7 @@
 namespace engine
 {
     CDebugDraw::CDebugDraw()
-        : m_debugMode(0)
+        : m_debugMode(btIDebugDraw::DBG_DrawWireframe | btIDebugDraw::DBG_DrawAabb)
         , m_vao(0)
         , m_vbo({ 0, 0 })
     {
