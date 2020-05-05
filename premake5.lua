@@ -44,7 +44,8 @@ project "SurvivalVoxel"
         "dependencies/imgui/",
         "dependencies/imgui/examples",
         "dependencies/soil2/src/SOIL2",
-        "dependencies/PerlinNoise/"
+        "dependencies/PerlinNoise/",
+        "dependencies/bullet3/src"
     }
 
     files {
@@ -58,7 +59,8 @@ project "SurvivalVoxel"
         "GLM",
         "GLAD",
         "ImGui",
-        "Soil2"
+        "Soil2",
+        "Bullet3"
     }
 
     filter "system:linux"
@@ -81,3 +83,4 @@ include "dependencies/glad.lua"
 include "dependencies/glm.lua"
 include "dependencies/imgui.lua"
 include "dependencies/soil2.lua"
+include "dependencies/bullet3.lua"
