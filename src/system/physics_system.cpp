@@ -178,10 +178,12 @@ namespace engine
 
     void PhysicsSystem::render()
     {
-
-        ImGui::Begin("PhysicsSystem", &m_renderImgui);
-        ImGui::Checkbox("Debug Render Physics", &m_renderDebug);
-        ImGui::End();
+        if (m_renderImgui == true)
+        {
+            ImGui::Begin("PhysicsSystem", &m_renderImgui);
+            ImGui::Checkbox("Debug Render Physics", &m_renderDebug);
+            ImGui::End();
+        }
 
         if (m_renderDebug == true)
         {
