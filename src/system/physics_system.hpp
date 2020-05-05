@@ -12,6 +12,7 @@ namespace engine
 {
 
     class ImguiSystem;
+    class ShaderSystem;
 
     class PhysicsSystem : public System
     {
@@ -20,8 +21,8 @@ namespace engine
         PhysicsSystem();
         virtual ~PhysicsSystem() override;
 
-        virtual bool init() override;
         virtual bool connect(SystemConnector&) override;
+        virtual bool init() override;
 
         virtual void preUpdate() override;
         virtual void update() override;
@@ -36,9 +37,10 @@ namespace engine
 
     private:
 
-        const btVector3 c_gravity = { 0, 0, 0 };
+        const btVector3 c_gravity = { 0, -9.8f, 0 };
 
         ImguiSystem* m_imguiSystem;
+        ShaderSystem* m_shaderSystem;
         bool m_renderImgui;
         bool m_renderDebug;
 

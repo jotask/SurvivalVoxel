@@ -43,13 +43,13 @@ namespace engine
         m_systems.push_back(std::make_unique<DisplaySystem>());
         m_systems.push_back(std::make_unique<RenderSystem>());
         m_systems.push_back(std::make_unique<DebugSystem>());
-        m_systems.push_back(std::make_unique<PhysicsSystem>());
         m_systems.push_back(std::make_unique<ImguiSystem>());
         m_systems.push_back(std::make_unique<InputSystem>());
         m_systems.push_back(std::make_unique<CameraSystem>());
         m_systems.push_back(std::make_unique<ShaderSystem>());
         m_systems.push_back(std::make_unique<LightSystem>());
         m_systems.push_back(std::make_unique<ModelSystem>());
+        m_systems.push_back(std::make_unique<PhysicsSystem>());
 
         // Game systems
         m_systems.push_back(std::make_unique<ChunkSystem>());

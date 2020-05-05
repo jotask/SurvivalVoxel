@@ -1,7 +1,10 @@
 #pragma once
 
+#include "system/shader.hpp"
+
 #include <LinearMath/btIDebugDraw.h>
 #include <glad/glad.h>
+
 
 #include <array>
 #include <vector>
@@ -14,34 +17,8 @@ namespace engine
 
     public:
 
-        struct LINE
-        {
-
-            LINE(btVector3 f, btVector3 t) {
-                from = f;
-                to = t;
-            }
-
-            btVector3 from;
-            btVector3 to;
-
-        };
-
-        struct COLOR
-        {
-
-            COLOR(btVector3 c) {
-                col = c;
-            }
-
-            btVector3 col;
-        };
-
-        CDebugDraw();
+        CDebugDraw(Shader&);
         virtual ~CDebugDraw();
-
-        std::vector<LINE> LINES;
-        std::vector<COLOR> COLORS;
 
         virtual void drawLine(const btVector3& from, const btVector3& to, const btVector3& color);
 
@@ -55,18 +32,16 @@ namespace engine
 
         virtual int getDebugMode() const;
 
-        void doDrawing();
         void render();
-        void cleanDrawing();
-        void clearBuffer();
 
     private:
 
-
+        Shader& m_shader;
         int m_debugMode;
 
         GLuint m_vao;
-        std::array<GLuint, 2> m_vbo;
+        GLuint m_vbo;
+        std::vector<float> vertices;
 
     };
 
