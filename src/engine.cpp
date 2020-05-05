@@ -9,6 +9,7 @@
 #include "system/model_system.hpp"
 #include "system/shader_system.hpp"
 #include "system/light_system.hpp"
+#include "system/physics_system.hpp"
 #include "system/event_system.hpp"
 #include "system/system_connector.hpp"
 #include "system/event_system.hpp"
@@ -42,6 +43,7 @@ namespace engine
         m_systems.push_back(std::make_unique<DisplaySystem>());
         m_systems.push_back(std::make_unique<RenderSystem>());
         m_systems.push_back(std::make_unique<DebugSystem>());
+        m_systems.push_back(std::make_unique<PhysicsSystem>());
         m_systems.push_back(std::make_unique<ImguiSystem>());
         m_systems.push_back(std::make_unique<InputSystem>());
         m_systems.push_back(std::make_unique<CameraSystem>());
