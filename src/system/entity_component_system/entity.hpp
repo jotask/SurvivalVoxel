@@ -1,6 +1,7 @@
 #pragma once
 
 #include "utils/shared.hpp"
+#include "utils/transform.hpp"
 
 #include <vector>
 #include <array>
@@ -42,6 +43,10 @@ namespace engine
 
         ComponentArray m_componentArray;
         CompomentBitSet m_componentBitSet;
+
+        Transform m_transform;
+
+        Transform& getTransform();
 
         void update();
         void render();

@@ -11,6 +11,11 @@ namespace engine
 
     }
 
+    Transform & Entity::getTransform()
+    {
+        return m_transform;
+    }
+
     void Entity::update()
     {
         std::for_each(m_components.begin(), m_components.end(), [](auto& component) { component->update(); });
