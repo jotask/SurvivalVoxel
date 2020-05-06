@@ -8,12 +8,16 @@ namespace engine
     class Component
     {
     public:
-        Component();
+        Component(Entity*);
         virtual ~Component();
 
         virtual void init();
         virtual void update();
         virtual void render();
+
+        Entity* getEntity() const;
+
+    private:
 
         Entity* m_entity;
     };

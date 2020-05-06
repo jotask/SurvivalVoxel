@@ -9,9 +9,8 @@
 namespace engine
 {
 
-    class RenderSystem;
-    class CameraSystem;
-    class Chunk;
+    class EntityComponentSystem;
+    class Entity;
 
     class ChunkSystem : public System
     {
@@ -33,12 +32,9 @@ namespace engine
 
     private:
 
-        friend class Mesh;
+        std::vector<Entity*> m_chunks;
 
-        std::vector<Chunk> m_chunks;
-
-        RenderSystem* m_renderSystem;
-        CameraSystem* m_cameraSystem;
+        EntityComponentSystem* m_entitySystem;
 
     };
 

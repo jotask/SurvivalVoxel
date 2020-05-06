@@ -1,8 +1,10 @@
-#include "system/entity_component_system/components/component.hpp"
+#include "component.hpp"
 
 namespace engine
 {
-    Component::Component()
+
+    Component::Component(Entity* entity)
+        : m_entity(entity)
     {
 
     }
@@ -25,6 +27,11 @@ namespace engine
     void Component::render()
     {
 
+    }
+
+    Entity* Component::getEntity() const
+    {
+        return m_entity;
     }
 
 }

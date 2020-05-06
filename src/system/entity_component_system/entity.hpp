@@ -26,7 +26,7 @@ namespace engine
         }
 
         template<class T>
-        ComponentId getComponentTypeId() noexcept
+        ComponentId getComponentTypeId() const noexcept
         {
             static auto typeId = getComponentId();
             return typeId;
@@ -37,6 +37,7 @@ namespace engine
         using ComponentArray = std::array<Component*, maxComponents>;
 
         Entity();
+        virtual ~Entity() = default;
 
         bool m_active;
         std::vector<AikoUPtr<Component>> m_components;
@@ -56,44 +57,34 @@ namespace engine
         void destroy();
 
         template<class T>
-        bool hasComponent() const;
+        bool hasComponent() const
+        {
+            return m_componentBitSet[getComponentTypeId<T>()];
+        }
 
         template<class T, class... TArgs>
-        T& addComponent(TArgs&&... args);
+        T& addComponent(TArgs&&... args)
+        {
+            T* c(new T(std::forward<TArgs>(args)...));
+            AikoUPtr<Component> ptr{ c };
+            m_components.emplace_back(std::move(ptr));
+
+            m_componentArray[getComponentTypeId<T>()] = c;
+            m_componentBitSet[getComponentTypeId<T>()] = true;
+
+            c->init();
+
+            return *c;
+
+        }
 
         template<class T>
-        T& getComponent() const;
+        T& getComponent() const
+        {
+            auto ptr(m_componentArray[getComponentTypeId<T>()]);
+            return *static_cast<T*>(ptr);
+        }
 
     };
-
-    template<class T>
-    inline bool Entity::hasComponent() const
-    {
-        return m_componentBitSet[getComponentId<T>()];
-    }
-
-    template<class T, class ...TArgs>
-    inline T& Entity::addComponent(TArgs && ...args)
-    {
-        T* c(new T(std::forward<TArgs>(args)...));
-        c->m_entity = this;
-        AikoUPtr<Component> ptr{ c };
-        m_components.emplace_back(std::move(ptr));
-
-        m_componentArray[getComponentTypeId<T>()] = c;
-        m_componentBitSet[getComponentTypeId<T>()] = true;
-
-        c->init();
-
-        return *c;
-
-    }
-
-    template<class T>
-    inline T& Entity::getComponent() const
-    {
-        auto ptr(m_componentArray[getComponentTypeId<T>()]);
-        return *static_cast<T*>(ptr);
-    }
 
 }

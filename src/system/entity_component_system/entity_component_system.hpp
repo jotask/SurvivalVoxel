@@ -9,6 +9,7 @@ namespace engine
 
     class Component;
     class Entity;
+    class ImguiSystem;
 
     class EntityComponentSystem : public System
     {
@@ -35,6 +36,9 @@ namespace engine
     private:
 
         std::vector<AikoUPtr<Entity>> m_entities;
+
+        ImguiSystem* m_imguiSystem;
+        bool m_renderImgui;
 
     };
 

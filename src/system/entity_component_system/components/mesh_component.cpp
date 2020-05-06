@@ -1,5 +1,6 @@
 #include "mesh_component.hpp"
 
+#include "system/entity_component_system/entity.hpp"
 #include "system/chunk_system/vertex_info.hpp"
 #include "engine.hpp"
 
@@ -10,14 +11,16 @@
 namespace engine
 {
 
-    Mesh::Mesh(Shader& shader, const std::vector<VertexInfo> vertices, std::vector<unsigned int> indices)
-        : m_vertices(vertices)
-        , m_indices(indices)
-        , m_shader(shader)
+    Mesh::Mesh(Entity* entity, MeshData& meshData)
+        : Component(entity)
+        , m_vertices(meshData.vertices)
+        , m_indices(meshData.indices)
+        , m_shader(meshData.shader)
         , m_vao(0)
         , m_vbo(0)
         , m_ibo(0)
     {
+
     }
 
     Mesh::~Mesh()
@@ -123,9 +126,10 @@ namespace engine
         m_shader.setVec3("material.diffuse", m_material.diffuse);
         m_shader.setVec3("material.specular", m_material.specular);
         m_shader.setFloat("material.shininess", m_material.shininess);
-        // m_shader.setMat4("model", m_chunk->getTransform().getModelMatrix());
+        m_shader.setMat4("model", getEntity()->getTransform().getModelMatrix());
         glBindVertexArray(m_vao);
         glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indices.size()), GL_UNSIGNED_INT, 0);
+
     }
 
 }

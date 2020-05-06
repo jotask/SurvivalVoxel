@@ -1,8 +1,8 @@
 #include "chunk_system.hpp"
 
-#include "system/render_system/render_system.hpp"
-#include "system/camera_system.hpp"
 #include "system/chunk_system/chunk.hpp"
+#include "system/entity_component_system/entity_component_system.hpp"
+#include "system/entity_component_system/entity.hpp"
 
 #include <imgui.h>
 
@@ -12,8 +12,7 @@ namespace engine
 {
 
     ChunkSystem::ChunkSystem()
-        : m_renderSystem(nullptr)
-        , m_cameraSystem(nullptr)
+        : m_entitySystem(nullptr)
     {
 
     }
@@ -30,9 +29,10 @@ namespace engine
         {
             for (auto x = -size; x < size; x++)
             {
-                auto chunk = Chunk(this, x, z);
+                auto& entity = m_entitySystem->addEntity();
+                auto& chunk = entity.addComponent<Chunk>(&entity, x, z);
                 chunk.generate();
-                m_chunks.push_back(std::move(chunk));
+                m_chunks.push_back(&entity);
             }
         }
         return true;
@@ -40,8 +40,7 @@ namespace engine
 
     bool ChunkSystem::connect(SystemConnector & connector)
     {
-        m_renderSystem = connector.findSystem<RenderSystem>();
-        m_cameraSystem = connector.findSystem<CameraSystem>();
+        m_entitySystem = connector.findSystem<EntityComponentSystem>();
         return true;
     }
 
@@ -67,10 +66,7 @@ namespace engine
 
     void ChunkSystem::render()
     {
-        for (auto& chunk : m_chunks)
-        {
-            chunk.renderMesh();
-        }
+
     }
 
     void ChunkSystem::postRender()

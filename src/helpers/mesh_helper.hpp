@@ -30,7 +30,7 @@ namespace engine
                 }
             }
 
-            static AikoUPtr<Mesh> generateChunkMesh(Chunk* chunk)
+            static Mesh::MeshData generateChunkData(Chunk* chunk)
             {
 
                 std::vector<VertexInfo> vertices;
@@ -164,13 +164,10 @@ namespace engine
                     vertex.m_normal = glm::normalize(vertex.m_normal);
                 }
 
-                
                 auto* shaderSystem = engine::Engine::getInstance().getSystem<ShaderSystem>();
                 auto& shader = shaderSystem->getShader("chunkShader");
-                auto mesh = std::make_unique<Mesh>(shader, vertices, indices);
-                mesh->create();
 
-                return std::move(mesh);
+                return {shader, vertices, indices};
             }
         }
     }

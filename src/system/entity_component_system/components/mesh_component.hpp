@@ -15,12 +15,28 @@
 namespace engine
 {
 
+    class Entity;
+
+
     class Mesh : public Component
     {
-
     public:
 
-        Mesh(Shader& shader, const std::vector<VertexInfo> vertices, std::vector<unsigned int> indices);
+        struct MeshData
+        {
+            MeshData(Shader& _shader, const std::vector<VertexInfo> _vertices, std::vector<unsigned int> _indices)
+                : shader (_shader)
+                , vertices(_vertices)
+                , indices(_indices)
+            {
+
+            }
+            Shader& shader;
+            const std::vector<VertexInfo> vertices;
+            std::vector<unsigned int> indices;
+        };
+
+        Mesh(Entity* entity, MeshData& meshData);
         ~Mesh();
 
         void create();

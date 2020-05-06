@@ -1,25 +1,31 @@
 #include "entity_component_system.hpp"
 
+#include "system/imgui_system.hpp"
 #include "system/entity_component_system/entity.hpp"
 #include "system/entity_component_system/components/component.hpp"
 #include "utils/shared.hpp"
+
+#include <imgui.h>
 
 #include <algorithm>
 
 namespace engine
 {
     EntityComponentSystem::EntityComponentSystem()
+        : m_renderImgui(false)
     {
 
-    }
-
-    bool EntityComponentSystem::init()
-    {
-        return true;
     }
 
     bool EntityComponentSystem::connect(SystemConnector & connector)
     {
+        m_imguiSystem = connector.findSystem< ImguiSystem>();
+        return true;
+    }
+
+    bool EntityComponentSystem::init()
+    {
+        m_imguiSystem->registerSystem("EntityComponentSystem", m_renderImgui);
         return true;
     }
 
@@ -46,6 +52,14 @@ namespace engine
     void EntityComponentSystem::render()
     {
         std::for_each(m_entities.begin(), m_entities.end(), [](auto& entity) { entity->render(); });
+
+        if (m_renderImgui == true)
+        {
+            ImGui::Begin("EntityComponentSystem", &m_renderImgui);
+            ImGui::Text("N. entities: %i", static_cast<int>(m_entities.size()));
+            ImGui::End();
+        }
+
     }
 
     void EntityComponentSystem::postRender()

@@ -1,6 +1,7 @@
 #include "chunk.hpp"
 
 #include "helpers/mesh_helper.hpp"
+#include "system/entity_component_system/entity.hpp"
 #include "system/chunk_system/chunk_system.hpp"
 #include "utils/utilities.hpp"
 
@@ -11,16 +12,15 @@ namespace engine
 
     const glm::ivec3 Chunk::s_chunkSize = glm::ivec3( 16, 16, 16 );
 
-    Chunk::Chunk(ChunkSystem* chunkSystem, const int x, const int z)
-        : m_chunkSystem(chunkSystem)
-        , m_mesh(nullptr)
-        , m_transform({x * s_chunkSize.x, 0, z * s_chunkSize.z})
+    Chunk::Chunk(Entity* entity, const int x, const int z)
+        : Component(entity)
     {
-
+        getEntity()->getTransform().position = { x * s_chunkSize.x, 0, z * s_chunkSize.z };
     }
 
     void Chunk::generate()
     {
+        const auto& transform = getEntity()->getTransform();
         for (auto z = 0; z < s_chunkSize.z ; z++)
         {
             for (auto x = 0; x < s_chunkSize.x; x++)
@@ -38,7 +38,7 @@ namespace engine
                 const auto fy = (s_chunkSize.y / frequency) * amplitude;
                 const auto fz = (s_chunkSize.z / frequency) * amplitude;
 
-                const auto terrainLevel = noise.accumulatedOctaveNoise2D_0_1((x + m_transform.position.x) / fx, (z + m_transform.position.z) / fz, octaves);
+                const auto terrainLevel = noise.accumulatedOctaveNoise2D_0_1((x + transform.position.x) / fx, (z + transform.position.z) / fz, octaves);
                 const auto groundLevel = utils::map(terrainLevel, 0.0, 1.0, 0.0, static_cast<double>(s_chunkSize.y));
 
                 for (auto y = 0; y < s_chunkSize.y; y++)
@@ -57,9 +57,9 @@ namespace engine
                         }
                         else
                         {
-                            const auto blockX = (x + m_transform.position.x) / (fx * 0.25f);
-                            const auto blockY = (y + m_transform.position.y) / (fy * 0.25f);
-                            const auto blockZ = (z + m_transform.position.z) / (fz * 0.25f);
+                            const auto blockX = (x + transform.position.x) / (fx * 0.25f);
+                            const auto blockY = (y + transform.position.y) / (fy * 0.25f);
+                            const auto blockZ = (z + transform.position.z) / (fz * 0.25f);
                             const auto blockType = noise.noise3D_0_1(blockX, blockY, blockZ);
 
                             voxelId = (blockType < .5f) ? VoxelInfo::VoxelId::GRASS : VoxelInfo::VoxelId::DIRT;
@@ -72,10 +72,13 @@ namespace engine
                 }
             }
         }
-
-        if (m_mesh == nullptr)
+        
+        if (getEntity()->hasComponent<Mesh>() == false)
         {
-            m_mesh = mesh::helper::generateChunkMesh(this);
+            auto data = mesh::helper::generateChunkData(this);
+            auto* entity = getEntity();
+            auto& mesh = getEntity()->addComponent<Mesh>(entity, data);
+            mesh.create();
         }
     }
 
@@ -88,24 +91,6 @@ namespace engine
     void Chunk::updateModel()
     {
 
-    }
-
-    void Chunk::renderMesh()
-    {
-        if (m_mesh != nullptr)
-        {
-            m_mesh->render();
-        }
-    }
-
-    Transform & Chunk::getTransform()
-    {
-        return m_transform;
-    }
-
-    Mesh* Chunk::getMesh() const
-    {
-        return m_mesh.get();
     }
 
     unsigned int Chunk::convertToVoxelIndex(const glm::ivec3& pos) const
