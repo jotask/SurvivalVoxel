@@ -1,8 +1,9 @@
 #pragma once
 
 #include "system/system_interface.hpp"
-
 #include "system/light_system/light.hpp"
+
+#include <glm/glm.hpp>
 
 #include <vector>
 
@@ -11,6 +12,7 @@ namespace engine
 
     class ImguiSystem;
     class ShaderSystem;
+    class EntityComponentSystem;
 
     class LightSystem : public System
     {
@@ -30,7 +32,7 @@ namespace engine
         virtual void render() override;
         virtual void postRender() override;
 
-        void addLight(Light& l);
+        void addLight(glm::vec3 position, glm::vec3 color, glm::vec3 diffuse, glm::vec3 ambient, glm::vec3 specular);
 
     private:
 
@@ -38,8 +40,9 @@ namespace engine
 
         ImguiSystem* m_imguiSystem;
         ShaderSystem* m_shaderSystem;
+        EntityComponentSystem* m_entitySystem;
 
-        std::vector<Light> m_lights;
+        std::vector<Light*> m_lights;
 
     };
 
