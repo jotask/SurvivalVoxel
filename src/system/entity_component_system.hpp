@@ -2,9 +2,13 @@
 
 #include "system/system_interface.hpp"
 
+#include <vector>
 
 namespace engine
 {
+
+    class Component;
+    class Entity;
 
     class EntityComponentSystem : public System
     {
@@ -24,7 +28,13 @@ namespace engine
         virtual void render() override;
         virtual void postRender() override;
 
+        void refresh();
+
+        Entity& addEntity();
+
     private:
+
+        std::vector<AikoUPtr<Entity>> m_entities;
 
     };
 
