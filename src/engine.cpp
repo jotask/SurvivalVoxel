@@ -12,6 +12,7 @@
 #include "system/physics_system.hpp"
 #include "system/event_system.hpp"
 #include "system/system_connector.hpp"
+#include "system/entity_component_system.hpp"
 #include "system/event_system.hpp"
 #include "system/engine_events.hpp"
 
@@ -50,6 +51,7 @@ namespace engine
         m_systems.push_back(std::make_unique<LightSystem>());
         m_systems.push_back(std::make_unique<ModelSystem>());
         m_systems.push_back(std::make_unique<PhysicsSystem>());
+        m_systems.push_back(std::make_unique<EntityComponentSystem>());
 
         // Game systems
         m_systems.push_back(std::make_unique<ChunkSystem>());
