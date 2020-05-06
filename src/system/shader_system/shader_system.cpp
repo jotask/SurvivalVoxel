@@ -1,4 +1,4 @@
-#include "system/shader_system.hpp"
+#include "shader_system.hpp"
 
 #include "utils/utilities.hpp"
 

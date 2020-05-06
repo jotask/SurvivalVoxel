@@ -94,7 +94,6 @@ namespace engine
     {
         if (m_mesh != nullptr)
         {
-            m_mesh->m_chunk = this;
             m_mesh->render();
         }
     }

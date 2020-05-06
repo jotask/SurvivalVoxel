@@ -1,4 +1,4 @@
-#include "system/render_system.hpp"
+#include "render_system.hpp"
 
 #include "system/display_system.hpp"
 #include "system/imgui_system.hpp"

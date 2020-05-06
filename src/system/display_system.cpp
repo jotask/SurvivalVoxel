@@ -1,7 +1,7 @@
 #include "system/display_system.hpp"
 
-#include "system/event_system.hpp"
-#include "system/engine_events.hpp"
+#include "system/event_system/event_system.hpp"
+#include "system/event_system/engine_events.hpp"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>

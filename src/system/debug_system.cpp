@@ -1,7 +1,7 @@
 #include "system/debug_system.hpp"
 
 #include "system/imgui_system.hpp"
-#include "system/shader_system.hpp"
+#include "system/shader_system/shader_system.hpp"
 
 #include <imgui.h>
 #include <GLFW/glfw3.h>

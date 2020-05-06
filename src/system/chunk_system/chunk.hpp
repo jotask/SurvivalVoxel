@@ -1,7 +1,7 @@
 #pragma once
 
 #include "system/chunk_system/voxel.hpp"
-#include "system/entity_component_system/components/mesh.hpp"
+#include "system/entity_component_system/components/mesh_component.hpp"
 #include "utils/shared.hpp"
 #include "utils/transform.hpp"
 

@@ -3,6 +3,7 @@
 #include "system/chunk_system/vertex_info.hpp"
 #include "system/shader_system/shader.hpp"
 #include "system/render_system/material.hpp"
+#include "system/entity_component_system/components/component.hpp"
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
@@ -14,14 +15,12 @@
 namespace engine
 {
 
-    class Chunk;
-
-    class Mesh
+    class Mesh : public Component
     {
 
     public:
 
-        Mesh(Chunk* parent, Shader& shader, const std::vector<VertexInfo> vertices, std::vector<unsigned int> indices);
+        Mesh(Shader& shader, const std::vector<VertexInfo> vertices, std::vector<unsigned int> indices);
         ~Mesh();
 
         void create();
@@ -39,15 +38,11 @@ namespace engine
 
     private:
 
-        friend class Chunk;
-
-        Chunk* m_chunk;
         Shader& m_shader;
         GLuint m_vao;
         GLuint m_vbo;
         GLuint m_ibo;
         std::map<std::string, GLuint> m_textures;
-
         std::vector<VertexInfo> m_vertices;
         std::vector<unsigned int> m_indices;
     };

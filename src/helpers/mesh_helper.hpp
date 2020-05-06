@@ -1,6 +1,6 @@
 #pragma once
 
-#include "system/entity_component_system/components/mesh.hpp"
+#include "system/entity_component_system/components/mesh_component.hpp"
 #include "system/shader_system/shader_system.hpp"
 #include "system/chunk_system/vertex_info.hpp"
 #include "system/chunk_system/chunk.hpp"
@@ -167,7 +167,7 @@ namespace engine
                 
                 auto* shaderSystem = engine::Engine::getInstance().getSystem<ShaderSystem>();
                 auto& shader = shaderSystem->getShader("chunkShader");
-                auto mesh = std::make_unique<Mesh>(chunk, shader, vertices, indices);
+                auto mesh = std::make_unique<Mesh>(shader, vertices, indices);
                 mesh->create();
 
                 return std::move(mesh);

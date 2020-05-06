@@ -1,8 +1,8 @@
-#include "system/chunk_system.hpp"
+#include "chunk_system.hpp"
 
-#include "system/render_system.hpp"
+#include "system/render_system/render_system.hpp"
 #include "system/camera_system.hpp"
-#include "system/chunk.hpp"
+#include "system/chunk_system/chunk.hpp"
 
 #include <imgui.h>
 

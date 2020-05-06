@@ -71,7 +71,7 @@ namespace engine
 
         glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(float), vertices.data());
 
-        glDrawArrays(GL_LINES, 0, vertices.size());
+        glDrawArrays(GL_LINES, 0, static_cast<GLsizei>(vertices.size()));
         glBindVertexArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 

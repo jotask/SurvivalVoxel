@@ -1,8 +1,6 @@
-#include "system/mesh.hpp"
+#include "mesh_component.hpp"
 
-#include "system/chunk.hpp"
-#include "system/chunk_system.hpp"
-#include "system/vertex_info.hpp"
+#include "system/chunk_system/vertex_info.hpp"
 #include "engine.hpp"
 
 #include <imgui.h>
@@ -12,9 +10,8 @@
 namespace engine
 {
 
-    Mesh::Mesh(Chunk* parent, Shader& shader, const std::vector<VertexInfo> vertices, std::vector<unsigned int> indices)
-        : m_chunk(parent)
-        , m_vertices(vertices)
+    Mesh::Mesh(Shader& shader, const std::vector<VertexInfo> vertices, std::vector<unsigned int> indices)
+        : m_vertices(vertices)
         , m_indices(indices)
         , m_shader(shader)
         , m_vao(0)
@@ -126,7 +123,7 @@ namespace engine
         m_shader.setVec3("material.diffuse", m_material.diffuse);
         m_shader.setVec3("material.specular", m_material.specular);
         m_shader.setFloat("material.shininess", m_material.shininess);
-        m_shader.setMat4("model", m_chunk->getTransform().getModelMatrix());
+        // m_shader.setMat4("model", m_chunk->getTransform().getModelMatrix());
         glBindVertexArray(m_vao);
         glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indices.size()), GL_UNSIGNED_INT, 0);
     }
