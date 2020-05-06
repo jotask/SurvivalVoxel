@@ -1,6 +1,6 @@
 #include "chunk.hpp"
 
-#include "helpers/mesh_helper.hpp"
+#include "system/chunk_system/chunk_factory.hpp"
 #include "system/entity_component_system/entity.hpp"
 #include "system/chunk_system/chunk_system.hpp"
 #include "utils/utilities.hpp"
@@ -75,7 +75,7 @@ namespace engine
         
         if (getEntity()->hasComponent<Mesh>() == false)
         {
-            auto data = mesh::helper::generateChunkData(this);
+            auto data = chunk::factory::generateChunkData(this);
             auto* entity = getEntity();
             auto& mesh = getEntity()->addComponent<Mesh>(entity, data);
             mesh.create();

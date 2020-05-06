@@ -1,7 +1,7 @@
 #pragma once
 
 #include "system/system_interface.hpp"
-#include "system/physics_debug_renderer.hpp"
+#include "system/physics_system/physics_debug_renderer.hpp"
 #include "utils/shared.hpp"
 
 #include <btBulletDynamicsCommon.h>

@@ -8,7 +8,7 @@
 #include "system/camera_system.hpp"
 #include "system/shader_system/shader_system.hpp"
 #include "system/light_system/light_system.hpp"
-#include "system/physics_system.hpp"
+#include "system/physics_system/physics_system.hpp"
 #include "system/event_system/event_system.hpp"
 #include "system/system_connector.hpp"
 #include "system/entity_component_system/entity_component_system.hpp"

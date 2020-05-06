@@ -14,9 +14,9 @@
 namespace engine
 {
 
-    namespace mesh
+    namespace chunk
     {
-        namespace helper
+        namespace factory
         {
 
             static glm::vec4 getVoxelColor(Voxel& voxel)
