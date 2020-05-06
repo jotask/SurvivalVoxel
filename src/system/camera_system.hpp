@@ -2,7 +2,7 @@
 
 #include "system/system_interface.hpp"
 
-#include "system/event.hpp"
+#include "system/event_system/event.hpp"
 
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>

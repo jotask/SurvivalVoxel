@@ -1,7 +1,7 @@
 #include "chunk.hpp"
 
-#include "system/mesh_helper.hpp"
-#include "system/chunk_system.hpp"
+#include "helpers/mesh_helper.hpp"
+#include "system/chunk_system/chunk_system.hpp"
 #include "utils/utilities.hpp"
 
 #include "PerlinNoise.hpp"

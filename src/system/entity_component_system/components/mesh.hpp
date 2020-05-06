@@ -1,8 +1,8 @@
 #pragma once
 
-#include "system/vertex_info.hpp"
-#include "system/shader.hpp"
-#include "system/material.hpp"
+#include "system/chunk_system/vertex_info.hpp"
+#include "system/shader_system/shader.hpp"
+#include "system/render_system/material.hpp"
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>

@@ -1,16 +1,15 @@
-#include "system/mesh.hpp"
+#pragma once
 
-#include "system/shader_system.hpp"
-#include "system/vertex_info.hpp"
-#include "system/mesh.hpp"
-#include "system/chunk.hpp"
-#include "system/shader.hpp"
+#include "system/entity_component_system/components/mesh.hpp"
+#include "system/shader_system/shader_system.hpp"
+#include "system/chunk_system/vertex_info.hpp"
+#include "system/chunk_system/chunk.hpp"
+#include "system/shader_system/shader.hpp"
 #include "utils/shared.hpp"
 #include "engine.hpp"
 
 #include <memory>
 #include <random>
-
 
 namespace engine
 {

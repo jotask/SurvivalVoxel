@@ -1,6 +1,6 @@
 #pragma once
 
-#include "system/shader.hpp"
+#include "system/shader_system/shader.hpp"
 
 #include <LinearMath/btIDebugDraw.h>
 #include <glad/glad.h>

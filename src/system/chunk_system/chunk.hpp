@@ -1,10 +1,9 @@
 #pragma once
 
-#include "system/voxel.hpp"
-#include "system/mesh.hpp"
+#include "system/chunk_system/voxel.hpp"
+#include "system/entity_component_system/components/mesh.hpp"
 #include "utils/shared.hpp"
-
-#include "transform.hpp"
+#include "utils/transform.hpp"
 
 #include <glm/glm.hpp>
 

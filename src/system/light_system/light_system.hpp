@@ -1,27 +1,26 @@
 #pragma once
 
 #include "system/system_interface.hpp"
-#include "system/model.hpp"
-#include "utils/shared.hpp"
 
-#include <map>
-#include <string>
+#include "system/light_system/light.hpp"
+
+#include <vector>
 
 namespace engine
 {
 
-    class CameraSystem;
+    class ImguiSystem;
     class ShaderSystem;
 
-    class ModelSystem : public System
+    class LightSystem : public System
     {
     public:
 
-        ModelSystem();
-        virtual ~ModelSystem() override = default;
+        LightSystem();
+        virtual ~LightSystem() override = default;
 
-        virtual bool init() override;
         virtual bool connect(SystemConnector&) override;
+        virtual bool init() override;
 
         virtual void preUpdate() override;
         virtual void update() override;
@@ -31,11 +30,16 @@ namespace engine
         virtual void render() override;
         virtual void postRender() override;
 
-    private:
-        std::map<std::string, AikoUPtr<model::Model>> m_models;
+        void addLight(Light& l);
 
-        CameraSystem* m_cameraSystem;
+    private:
+
+        bool m_renderImgui;
+
+        ImguiSystem* m_imguiSystem;
         ShaderSystem* m_shaderSystem;
+
+        std::vector<Light> m_lights;
 
     };
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "system/system_interface.hpp"
-#include "system/shader.hpp"
+#include "system/shader_system/shader.hpp"
 
 #include <glad/glad.h>
 

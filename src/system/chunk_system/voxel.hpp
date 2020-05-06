@@ -1,6 +1,6 @@
 #pragma once
 
-#include "system/voxel_info.hpp"
+#include "system/chunk_system/voxel_info.hpp"
 
 namespace engine
 {

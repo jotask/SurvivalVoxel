@@ -1,7 +1,7 @@
-#include "system/entity_component_system.hpp"
+#include "entity_component_system.hpp"
 
-#include "system/entity.hpp"
-#include "system/component.hpp"
+#include "system/entity_component_system/entity.hpp"
+#include "system/entity_component_system/components/component.hpp"
 #include "utils/shared.hpp"
 
 #include <algorithm>

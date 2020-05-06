@@ -2,21 +2,19 @@
 
 #include "system/display_system.hpp"
 #include "system/debug_system.hpp"
-#include "system/render_system.hpp"
+#include "system/render_system/render_system.hpp"
 #include "system/imgui_system.hpp"
 #include "system/input_system.hpp"
 #include "system/camera_system.hpp"
-#include "system/model_system.hpp"
-#include "system/shader_system.hpp"
-#include "system/light_system.hpp"
+#include "system/shader_system/shader_system.hpp"
+#include "system/light_system/light_system.hpp"
 #include "system/physics_system.hpp"
-#include "system/event_system.hpp"
+#include "system/event_system/event_system.hpp"
 #include "system/system_connector.hpp"
-#include "system/entity_component_system.hpp"
-#include "system/event_system.hpp"
-#include "system/engine_events.hpp"
+#include "system/entity_component_system/entity_component_system.hpp"
+#include "system/event_system/engine_events.hpp"
 
-#include "system/chunk_system.hpp"
+#include "system/chunk_system/chunk_system.hpp"
 
 #include <algorithm>
 
@@ -49,7 +47,6 @@ namespace engine
         m_systems.push_back(std::make_unique<CameraSystem>());
         m_systems.push_back(std::make_unique<ShaderSystem>());
         m_systems.push_back(std::make_unique<LightSystem>());
-        m_systems.push_back(std::make_unique<ModelSystem>());
         m_systems.push_back(std::make_unique<PhysicsSystem>());
         m_systems.push_back(std::make_unique<EntityComponentSystem>());
 

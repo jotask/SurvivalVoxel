@@ -1,6 +1,6 @@
-#include "system/entity.hpp"
+#include "entity.hpp"
 
-#include "system/component.hpp"
+#include "system/entity_component_system/components/component.hpp"
 
 #include <algorithm>
 

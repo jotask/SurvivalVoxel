@@ -1,7 +1,7 @@
 #pragma once
 
 #include "utils/shared.hpp"
-#include "system/event.hpp"
+#include "system/event_system/event.hpp"
 #include "system/system_interface.hpp"
 
 #include <glm/glm.hpp>

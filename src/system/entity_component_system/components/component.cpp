@@ -1,4 +1,4 @@
-#include "system/component.hpp"
+#include "system/entity_component_system/components/component.hpp"
 
 namespace engine
 {
