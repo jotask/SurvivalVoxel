@@ -62,14 +62,14 @@ namespace engine
             ImGui::Begin("Light", &m_renderImgui);
             for (auto i = 0 ; i < m_lights.size() ; i++)
             {
-                auto& light = m_lights[i];
+                auto& light = m_entitySystem->getEntityByIdInTag(m_lights[i], entity::EntityTag::LIGHT).getComponent<Light>();
                 const auto lightName = "Light: " + std::to_string(i);
                 ImGui::Text(lightName.c_str());
-                ImGui::SliderFloat3("Position", &light->position.x, 0 , 500);
-                ImGui::ColorEdit3("Color", &light->color.x);
-                ImGui::SliderFloat3("ambient", &light->ambient.x, 0.f, 1.f);
-                ImGui::SliderFloat3("diffuse", &light->diffuse.x, 0.f, 1.f);
-                ImGui::SliderFloat3("specular", &light->specular.x, 0.f, 1.f);
+                ImGui::SliderFloat3("Position", &light.position.x, 0 , 500);
+                ImGui::ColorEdit3("Color", &light.color.x);
+                ImGui::SliderFloat3("ambient", &light.ambient.x, 0.f, 1.f);
+                ImGui::SliderFloat3("diffuse", &light.diffuse.x, 0.f, 1.f);
+                ImGui::SliderFloat3("specular", &light.specular.x, 0.f, 1.f);
             }
             ImGui::End();
         }
@@ -78,13 +78,14 @@ namespace engine
         {
             auto& shader = shaderPair.second;
             shader.use();
-            for (auto* light : m_lights)
+            for (auto& lightId : m_lights)
             {
-                shader.setVec3("light.position", light->position);
-                shader.setVec3("light.color", light->color);
-                shader.setVec3("light.ambient", light->ambient);
-                shader.setVec3("light.diffuse", light->diffuse);
-                shader.setVec3("light.specular", light->specular);
+                auto& light = m_entitySystem->getEntityByIdInTag(lightId, entity::EntityTag::LIGHT).getComponent<Light>();
+                shader.setVec3("light.position", light.position);
+                shader.setVec3("light.color", light.color);
+                shader.setVec3("light.ambient", light.ambient);
+                shader.setVec3("light.diffuse", light.diffuse);
+                shader.setVec3("light.specular", light.specular);
             }
         }
     }
@@ -96,14 +97,14 @@ namespace engine
 
     void LightSystem::addLight(glm::vec3 position, glm::vec3 color, glm::vec3 diffuse, glm::vec3 ambient, glm::vec3 specular)
     {
-        auto& entity = m_entitySystem->addEntity();
+        auto& entity = m_entitySystem->addEntity(entity::EntityTag::LIGHT);
         auto& light = entity.addComponent<Light>(&entity);
         light.position = position;
         light.color = color;
         light.diffuse = diffuse;
         light.ambient = ambient;
         light.specular = specular;
-        m_lights.push_back(&light);
+        m_lights.push_back(light.getEntity()->getId());
     }
 
 }

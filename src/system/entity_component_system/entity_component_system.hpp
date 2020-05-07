@@ -1,8 +1,10 @@
 #pragma once
 
 #include "system/system_interface.hpp"
+#include "system/entity_component_system/entity_types.hpp"
 
 #include <vector>
+#include <map>
 
 namespace engine
 {
@@ -29,13 +31,18 @@ namespace engine
         virtual void render() override;
         virtual void postRender() override;
 
+        Entity& getEntityById(const entity::EntityId);
+        Entity& getEntityByIdInTag(const entity::EntityId, const entity::EntityTag tag);
+
+        entity::EntityCollection& getAllEntitiesByTag(const entity::EntityTag tag);
+
         void refresh();
 
-        Entity& addEntity();
+        Entity& addEntity(const entity::EntityTag tag = entity::EntityTag::DEFAULT);
 
     private:
 
-        std::vector<AikoUPtr<Entity>> m_entities;
+        std::map<entity::EntityTag, entity::EntityCollection> m_entities;
 
         ImguiSystem* m_imguiSystem;
         bool m_renderImgui;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "system/system_interface.hpp"
+#include "system/entity_component_system/entity_types.hpp"
 
 #include <glm/glm.hpp>
 
@@ -32,7 +33,7 @@ namespace engine
 
     private:
 
-        std::vector<Entity*> m_chunks;
+        std::vector<entity::EntityId> m_chunks;
 
         EntityComponentSystem* m_entitySystem;
 

@@ -7,6 +7,7 @@
 namespace engine
 {
     Entity::Entity()
+        : m_id(getEntityId())
     {
 
     }
@@ -34,6 +35,11 @@ namespace engine
     void Entity::destroy()
     {
         m_active = false;
+    }
+
+    entity::EntityId Entity::getId() const
+    {
+        return m_id;
     }
 
 }

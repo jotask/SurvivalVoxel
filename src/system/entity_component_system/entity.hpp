@@ -2,6 +2,7 @@
 
 #include "utils/shared.hpp"
 #include "utils/transform.hpp"
+#include "system/entity_component_system/entity_types.hpp"
 
 #include <vector>
 #include <array>
@@ -14,19 +15,24 @@ namespace engine
 
     class Entity
     {
+    private:
+
+        static entity::EntityId getEntityId()
+        {
+            static auto lastId = entity::EntityId(0u);
+            return lastId++;
+        }
+
     public:
 
-
-        using ComponentId = std::size_t;
-
-        static ComponentId getComponentId()
+        static entity::ComponentId getComponentId()
         {
-            static auto lastId = ComponentId(0u);
+            static auto lastId = entity::ComponentId(0u);
             return lastId++;
         }
 
         template<class T>
-        ComponentId getComponentTypeId() const noexcept
+        entity::ComponentId getComponentTypeId() const noexcept
         {
             static auto typeId = getComponentId();
             return typeId;
@@ -55,6 +61,10 @@ namespace engine
         bool isActive() const;
 
         void destroy();
+
+        entity::EntityId getId() const;
+
+        const entity::EntityId m_id;
 
         template<class T>
         bool hasComponent() const

@@ -2,6 +2,7 @@
 
 #include "system/system_interface.hpp"
 #include "system/light_system/light.hpp"
+#include "system/entity_component_system/entity_types.hpp"
 
 #include <glm/glm.hpp>
 
@@ -42,7 +43,7 @@ namespace engine
         ShaderSystem* m_shaderSystem;
         EntityComponentSystem* m_entitySystem;
 
-        std::vector<Light*> m_lights;
+        std::vector<entity::EntityId> m_lights;
 
     };
 

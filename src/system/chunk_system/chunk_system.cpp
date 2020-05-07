@@ -29,10 +29,10 @@ namespace engine
         {
             for (auto x = -size; x < size; x++)
             {
-                auto& entity = m_entitySystem->addEntity();
+                auto& entity = m_entitySystem->addEntity(entity::EntityTag::CHUNK);
                 auto& chunk = entity.addComponent<Chunk>(&entity, x, z);
                 chunk.generate();
-                m_chunks.push_back(&entity);
+                m_chunks.push_back(entity.getId());
             }
         }
         return true;
