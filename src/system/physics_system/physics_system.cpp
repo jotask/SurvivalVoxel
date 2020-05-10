@@ -2,8 +2,15 @@
 
 #include "system/imgui_system.hpp"
 #include "system/shader_system/shader_system.hpp"
+#include "system/entity_component_system/entity.hpp"
+
+#include "system/physics_system/rigid_body_converter.hpp"
 
 #include <imgui.h>
+#include <glm/glm.hpp>
+#include <glm/gtx/matrix_decompose.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/euler_angles.hpp>
 
 namespace engine
 {
@@ -61,10 +68,10 @@ namespace engine
 
         m_world->setGravity(c_gravity);
 
-        if(false)
+        if(true)
         {
             const auto createGround = true;
-            const auto createBall = true;
+            const auto createBall = false;
 
             if(createGround == true)
             {
@@ -139,12 +146,45 @@ namespace engine
 
     void PhysicsSystem::update()
     {
-        m_world->stepSimulation(1.f / 60.f, 10);
     }
 
     void PhysicsSystem::postUpdate()
     {
+        m_world->stepSimulation(1.f / 60.f, 10);
+        for (int i = m_world->getNumCollisionObjects() - 1; i >= 0; i--)
+        {
 
+            auto* obj = m_world->getCollisionObjectArray()[i];
+            auto* body = btRigidBody::upcast(obj);
+            auto* entity = static_cast<Entity*>(body->getUserPointer());
+            if (entity == nullptr) continue;
+
+            btTransform trans;
+            if (body != nullptr && body->getMotionState())
+            {
+                body->getMotionState()->getWorldTransform(trans);
+            }
+            else
+            {
+                trans = obj->getWorldTransform();
+            }
+
+            auto tmp = physics::converter::bulletToGlm(trans);
+
+            glm::mat4 transformation; // your transformation matrix.
+            glm::vec3 scale;
+            glm::quat rotation;
+            glm::vec3 translation;
+            glm::vec3 skew;
+            glm::vec4 perspective;
+            glm::decompose(transformation, scale, rotation, translation, skew, perspective);
+            rotation = glm::conjugate(rotation);
+
+            entity->getTransform().position = physics::converter::bulletToGlm(trans.getOrigin());
+            entity->getTransform().rotation = glm::eulerAngles(rotation) * 3.14159f / 180.f;
+
+            printf("world pos object %d = %f,%f,%f\n", i, float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
+        }
     }
 
     void PhysicsSystem::preRender()

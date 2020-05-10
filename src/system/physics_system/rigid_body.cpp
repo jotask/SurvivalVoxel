@@ -22,7 +22,7 @@ namespace engine
 
         btCollisionShape* collisionShape = nullptr;;
 
-        if (entity->hasComponent<Mesh>() == true)
+        if (entity->hasComponent<Mesh>() == false)
         {
             auto& mesh = entity->getComponent<Mesh>();
             m_triangleMesh = std::move(factory::physics::createCollisionShapeFromMeshData(getEntity()->getTransform(), mesh.getMeshData()));
@@ -53,7 +53,7 @@ namespace engine
 
         body->setRestitution(m_data.m_restitution);
 
-        body->setUserPointer(this);
+        body->setUserPointer(getEntity());
 
         auto* physicsSystem = engine::Engine::getInstance().getSystem<PhysicsSystem>();
         physicsSystem->addRigidBodyToWorld(body);
