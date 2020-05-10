@@ -6,6 +6,7 @@
 
 namespace engine
 {
+
     Entity::Entity()
         : m_id(getEntityId())
     {
