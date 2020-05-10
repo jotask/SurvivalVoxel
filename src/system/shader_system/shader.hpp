@@ -11,6 +11,10 @@ namespace engine
     class Shader
     {
     public:
+        Shader() = delete;
+        Shader(const Shader&) = delete;
+        Shader& operator= (const Shader&) = delete;
+
         Shader(const GLuint id);
         ~Shader();
 

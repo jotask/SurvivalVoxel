@@ -64,13 +64,13 @@ namespace engine
     {
         if (m_programs.find(shader) != m_programs.end())
         {
-            return m_programs.at(shader);
+            return *m_programs.at(shader).get();
         }
         printf("Shader with name %s does not exist.\n", shader.c_str());
         std::terminate();
     }
 
-    std::map<const std::string, Shader>& ShaderSystem::getShaders()
+    std::map<const std::string, AikoUPtr<Shader>>& ShaderSystem::getShaders()
     {
         return m_programs;
     }
@@ -102,7 +102,12 @@ namespace engine
             std::terminate();
         }
 
-        m_programs.insert({ shaderName, Shader(program) });
+        // m_programs.emplace(shaderName, Shader(program));
+
+        // m_programs.insert(std::make_pair(shaderName, Shader(program)));
+
+        m_programs.emplace(shaderName, std::make_unique<Shader>(program));
+
     }
 
     GLuint ShaderSystem::createShader(GLenum shader_type, const std::string & source, const std::string & shaderName)
