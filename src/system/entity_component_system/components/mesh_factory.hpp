@@ -8,6 +8,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
 
+#include <algorithm>
+
 namespace engine
 {
 
@@ -16,12 +18,14 @@ namespace engine
         namespace mesh
         {
 
-            static Mesh::MeshData generateSpehereData()
+            static Mesh::MeshData generateSpehereData(const int _resolution, const float _radius)
             {
 
-                const auto stacks = 10;
-                const auto slices = 10;
-                const auto radius = 10.f;
+                const auto res = std::max(_resolution, 20);
+
+                const auto stacks = res;
+                const auto slices = res;
+                const auto radius = _radius;
 
                 std::vector<VertexInfo> vertices;
                 std::vector<unsigned int> indices;
@@ -44,7 +48,7 @@ namespace engine
                         float z = sinf(theta) * sinf(phi);
 
                         // Push Back Vertex Data
-                        vertices.push_back({ (glm::vec3(x, y, z) * radius), glm::vec3(1.f, 0.f, 1.f) });
+                        vertices.push_back({ (glm::vec3(x, y, z) * radius), glm::vec4(1.f, 0.f, 0.f, 1.f) });
                     }
                 }
 
@@ -77,10 +81,7 @@ namespace engine
                     vertex.m_normal = glm::normalize(vertex.m_normal);
                 }
 
-                auto* shaderSystem = engine::Engine::getInstance().getSystem<ShaderSystem>();
-                auto& shader = shaderSystem->getShader("chunkShader");
-                
-                return {shader, vertices, indices};
+                return {vertices, indices};
             }
 
         }
