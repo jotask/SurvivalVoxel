@@ -7,8 +7,8 @@
 #include "system/shader_system/shader.hpp"
 #include "utils/shared.hpp"
 #include "engine.hpp"
-
 #include "system/entity_component_system/components/mesh_component.hpp"
+#include "system/physics_system/rigid_body_converter.hpp"
 #include "system/physics_system/rigid_body_data.hpp"
 #include "utils/transform.hpp"
 
@@ -25,7 +25,7 @@ namespace engine
         namespace physics
         {
 
-            static AikoUPtr<btTriangleMesh> createCollisionShapeFromMeshData(Transform transform, Mesh::MeshData& mesh)
+            static AikoUPtr<btTriangleMesh> createStaticCollisionShapeFromMeshData(Transform transform, Mesh::MeshData& mesh)
             {
 
                 auto shape = std::make_unique<btTriangleMesh>();
@@ -36,6 +36,19 @@ namespace engine
                     auto v2 = mesh.vertices[mesh.indices[i + 1]].m_position;
                     auto v3 = mesh.vertices[mesh.indices[i + 2]].m_position;
                     shape->addTriangle({ v1.x, v1.y, v1.z }, { v2.x, v2.y, v2.z }, { v3.x, v3.y, v3.z });
+                }
+
+                return std::move(shape);
+            }
+
+            static AikoUPtr<btConvexHullShape> createConvexHullCollisionShapeFromMeshData(Transform transform, Mesh::MeshData& mesh)
+            {
+
+                auto shape = std::make_unique<btConvexHullShape>();
+
+                for (auto& v : mesh.vertices)
+                {
+                    shape->addPoint(engine::physics::converter::glmToBullet(v.getVertexPosition()));
                 }
 
                 return std::move(shape);
