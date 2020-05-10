@@ -75,9 +75,14 @@ namespace engine
         
         if (getEntity()->hasComponent<Mesh>() == false)
         {
+
+            auto* shaderSystem = engine::Engine::getInstance().getSystem<ShaderSystem>();
+            auto& shader = shaderSystem->getShader("chunkShader");
+
+
             auto data = chunk::factory::generateChunkData(this);
             auto* entity = getEntity();
-            auto& mesh = getEntity()->addComponent<Mesh>(entity, data);
+            auto& mesh = getEntity()->addComponent<Mesh>(entity, shader, data);
             mesh.create();
         }
     }
