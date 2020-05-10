@@ -18,7 +18,7 @@ namespace engine
         : m_imguiSystem(nullptr)
         , m_shaderSystem(nullptr)
         , m_renderImgui(false)
-        , m_renderDebug(false)
+        , m_renderDebug(true)
         , m_world(nullptr)
         , m_bulletDebugugger(nullptr)
         , m_collisionConfiguration(nullptr)
@@ -75,12 +75,12 @@ namespace engine
 
             if(createGround == true)
             {
-                const auto groundSize = 10.;
+                const auto groundSize = 100.;
                  auto* groundShape = new btBoxShape(btVector3(btScalar(groundSize), btScalar(1.), btScalar(groundSize)));
 
                 auto groundTransform = btTransform();
                 groundTransform.setIdentity();
-                groundTransform.setOrigin(btVector3(0, 0, 0));
+                groundTransform.setOrigin(btVector3(0, -5, 0));
 
                 const auto mass = btScalar(0.);
                 const auto isDynamic = (mass != 0.f);
@@ -183,7 +183,6 @@ namespace engine
             entity->getTransform().position = physics::converter::bulletToGlm(trans.getOrigin());
             entity->getTransform().rotation = glm::eulerAngles(rotation) * 3.14159f / 180.f;
 
-            printf("world pos object %d = %f,%f,%f\n", i, float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
         }
     }
 
