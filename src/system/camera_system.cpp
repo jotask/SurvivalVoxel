@@ -107,10 +107,10 @@ namespace engine
         for (auto& shaderPair : m_shaderSystem->getShaders())
         {
             auto& shader = shaderPair.second;
-            shader.use();
-            shader.setVec3("viewPos", m_position);
-            shader.setMat4("projection", getProjectionMatrix());
-            shader.setMat4("view", getViewMatrix());
+            shader->use();
+            shader->setVec3("viewPos", m_position);
+            shader->setMat4("projection", getProjectionMatrix());
+            shader->setMat4("view", getViewMatrix());
         }
     }
 

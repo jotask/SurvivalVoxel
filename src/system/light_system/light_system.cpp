@@ -77,15 +77,15 @@ namespace engine
         for (auto& shaderPair : m_shaderSystem->getShaders())
         {
             auto& shader = shaderPair.second;
-            shader.use();
+            shader->use();
             for (auto& lightId : m_lights)
             {
                 auto& light = m_entitySystem->getEntityByIdInTag(lightId, entity::EntityTag::LIGHT).getComponent<Light>();
-                shader.setVec3("light.position", light.position);
-                shader.setVec3("light.color", light.color);
-                shader.setVec3("light.ambient", light.ambient);
-                shader.setVec3("light.diffuse", light.diffuse);
-                shader.setVec3("light.specular", light.specular);
+                shader->setVec3("light.position", light.position);
+                shader->setVec3("light.color", light.color);
+                shader->setVec3("light.ambient", light.ambient);
+                shader->setVec3("light.diffuse", light.diffuse);
+                shader->setVec3("light.specular", light.specular);
             }
         }
     }
