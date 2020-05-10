@@ -18,7 +18,8 @@ namespace engine
     private:
 
         physics::RigidBodyData m_data;
-        AikoUPtr<btTriangleMesh> m_triangleMesh;
+        AikoUPtr<btTriangleMesh> m_triangleMeshStatic;
+        AikoUPtr<btCollisionShape> m_collisionShape;
 
     };
 

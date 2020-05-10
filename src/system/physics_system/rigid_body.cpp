@@ -14,41 +14,43 @@ namespace engine
     RigidBody::RigidBody(Entity* entity, physics::RigidBodyData data)
         : Component(entity)
         , m_data(data)
-        , m_triangleMesh(nullptr)
+        , m_triangleMeshStatic(nullptr)
+        , m_collisionShape(nullptr)
     {
 
-        // Create a dynamic rigidbody
+        const auto isDynamic = (m_data.mass != 0.f);
 
-
-        btCollisionShape* collisionShape = nullptr;;
-
-        if (entity->hasComponent<Mesh>() == false)
+        if (entity->hasComponent<Mesh>() == true)
         {
             auto& mesh = entity->getComponent<Mesh>();
-            m_triangleMesh = std::move(factory::physics::createCollisionShapeFromMeshData(getEntity()->getTransform(), mesh.getMeshData()));
-            collisionShape = new btBvhTriangleMeshShape(m_triangleMesh.get(), true);
+            if (isDynamic == false)
+            {
+                m_triangleMeshStatic = std::move(factory::physics::createStaticCollisionShapeFromMeshData(getEntity()->getTransform(), mesh.getMeshData()));
+                m_collisionShape = std::make_unique<btBvhTriangleMeshShape>(m_triangleMeshStatic.get(), true);
+            }
+            else
+            {
+                m_collisionShape = std::move(factory::physics::createConvexHullCollisionShapeFromMeshData(getEntity()->getTransform(), mesh.getMeshData()));
+            }
         }
         else
         {
-            collisionShape = new btSphereShape(btScalar(1.));
+            m_collisionShape = std::make_unique<btSphereShape>(btScalar(1.));
         }
 
-        // Create Dynamic Objects
         auto startTransform = btTransform();
         startTransform.setIdentity();
-        auto pos = getEntity()->getTransform().position;
-        startTransform.setOrigin(btVector3(pos.x, pos.y, pos.z));
-
-        const auto isDynamic = (m_data.mass != 0.f);
+        startTransform.setOrigin(physics::converter::glmToBullet(getEntity()->getTransform().position));
+        // TODO implement rotation
 
         auto localInertia = btVector3(0, 0, 0);
         if (isDynamic == true)
         {
-            collisionShape->calculateLocalInertia(data.mass, localInertia);
+            m_collisionShape->calculateLocalInertia(data.mass, localInertia);
         }
 
         auto* myMotionState = new btDefaultMotionState(startTransform);
-        btRigidBody::btRigidBodyConstructionInfo rbInfo(m_data.mass, myMotionState, collisionShape, localInertia);
+        btRigidBody::btRigidBodyConstructionInfo rbInfo(m_data.mass, myMotionState, m_collisionShape.get(), localInertia);
         auto* body = new btRigidBody(rbInfo);
 
         body->setRestitution(m_data.m_restitution);
