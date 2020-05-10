@@ -17,26 +17,23 @@ namespace engine
 
     class Entity;
 
-
     class Mesh : public Component
     {
     public:
 
         struct MeshData
         {
-            MeshData(Shader& _shader, const std::vector<VertexInfo> _vertices, std::vector<unsigned int> _indices)
-                : shader (_shader)
-                , vertices(_vertices)
+            MeshData(const std::vector<VertexInfo> _vertices, std::vector<unsigned int> _indices)
+                : vertices(_vertices)
                 , indices(_indices)
             {
 
             }
-            Shader& shader;
             const std::vector<VertexInfo> vertices;
             std::vector<unsigned int> indices;
         };
 
-        Mesh(Entity* entity, MeshData& meshData);
+        Mesh(Entity* entity, Shader& shader, MeshData& meshData);
         ~Mesh();
 
         void create();
@@ -52,14 +49,16 @@ namespace engine
         void render();
         void destroy();
 
+        MeshData& getMeshData();
+
     private:
 
+        MeshData m_meshData;
         Shader& m_shader;
         GLuint m_vao;
         GLuint m_vbo;
         GLuint m_ibo;
         std::map<std::string, GLuint> m_textures;
-        std::vector<VertexInfo> m_vertices;
-        std::vector<unsigned int> m_indices;
+
     };
 }
