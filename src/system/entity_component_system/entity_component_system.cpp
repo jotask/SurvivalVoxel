@@ -40,26 +40,11 @@ namespace engine
             auto& collection = pair.second;
             std::for_each(collection.begin(), collection.end(), [](auto& entity) { entity->update(); });
         });
-
-        static bool running = true;
-        if (running == true)
-        {
-            static int tmp = 0;
-            tmp++;
-            if ( tmp > 500)
-            {
-                m_entities.at(entity::EntityTag::LIGHT)[0]->destroy();
-                running = false;
-            }
-        }
-
-        refresh();
-
     }
 
     void EntityComponentSystem::postUpdate()
     {
-
+        refresh();
     }
 
     void EntityComponentSystem::preRender()
