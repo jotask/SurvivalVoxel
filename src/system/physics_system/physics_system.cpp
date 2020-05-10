@@ -32,10 +32,10 @@ namespace engine
             {
                 delete body->getMotionState();
             }
+            delete body->getCollisionShape();
             m_world->removeCollisionObject(obj);
             delete obj;
         }
-        m_collisionShapes.clear();
     }
 
     bool PhysicsSystem::connect(SystemConnector & connector)
@@ -61,7 +61,7 @@ namespace engine
 
         m_world->setGravity(c_gravity);
 
-        if(true)
+        if(false)
         {
             const auto createGround = true;
             const auto createBall = true;
@@ -69,7 +69,7 @@ namespace engine
             if(createGround == true)
             {
                 const auto groundSize = 10.;
-                 auto groundShape = std::make_unique<btBoxShape>(btVector3(btScalar(groundSize), btScalar(1.), btScalar(groundSize)));
+                 auto* groundShape = new btBoxShape(btVector3(btScalar(groundSize), btScalar(1.), btScalar(groundSize)));
 
                 auto groundTransform = btTransform();
                 groundTransform.setIdentity();
@@ -86,12 +86,10 @@ namespace engine
 
                 // Using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
                 auto* myMotionState = new btDefaultMotionState(groundTransform);
-                auto rbInfo = btRigidBody::btRigidBodyConstructionInfo (mass, myMotionState, groundShape.get(), localInertia);
+                auto rbInfo = btRigidBody::btRigidBodyConstructionInfo (mass, myMotionState, groundShape, localInertia);
                 auto* body = new btRigidBody(rbInfo);
 
                 body->setRestitution(1.f);
-
-                m_collisionShapes.push_back(std::move(groundShape));
 
                 // Add the body to the dynamics world
                 m_world->addRigidBody(body);
@@ -101,7 +99,7 @@ namespace engine
             if (createBall == true)
             {
                 //create a dynamic rigidbody
-                auto colShape = std::make_unique<btSphereShape>(btScalar(1.));
+                auto* colShape = new btSphereShape(btScalar(1.));
 
                 // Create Dynamic Objects
                 auto startTransform = btTransform();
@@ -118,12 +116,10 @@ namespace engine
                 }
 
                 auto* myMotionState = new btDefaultMotionState(startTransform);
-                btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape.get(), localInertia);
+                btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
                 auto* body = new btRigidBody(rbInfo);
 
                 body->setRestitution(1.f);
-
-                m_collisionShapes.push_back(std::move(colShape));
 
                 m_world->addRigidBody(body);
             }
@@ -185,6 +181,11 @@ namespace engine
 
     void PhysicsSystem::endFrame()
     {
+    }
+
+    void PhysicsSystem::addRigidBodyToWorld(btRigidBody * body)
+    {
+        m_world->addRigidBody(body);
     }
 
 }

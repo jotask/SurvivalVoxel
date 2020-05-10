@@ -65,6 +65,7 @@ namespace engine
 
     void CDebugDraw::render()
     {
+
         m_shader.use();
         glBindVertexArray(m_vao);
         glBindBuffer(GL_ARRAY_BUFFER, m_vbo);

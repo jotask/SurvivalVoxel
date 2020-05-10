@@ -35,9 +35,11 @@ namespace engine
         virtual void beginFrame() override;
         virtual void endFrame() override;
 
+        void addRigidBodyToWorld(btRigidBody* body);
+
     private:
 
-        const btVector3 c_gravity = { 0, -9.8f, 0 };
+        const btVector3 c_gravity = { 0, -10, 0 };
 
         ImguiSystem* m_imguiSystem;
         ShaderSystem* m_shaderSystem;
@@ -50,8 +52,6 @@ namespace engine
         AikoUPtr<btCollisionDispatcher> m_dispatcher;
         AikoUPtr<btBroadphaseInterface> m_overlappingPairCache;
         AikoUPtr<btSequentialImpulseConstraintSolver> m_solver;
-
-        std::vector<AikoUPtr<btCollisionShape>> m_collisionShapes;
 
     };
 
