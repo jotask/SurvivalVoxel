@@ -164,10 +164,7 @@ namespace engine
                     vertex.m_normal = glm::normalize(vertex.m_normal);
                 }
 
-                auto* shaderSystem = engine::Engine::getInstance().getSystem<ShaderSystem>();
-                auto& shader = shaderSystem->getShader("chunkShader");
-
-                return {shader, vertices, indices};
+                return {vertices, indices};
             }
         }
     }
