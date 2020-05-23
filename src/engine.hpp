@@ -1,8 +1,8 @@
 #pragma once
 
 #include "utils/shared.hpp"
-#include "system/event_system/event.hpp"
-#include "system/system_interface.hpp"
+#include "systems/event_system/event.hpp"
+#include "systems/system_interface.hpp"
 
 #include <glm/glm.hpp>
 
