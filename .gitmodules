@@ -19,3 +19,6 @@
 [submodule "dependencies/assimp"]
 	path = dependencies/assimp
 	url = https://github.com/jonestristand/assimp.git
+[submodule "dependencies/SOIL2"]
+	path = dependencies/SOIL2
+	url = https://github.com/SpartanJ/SOIL2.git
