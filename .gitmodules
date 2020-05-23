@@ -18,4 +18,4 @@
 	url = https://github.com/bulletphysics/bullet3
 [submodule "dependencies/assimp"]
 	path = dependencies/assimp
-	url = https://github.com/assimp/assimp.git
+url=https://github.com/jonestristand/assimp.git
