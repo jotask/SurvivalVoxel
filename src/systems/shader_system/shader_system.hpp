@@ -8,7 +8,7 @@
 #include <string>
 #include <map>
 
-namespace engine
+namespace aiko
 {
 
     class ShaderSystem : public System

@@ -8,7 +8,7 @@
 
 #include <btBulletDynamicsCommon.h>
 
-namespace engine
+namespace aiko
 {
 
     RigidBody::RigidBody(Entity* entity, physics::RigidBodyData data)
@@ -57,7 +57,7 @@ namespace engine
 
         body->setUserPointer(getEntity());
 
-        auto* physicsSystem = engine::Engine::getInstance().getSystem<PhysicsSystem>();
+        auto* physicsSystem = aiko::Engine::getInstance().getSystem<PhysicsSystem>();
         physicsSystem->addRigidBodyToWorld(body);
 
     }

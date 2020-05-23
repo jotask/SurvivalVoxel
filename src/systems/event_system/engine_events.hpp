@@ -2,7 +2,7 @@
 
 #include "systems/event_system/event.hpp"
 
-namespace engine
+namespace aiko
 {
 
     class WindowCloseEvent : public Event

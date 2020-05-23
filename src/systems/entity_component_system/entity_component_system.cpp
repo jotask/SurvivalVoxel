@@ -9,7 +9,7 @@
 
 #include <algorithm>
 
-namespace engine
+namespace aiko
 {
     EntityComponentSystem::EntityComponentSystem()
         : m_renderImgui(false)

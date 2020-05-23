@@ -6,7 +6,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-namespace engine
+namespace aiko
 {
     DisplaySystem::DisplaySystem()
         : m_window(nullptr)

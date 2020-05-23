@@ -2,7 +2,7 @@
 
 #include "systems/system_connector.hpp"
 
-namespace engine
+namespace aiko
 {
     class System
     {

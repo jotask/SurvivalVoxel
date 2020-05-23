@@ -4,7 +4,7 @@
 
 #include <btBulletDynamicsCommon.h>
 
-namespace engine
+namespace aiko
 {
     namespace physics
     {

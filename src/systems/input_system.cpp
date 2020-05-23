@@ -4,7 +4,7 @@
 
 #include <GLFW/glfw3.h>
 
-namespace engine
+namespace aiko
 {
     InputSystem::InputSystem()
         : m_displaySystem(nullptr)

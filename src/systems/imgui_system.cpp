@@ -6,7 +6,7 @@
 
 #include "systems/display_system.hpp"
 
-namespace engine
+namespace aiko
 {
     ImguiSystem::ImguiSystem()
         : m_showDemoWindow(false)

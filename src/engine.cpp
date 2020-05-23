@@ -18,7 +18,7 @@
 
 #include <algorithm>
 
-namespace engine
+namespace aiko
 {
     Engine::Engine()
         : m_renderSystem(nullptr)

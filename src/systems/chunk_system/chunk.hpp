@@ -7,7 +7,7 @@
 
 #include <glm/glm.hpp>
 
-namespace engine
+namespace aiko
 {
 
     class ChunkSystem;

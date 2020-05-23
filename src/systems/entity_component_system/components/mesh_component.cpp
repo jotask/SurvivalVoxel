@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-namespace engine
+namespace aiko
 {
 
     Mesh::Mesh(Entity* entity, Shader& shader, MeshData& meshData)

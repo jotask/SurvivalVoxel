@@ -18,7 +18,7 @@
 #include <random>
 
 
-namespace engine
+namespace aiko
 {
     namespace factory
     {
@@ -48,7 +48,7 @@ namespace engine
 
                 for (auto& v : mesh.vertices)
                 {
-                    shape->addPoint(engine::physics::converter::glmToBullet(v.getVertexPosition()));
+                    shape->addPoint(aiko::physics::converter::glmToBullet(v.getVertexPosition()));
                 }
 
                 return std::move(shape);

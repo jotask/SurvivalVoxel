@@ -6,7 +6,7 @@
 
 struct GLFWwindow;
 
-namespace engine
+namespace aiko
 {
 
     class DisplaySystem : public System

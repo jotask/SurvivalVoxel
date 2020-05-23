@@ -1,6 +1,6 @@
 #include "physics_debug_renderer.hpp"
 
-namespace engine
+namespace aiko
 {
     CDebugDraw::CDebugDraw(Shader& shader)
         : m_shader(shader)

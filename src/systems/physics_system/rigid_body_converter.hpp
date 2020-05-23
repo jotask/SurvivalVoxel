@@ -5,7 +5,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <btBulletDynamicsCommon.h>
 
-namespace engine
+namespace aiko
 {
     namespace physics
     {

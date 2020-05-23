@@ -9,7 +9,7 @@
 #include <array>
 #include <vector>
 
-namespace engine
+namespace aiko
 {
 
     class CDebugDraw : public btIDebugDraw

@@ -3,7 +3,7 @@
 #include "systems/system_interface.hpp"
 
 
-namespace engine
+namespace aiko
 {
 
     class DisplaySystem;

@@ -4,7 +4,7 @@
 
 #include "systems/physics_system/rigid_body_data.hpp"
 
-namespace engine
+namespace aiko
 {
 
     class Entity;

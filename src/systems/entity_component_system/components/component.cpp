@@ -1,6 +1,6 @@
 #include "component.hpp"
 
-namespace engine
+namespace aiko
 {
 
     Component::Component(Entity* entity)

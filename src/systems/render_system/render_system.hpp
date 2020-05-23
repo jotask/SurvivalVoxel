@@ -4,7 +4,7 @@
 
 #include <glm/glm.hpp>
 
-namespace engine
+namespace aiko
 {
     class DisplaySystem;
     class ImguiSystem;

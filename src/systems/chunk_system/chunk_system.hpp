@@ -7,7 +7,7 @@
 
 #include <vector>
 
-namespace engine
+namespace aiko
 {
 
     class EntityComponentSystem;

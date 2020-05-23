@@ -2,7 +2,7 @@
 
 #include "systems/chunk_system/voxel_info.hpp"
 
-namespace engine
+namespace aiko
 {
 
     class Voxel

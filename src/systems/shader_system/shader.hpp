@@ -5,7 +5,7 @@
 
 #include <string>
 
-namespace engine
+namespace aiko
 {
 
     class Shader

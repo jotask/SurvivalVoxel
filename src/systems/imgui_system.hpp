@@ -5,7 +5,7 @@
 #include <map>
 #include <string>
 
-namespace engine
+namespace aiko
 {
 
     class DisplaySystem;

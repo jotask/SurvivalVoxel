@@ -8,7 +8,7 @@
 #include <array>
 #include <bitset>
 
-namespace engine
+namespace aiko
 {
 
     class Component;

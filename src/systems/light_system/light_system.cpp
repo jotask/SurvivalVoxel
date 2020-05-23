@@ -7,7 +7,7 @@
 
 #include <imgui.h>
 
-namespace engine
+namespace aiko
 {
     LightSystem::LightSystem()
         : m_renderImgui(false)

@@ -12,7 +12,7 @@
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/euler_angles.hpp>
 
-namespace engine
+namespace aiko
 {
     PhysicsSystem::PhysicsSystem()
         : m_imguiSystem(nullptr)

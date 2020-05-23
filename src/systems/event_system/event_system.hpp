@@ -8,7 +8,7 @@
 #include <map>
 #include <iostream>
 
-namespace engine
+namespace aiko
 {
 
     class EventSystem

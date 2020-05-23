@@ -1,6 +1,6 @@
 #include "shader.hpp"
 
-namespace engine
+namespace aiko
 {
 
     Shader::Shader(const GLuint id)

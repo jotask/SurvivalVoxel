@@ -6,7 +6,7 @@
 #include <imgui.h>
 #include <GLFW/glfw3.h>
 
-namespace engine
+namespace aiko
 {
     DebugSystem::DebugSystem()
         : m_renderImgui(false)

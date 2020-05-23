@@ -2,7 +2,7 @@
 
 #include <memory>
 
-namespace engine
+namespace aiko
 {
 
     template <class T>

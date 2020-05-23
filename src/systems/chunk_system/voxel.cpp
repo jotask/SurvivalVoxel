@@ -1,6 +1,6 @@
 #include "voxel.hpp"
 
-namespace engine
+namespace aiko
 {
 
     Voxel::Voxel(const VoxelInfo::VoxelType type, const VoxelInfo::VoxelId id)

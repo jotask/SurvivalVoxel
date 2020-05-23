@@ -7,7 +7,7 @@
 
 #include "PerlinNoise.hpp"
 
-namespace engine
+namespace aiko
 {
 
     const glm::ivec3 Chunk::s_chunkSize = glm::ivec3( 16, 16, 16 );
@@ -76,7 +76,7 @@ namespace engine
         if (getEntity()->hasComponent<Mesh>() == false)
         {
 
-            auto* shaderSystem = engine::Engine::getInstance().getSystem<ShaderSystem>();
+            auto* shaderSystem = aiko::Engine::getInstance().getSystem<ShaderSystem>();
             auto& shader = shaderSystem->getShader("chunkShader");
 
 
