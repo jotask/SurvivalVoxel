@@ -5,8 +5,8 @@ project "assimp"
   systemversion "latest"
   staticruntime "On"
 
-  targetdir "build/bin/%{cfg.buildcfg}"
-  objdir "build/obj/%{cfg.buildcfg}"
+  targetdir "../build/bin/%{cfg.buildcfg}"
+  objdir "../build/obj/%{cfg.buildcfg}"
 
   warnings "Off"
 
