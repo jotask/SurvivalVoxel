@@ -66,43 +66,33 @@ namespace aiko
 
     Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
     {
-        std::vector<Vertex> vertices;
+        std::vector<VertexInfo> vertices;
         std::vector<GLuint> indices;
         std::vector<aiko::Texture> textures;
 
         for (GLuint i = 0; i < mesh->mNumVertices; i++)
         {
 
-            Vertex vertex;
-
+            
             glm::vec3 position;
             position.x = mesh->mVertices[i].x;
             position.y = mesh->mVertices[i].y;
             position.z = mesh->mVertices[i].z;
-            vertex.Position = position;
 
-            glm::vec3 normals;
-            normals.x = mesh->mNormals[i].x;
-            normals.y = mesh->mNormals[i].y;
-            normals.z = mesh->mNormals[i].z;
-            vertex.Normal = normals;
+            glm::vec3 normal;
+            normal.x = mesh->mNormals[i].x;
+            normal.y = mesh->mNormals[i].y;
+            normal.z = mesh->mNormals[i].z;
 
-            glm::vec2 uvs;
-
+            glm::vec2 uv;
             if (mesh->mTextureCoords[0] != nullptr)
             {
-                uvs.x = mesh->mTextureCoords[0][i].x;
-                uvs.y = mesh->mTextureCoords[0][i].y;
-            }
-            else
-            {
-                uvs.x = 0.f;
-                uvs.y = 0.f;
+                uv.x = mesh->mTextureCoords[0][i].x;
+                uv.y = mesh->mTextureCoords[0][i].y;
             }
 
-            vertex.TexCoords = uvs;
-
-            vertices.push_back(vertex);
+            auto color = glm::vec3();
+            vertices.push_back(VertexInfo(position, uv, normal, color));
 
         }
 

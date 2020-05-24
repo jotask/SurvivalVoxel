@@ -18,6 +18,7 @@ namespace aiko
 
     bool ShaderSystem::init()
     {
+        createProgram("staticShader", "static_vertex_shader.glsl", "static_fragment_shader.glsl");
         createProgram("colorShader", "vertex_shader.glsl", "fragment_shader.glsl");
         createProgram("cubeShader", "cube_vertex_shader.glsl", "cube_fragment_shader.glsl");
         createProgram("chunkShader", "chunk_vertex_shader.glsl", "chunk_fragment_shader.glsl");
@@ -60,7 +61,7 @@ namespace aiko
 
     }
 
-    Shader& ShaderSystem::getShader(const std::string & shader)
+    Shader& ShaderSystem::getShader(const std::string shader)
     {
         if (m_programs.find(shader) != m_programs.end())
         {

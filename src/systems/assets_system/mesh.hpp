@@ -11,31 +11,24 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "systems/assets_system/shader_attributes.hpp"
+#include "systems/chunk_system/vertex_info.hpp"
+
 namespace aiko
 {
-
-    struct Vertex
-    {
-        // Position
-        glm::vec3 Position;
-        // Normal
-        glm::vec3 Normal;
-        // TexCoords
-        glm::vec2 TexCoords;
-    };
 
     class Mesh
     {
     public:
 
         /*  Mesh Data  */
-        std::vector<Vertex> vertices;
+        std::vector<VertexInfo> vertices;
         std::vector<GLuint> indices;
         std::vector<Texture> textures;
 
         /*  Functions  */
         // Constructor
-        Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<Texture> textures)
+        Mesh(std::vector<VertexInfo> vertices, std::vector<GLuint> indices, std::vector<Texture> textures)
         {
             this->vertices = vertices;
             this->indices = indices;
@@ -111,21 +104,24 @@ namespace aiko
             // A great thing about structs is that their memory layout is sequential for all its items.
             // The effect is that we can simply pass a pointer to the struct and it translates perfectly to a glm::vec3/2 array which
             // again translates to 3/2 floats which translates to a byte array.
-            glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(Vertex), &this->vertices[0], GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(VertexInfo), &this->vertices[0], GL_STATIC_DRAW);
 
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->indices.size() * sizeof(GLuint), &this->indices[0], GL_STATIC_DRAW);
 
             // Set the vertex attribute pointers
             // Vertex Positions
-            glEnableVertexAttribArray(0);
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)0);
+            glEnableVertexAttribArray(GLuint(Attributes::Position));
+            glVertexAttribPointer(GLuint(Attributes::Position), 3, GL_FLOAT, GL_FALSE, sizeof(VertexInfo), (GLvoid *)0);
+            // Vertex Color
+            glEnableVertexAttribArray(GLuint(Attributes::Color));
+            glVertexAttribPointer(GLuint(Attributes::Color), 3, GL_FLOAT, GL_FALSE, sizeof(VertexInfo), (GLvoid *)offsetof(VertexInfo, m_color));
             // Vertex Normals
-            glEnableVertexAttribArray(1);
-            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)offsetof(Vertex, Normal));
+            glEnableVertexAttribArray(GLuint(Attributes::Normal));
+            glVertexAttribPointer(GLuint(Attributes::Normal), 3, GL_FLOAT, GL_FALSE, sizeof(VertexInfo), (GLvoid *)offsetof(VertexInfo, m_normal));
             // Vertex Texture Coords
-            glEnableVertexAttribArray(2);
-            glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)offsetof(Vertex, TexCoords));
+            glEnableVertexAttribArray(GLuint(Attributes::UVs));
+            glVertexAttribPointer(GLuint(Attributes::UVs), 2, GL_FLOAT, GL_FALSE, sizeof(VertexInfo), (GLvoid *)offsetof(VertexInfo, m_texture));
 
             glBindVertexArray(0);
         }

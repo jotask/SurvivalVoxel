@@ -51,7 +51,7 @@ namespace aiko
 
     void AssetsSystem::loadModel(const std::string path)
     {
-        auto& shader = m_shaderSystem->getShader("chunkShader");
+        auto& shader = m_shaderSystem->getShader();
 
         auto& entity = m_entityComponentSystem->addEntity();
         auto& model = entity.addComponent<Model>(&entity, shader, path);

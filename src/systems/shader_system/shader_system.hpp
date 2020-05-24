@@ -29,7 +29,7 @@ namespace aiko
         virtual void render() override;
         virtual void postRender() override;
 
-        Shader& getShader(const std::string&);
+        Shader& getShader(const std::string shader = "staticShader");
 
         std::map<const std::string, AikoUPtr<Shader>>& getShaders();
 
