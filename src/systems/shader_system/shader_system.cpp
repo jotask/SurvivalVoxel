@@ -80,14 +80,14 @@ namespace aiko
         const auto vertexShaderCode = utils::readFile(vertexShaderFilename);
         const auto fragmentShaderCode = utils::readFile(fragmentShaderFilename);
 
-        const auto vertexShader = createShader(GL_VERTEX_SHADER, vertexShaderCode, "vertex shader");
-        const auto fragmentShader = createShader(GL_FRAGMENT_SHADER, fragmentShaderCode, "fragment shader");
+        const auto vertexShaderId = createShader(GL_VERTEX_SHADER, vertexShaderCode, "vertex shader");
+        const auto fragmentShaderId = createShader(GL_FRAGMENT_SHADER, fragmentShaderCode, "fragment shader");
 
         auto linkResult = GL_FALSE;
 
         auto program = glCreateProgram();
-        glAttachShader(program, vertexShader);
-        glAttachShader(program, fragmentShader);
+        glAttachShader(program, vertexShaderId);
+        glAttachShader(program, fragmentShaderId);
 
         glLinkProgram(program);
         glGetProgramiv(program, GL_LINK_STATUS, &linkResult);
@@ -102,11 +102,7 @@ namespace aiko
             std::terminate();
         }
 
-        // m_programs.emplace(shaderName, Shader(program));
-
-        // m_programs.insert(std::make_pair(shaderName, Shader(program)));
-
-        m_programs.emplace(shaderName, std::make_unique<Shader>(program));
+        m_programs.emplace(shaderName, std::make_unique<Shader>(program, vertexShaderId, fragmentShaderId));
 
     }
 

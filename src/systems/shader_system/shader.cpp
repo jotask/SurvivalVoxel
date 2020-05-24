@@ -3,14 +3,20 @@
 namespace aiko
 {
 
-    Shader::Shader(const GLuint id)
+    Shader::Shader(const GLuint id, const GLuint vertexShaderId, const GLuint fragmentShaderId)
         : m_programId(id)
+        , m_vertexShaderId(vertexShaderId)
+        , m_fragmentShaderId(fragmentShaderId)
     {
 
     }
 
     Shader::~Shader()
     {
+        glDetachShader(m_programId, m_vertexShaderId);
+        glDetachShader(m_programId, m_fragmentShaderId);
+        glDeleteShader(m_vertexShaderId);
+        glDeleteShader(m_fragmentShaderId);
         glDeleteProgram(m_programId);
     }
 
@@ -82,6 +88,11 @@ namespace aiko
     void Shader::use()
     {
         glUseProgram(m_programId);
+    }
+
+    void Shader::unuse()
+    {
+        glUseProgram(0);
     }
 
 }
