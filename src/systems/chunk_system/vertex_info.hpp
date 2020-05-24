@@ -17,7 +17,7 @@ namespace aiko
 
         }
         
-        VertexInfo(const glm::vec3& vertexPosition, const glm::vec2& vertexTexture)
+        VertexInfo(const glm::vec3& vertexPosition, const glm::vec2& vertexTexture, const glm::vec3 normal = glm::vec3(0.f))
             : m_position(vertexPosition)
             , m_color(0)
             , m_texture(vertexTexture)
