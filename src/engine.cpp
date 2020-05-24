@@ -6,6 +6,7 @@
 #include "systems/imgui_system.hpp"
 #include "systems/input_system.hpp"
 #include "systems/camera_system.hpp"
+#include "systems/assets_system/assets_system.hpp"
 #include "systems/shader_system/shader_system.hpp"
 #include "systems/light_system/light_system.hpp"
 #include "systems/physics_system/physics_system.hpp"
@@ -49,9 +50,10 @@ namespace aiko
         m_systems.push_back(std::make_unique<LightSystem>());
         m_systems.push_back(std::make_unique<PhysicsSystem>());
         m_systems.push_back(std::make_unique<EntityComponentSystem>());
+        m_systems.push_back(std::make_unique<AssetsSystem>());
 
         // Game systems
-        m_systems.push_back(std::make_unique<ChunkSystem>());
+        // m_systems.push_back(std::make_unique<ChunkSystem>());
 
         // Connect all system before we initialize them
         auto systemConnector = SystemConnector(m_systems);

@@ -13,16 +13,24 @@
 namespace aiko
 {
 
-    Model::Model(std::string path)
+    Model::Model(Entity* entity, Shader& shader, std::string path)
+        : Component(entity)
+        , m_shader(shader)
+        , m_path(path)
     {
 
     }
 
-    void Model::render(Shader& shader)
+    void Model::load()
+    {
+        loadModel(m_path);
+    }
+
+    void Model::render()
     {
         for (GLuint i = 0; i < m_meshes.size(); i++)
         {
-            m_meshes[i].render(shader);
+            m_meshes[i].render(m_shader);
         }
     }
 

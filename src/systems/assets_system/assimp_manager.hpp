@@ -1,5 +1,10 @@
 #pragma once
 
+#include "systems/assets_system/model.hpp"
+
+#include <vector>
+
+
 namespace aiko
 {
 
@@ -11,6 +16,7 @@ namespace aiko
         ~AssimpManager();
 
     private:
+
     };
 
 }
