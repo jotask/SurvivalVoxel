@@ -111,6 +111,23 @@ namespace aiko
             aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
             {
+                // loadMaterialTextures(material, aiTextureType_NONE, "texture_none");
+                // loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_none");
+                // loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_none");
+                // loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_none");
+                // loadMaterialTextures(material, aiTextureType_EMISSIVE, "texture_none");
+                // loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_none");
+                // loadMaterialTextures(material, aiTextureType_NORMALS, "texture_none");
+                // loadMaterialTextures(material, aiTextureType_SHININESS, "texture_none");
+                // loadMaterialTextures(material, aiTextureType_OPACITY, "texture_none");
+                // loadMaterialTextures(material, aiTextureType_DISPLACEMENT, "texture_none");
+                // loadMaterialTextures(material, aiTextureType_LIGHTMAP, "texture_none");
+                // loadMaterialTextures(material, aiTextureType_REFLECTION, "texture_none");
+                // loadMaterialTextures(material, aiTextureType_UNKNOWN, "texture_none");
+                // textures.insert(textures.end(), texts.begin(), texts.end());
+            }
+
+            {
                 std::vector<aiko::Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
                 textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
             }
@@ -128,7 +145,8 @@ namespace aiko
     std::vector<aiko::Texture> Model::loadMaterialTextures(aiMaterial* material, aiTextureType type, std::string typeName)
     {
         std::vector<aiko::Texture> textures;
-        for (GLuint i = 0 ; i < material->GetTextureCount(type) ; i ++)
+        const auto tmp = material->GetTextureCount(type);
+        for (GLuint i = 0 ; i < tmp ; i ++)
         {
             aiString str;
             material->GetTexture(type, i, &str);

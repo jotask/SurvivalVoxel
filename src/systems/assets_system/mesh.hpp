@@ -7,6 +7,8 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <stdexcept>
+#include <iostream>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -64,7 +66,15 @@ namespace aiko
 
                 number = ss.str();
                 // Now set the sampler to the correct texture unit
-                glUniform1i(glGetUniformLocation(shader.getProgramId(), (name + number).c_str()), i);
+                const auto uniformLocation = glGetUniformLocation(shader.getProgramId(), (name + '_' + number).c_str());
+
+                if (uniformLocation == -1)
+                {
+                    std::cout << "Uniform location not found for " << (name + '_' + number).c_str() << std::endl;
+                    throw std::runtime_error("Uniform location not found for " + (name + '_' + number));
+                }
+
+                glUniform1i(uniformLocation, i);
                 // And finally bind the texture
                 glBindTexture(GL_TEXTURE_2D, this->textures[i].getId());
             }

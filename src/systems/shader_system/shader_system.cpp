@@ -103,7 +103,7 @@ namespace aiko
             std::terminate();
         }
 
-        m_programs.emplace(shaderName, std::make_unique<Shader>(program, vertexShaderId, fragmentShaderId));
+        m_programs.emplace(shaderName, std::make_unique<Shader>(shaderName, program, vertexShaderId, fragmentShaderId));
 
     }
 

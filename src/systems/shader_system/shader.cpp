@@ -3,8 +3,9 @@
 namespace aiko
 {
 
-    Shader::Shader(const GLuint id, const GLuint vertexShaderId, const GLuint fragmentShaderId)
-        : m_programId(id)
+    Shader::Shader(const std::string name, const GLuint id, const GLuint vertexShaderId, const GLuint fragmentShaderId)
+        : m_shaderName(name)
+        , m_programId(id)
         , m_vertexShaderId(vertexShaderId)
         , m_fragmentShaderId(fragmentShaderId)
     {

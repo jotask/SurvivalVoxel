@@ -15,7 +15,7 @@ namespace aiko
         Shader(const Shader&) = delete;
         Shader& operator= (const Shader&) = delete;
 
-        Shader(const GLuint id, const GLuint vertexShaderId, const GLuint fragmentShaderId);
+        Shader(const std::string name, const GLuint id, const GLuint vertexShaderId, const GLuint fragmentShaderId);
         ~Shader();
 
         GLuint getProgramId() const;
@@ -37,6 +37,7 @@ namespace aiko
         void unuse();
 
     private:
+        const std::string m_shaderName;
         const GLuint m_programId;
         const GLuint m_vertexShaderId;
         const GLuint m_fragmentShaderId;

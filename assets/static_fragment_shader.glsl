@@ -16,6 +16,7 @@ in vec3 toLightVector;
 out vec4 out_color;
 
 uniform sampler2D modelTexture;
+uniform sampler2D texture_diffuse;
 uniform Light light;
 
 void main()
