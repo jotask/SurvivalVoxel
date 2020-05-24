@@ -42,6 +42,13 @@ project "Bullet3"
         "bullet3/src"
     }
 
+    disablewarnings {
+        "4305",
+        "4244",
+        "4267",
+        "4056"
+    }
+
     filter { "system:windows" }
         links { "OpenGL32" }
 
