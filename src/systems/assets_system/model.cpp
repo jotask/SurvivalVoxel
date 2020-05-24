@@ -84,6 +84,8 @@ namespace aiko
             normal.y = mesh->mNormals[i].y;
             normal.z = mesh->mNormals[i].z;
 
+            glm::vec4 color = { 1.0f , 1.0f , 1.0f , 1.0f };
+
             glm::vec2 uv;
             if (mesh->mTextureCoords[0] != nullptr)
             {
@@ -91,7 +93,6 @@ namespace aiko
                 uv.y = mesh->mTextureCoords[0][i].y;
             }
 
-            auto color = glm::vec3();
             vertices.push_back(VertexInfo(position, uv, normal, color));
 
         }
