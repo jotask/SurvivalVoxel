@@ -1,6 +1,6 @@
 #include "model.hpp"
 
-#include "systems/chunk_system/vertex_info.hpp"
+#include "systems/render_system/vertex_info.hpp"
 
 #include <glad/glad.h>
 #include <assimp/Importer.hpp>

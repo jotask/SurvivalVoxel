@@ -1,7 +1,7 @@
 #include "mesh_component.hpp"
 
 #include "systems/entity_component_system/entity.hpp"
-#include "systems/chunk_system/vertex_info.hpp"
+#include "systems/render_system/vertex_info.hpp"
 #include "engine.hpp"
 
 #include <imgui.h>

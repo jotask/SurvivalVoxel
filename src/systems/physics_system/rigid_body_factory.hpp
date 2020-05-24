@@ -2,7 +2,7 @@
 
 #include "systems/entity_component_system/components/mesh_component.hpp"
 #include "systems/shader_system/shader_system.hpp"
-#include "systems/chunk_system/vertex_info.hpp"
+#include "systems/render_system/vertex_info.hpp"
 #include "systems/chunk_system/chunk.hpp"
 #include "systems/shader_system/shader.hpp"
 #include "utils/shared.hpp"

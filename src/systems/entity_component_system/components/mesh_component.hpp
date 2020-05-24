@@ -1,6 +1,6 @@
 #pragma once
 
-#include "systems/chunk_system/vertex_info.hpp"
+#include "systems/render_system/vertex_info.hpp"
 #include "systems/shader_system/shader.hpp"
 #include "systems/render_system/material.hpp"
 #include "systems/entity_component_system/components/component.hpp"
