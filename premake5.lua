@@ -46,7 +46,8 @@ project "SurvivalVoxel"
         "dependencies/soil2/src/SOIL2",
         "dependencies/PerlinNoise/",
         "dependencies/bullet3/src",
-        "dependencies/assimp/include"
+        "dependencies/assimp/include",
+        "dependencies/assimp/config/",
     }
 
     files {
