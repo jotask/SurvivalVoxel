@@ -74,6 +74,11 @@ namespace aiko
         glUniformMatrix4fv(glGetUniformLocation(m_programId, name.c_str()), 1, GL_FALSE, &value[0][0]);
     }
 
+    GLuint Shader::getProgramId() const
+    {
+        return m_programId;
+    }
+
     void Shader::use()
     {
         glUseProgram(m_programId);
