@@ -8,7 +8,12 @@ project "assimp"
   targetdir "../build/bin/%{cfg.buildcfg}"
   objdir "../build/obj/%{cfg.buildcfg}"
 
-  warnings "Off"
+  disablewarnings {
+    "4996",
+    "4101",
+    "4065",
+    "4275"
+}
 
   defines {
     "ASSIMP_BUILD_NO_C4D_IMPORTER", -- Cinema4D is MSVC only and needs some weird headers to work
