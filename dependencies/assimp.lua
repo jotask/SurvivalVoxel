@@ -3,7 +3,7 @@ project "assimp"
   language "C++"
   cppdialect "C++17"
   systemversion "latest"
-  staticruntime "On"
+  architecture "x86_64"
 
   targetdir "../build/bin/%{cfg.buildcfg}"
   objdir "../build/obj/%{cfg.buildcfg}"
@@ -12,7 +12,8 @@ project "assimp"
     "4996",
     "4101",
     "4065",
-    "4275"
+    "4275",
+    "4267"
 }
 
   defines {
@@ -52,7 +53,6 @@ project "assimp"
   filter "system:windows"
     systemversion "latest"
     cppdialect "C++17"
-    staticruntime "On"
 
     buildoptions { "/bigobj" }
     defines { "_CRT_SECURE_NO_WARNINGS" }
