@@ -13,7 +13,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "systems/assets_system/shader_attributes.hpp"
+#include "systems/shader_system/shader_attributes.hpp"
 #include "systems/render_system/vertex_info.hpp"
 
 namespace aiko
