@@ -1,6 +1,7 @@
 #include "model.hpp"
 
 #include "systems/render_system/vertex_info.hpp"
+#include "systems/entity_component_system/entity.hpp"
 
 #include <glad/glad.h>
 #include <assimp/Importer.hpp>
@@ -28,6 +29,7 @@ namespace aiko
 
     void Model::render()
     {
+        m_shader.setMat4("model", getEntity()->getTransform().getModelMatrix());
         for (GLuint i = 0; i < m_meshes.size(); i++)
         {
             m_meshes[i].render(m_shader);
