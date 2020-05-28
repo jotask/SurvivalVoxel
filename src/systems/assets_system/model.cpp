@@ -19,7 +19,7 @@ namespace aiko
         , m_shader(shader)
         , m_path(path)
     {
-
+        getEntity()->getTransform().scale *= 3.f;
     }
 
     void Model::load()
@@ -224,7 +224,7 @@ namespace aiko
             }
 
             glBindTexture(GL_TEXTURE_2D, textureId);
-            glTexImage2D(GL_TEXTURE, 0, format, width, height, 0 , format, GL_UNSIGNED_BYTE, image);
+            glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0 , format, GL_UNSIGNED_BYTE, image);
             glGenerateMipmap(GL_TEXTURE_2D);
 
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
