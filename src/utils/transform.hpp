@@ -34,6 +34,7 @@ namespace aiko
         {
             auto model = glm::mat4(1.f);
             model = glm::translate(model, position);
+            model = glm::scale(model, scale);
             return model;
         }
 
