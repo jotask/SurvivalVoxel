@@ -105,24 +105,22 @@ namespace aiko
         {
             // Create buffers/arrays
             glGenVertexArrays(1, &this->VAO);
-            glGenBuffers(1, &this->VBO);
-            glGenBuffers(1, &this->EBO);
-
             glBindVertexArray(this->VAO);
+
+
             // Load data into vertex buffers
+            glGenBuffers(1, &this->VBO);
             glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
-            // A great thing about structs is that their memory layout is sequential for all its items.
-            // The effect is that we can simply pass a pointer to the struct and it translates perfectly to a glm::vec3/2 array which
-            // again translates to 3/2 floats which translates to a byte array.
             glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(VertexInfo), &this->vertices[0], GL_STATIC_DRAW);
 
+            glGenBuffers(1, &this->EBO);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->indices.size() * sizeof(GLuint), &this->indices[0], GL_STATIC_DRAW);
 
             // Set the vertex attribute pointers
             // Vertex Positions
             glEnableVertexAttribArray(GLuint(Attributes::Position));
-            glVertexAttribPointer(GLuint(Attributes::Position), 3, GL_FLOAT, GL_FALSE, sizeof(VertexInfo), (GLvoid *)0);
+            glVertexAttribPointer(GLuint(Attributes::Position), 3, GL_FLOAT, GL_FALSE, sizeof(VertexInfo), (GLvoid *)offsetof(VertexInfo, m_position));
             // Vertex Normals
             glEnableVertexAttribArray(GLuint(Attributes::Normal));
             glVertexAttribPointer(GLuint(Attributes::Normal), 3, GL_FLOAT, GL_FALSE, sizeof(VertexInfo), (GLvoid *)offsetof(VertexInfo, m_normal));
