@@ -49,41 +49,41 @@ namespace aiko
             // Bind appropriate textures
             GLuint diffuseNr = 1;
             GLuint specularNr = 1;
+            GLuint normalNr = 1;
+            GLuint heightNr = 1;
 
             for (GLuint i = 0; i < this->textures.size(); i++)
             {
-                glActiveTexture(GL_TEXTURE0 + i); // Active proper texture unit before binding
-                // Retrieve texture number (the N in diffuse_textureN)
-                std::stringstream ss;
+                glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
+                // retrieve texture number (the N in diffuse_textureN)
                 std::string number;
-                std::string name = this->textures[i].getType();
-
+                std::string name = textures[i].getType();
                 if (name == "texture_diffuse")
                 {
-                    ss << diffuseNr++; // Transfer GLuint to stream
+                    number = std::to_string(diffuseNr++);
                 }
                 else if (name == "texture_specular")
                 {
-                    ss << specularNr++; // Transfer GLuint to stream
+                    number = std::to_string(specularNr++); // transfer unsigned int to stream
                 }
-
-                number = ss.str();
-                // Now set the sampler to the correct texture unit
-                const auto uniformLocation = glGetUniformLocation(shader.getProgramId(), (name + '_' + number).c_str());
-
-                if (uniformLocation == -1)
+                else if (name == "texture_normal")
                 {
-                    std::cout << "Uniform location not found for " << (name + '_' + number).c_str() << std::endl;
-                    throw std::runtime_error("Uniform location not found for " + (name + '_' + number));
+                    number = std::to_string(normalNr++); // transfer unsigned int to stream
+                }
+                else if (name == "texture_height")
+                {
+                    number = std::to_string(heightNr++); // transfer unsigned int to stream
                 }
 
-                glUniform1i(uniformLocation, i);
+                // Now set the sampler to the correct texture unit
+                shader.setInt((name + '_' + number).c_str(), i);
+
                 // And finally bind the texture
                 glBindTexture(GL_TEXTURE_2D, this->textures[i].getId());
             }
 
             // Also set each mesh's shininess property to a default value (if you want you could extend this to another mesh property and possibly change this value)
-            glUniform1f(glGetUniformLocation(shader.getProgramId(), "material.shininess"), 16.0f);
+            // glUniform1f(glGetUniformLocation(shader.getProgramId(), "material.shininess"), 16.0f);
 
             // Draw mesh
             glBindVertexArray(this->VAO);
@@ -112,7 +112,6 @@ namespace aiko
             // Create buffers/arrays
             glGenVertexArrays(1, &this->VAO);
             glBindVertexArray(this->VAO);
-
 
             // Load data into vertex buffers
             glGenBuffers(1, &this->VBO);
