@@ -37,6 +37,9 @@ namespace aiko
         void unuse();
 
     private:
+
+        GLint getUniformLocation(const std::string& uniformName) const;
+
         const std::string m_shaderName;
         const GLuint m_programId;
         const GLuint m_vertexShaderId;
