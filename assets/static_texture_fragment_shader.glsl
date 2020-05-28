@@ -19,5 +19,5 @@ uniform Light light;
 
 void main()
 {
-    out_color = Colour * texture(texture_diffuse_1, TexCoords);
+    out_color = texture(texture_diffuse_1, TexCoords);
 }
