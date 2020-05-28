@@ -29,7 +29,9 @@ namespace aiko
 
     void Model::render()
     {
+        m_shader.use();
         m_shader.setMat4("model", getEntity()->getTransform().getModelMatrix());
+        m_shader.unuse();
         for (GLuint i = 0; i < m_meshes.size(); i++)
         {
             m_meshes[i].render(m_shader);
@@ -75,7 +77,6 @@ namespace aiko
         for (GLuint i = 0; i < mesh->mNumVertices; i++)
         {
 
-            
             glm::vec3 position;
             position.x = mesh->mVertices[i].x;
             position.y = mesh->mVertices[i].y;
