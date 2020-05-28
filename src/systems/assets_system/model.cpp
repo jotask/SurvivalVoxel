@@ -86,7 +86,7 @@ namespace aiko
             normal.y = mesh->mNormals[i].y;
             normal.z = mesh->mNormals[i].z;
 
-            const auto color = glm::vec4( 0.0f , 1.0f , 1.0f , 1.0f );
+            const auto color = glm::vec4( 1.0f , 1.0f , 1.0f , 1.0f );
 
             glm::vec2 uv;
             if (mesh->mTextureCoords[0] != nullptr)
