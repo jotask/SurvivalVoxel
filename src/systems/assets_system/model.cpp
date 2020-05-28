@@ -93,7 +93,7 @@ namespace aiko
                 uv.y = mesh->mTextureCoords[0][i].y;
             }
 
-            vertices.push_back(VertexInfo(position, uv, normal, color));
+            vertices.push_back(VertexInfo(position, normal, uv, color));
 
         }
 
