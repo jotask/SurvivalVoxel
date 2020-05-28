@@ -14,24 +14,17 @@ layout (location = 1) in vec3 normal;
 layout (location = 2) in vec4 color;
 layout (location = 3) in vec2 textureCoordinates;
 
-out vec2 pass_textureCoordinates;
-out vec3 surfaceNormal;
-out vec3 toLightVector;
-
 uniform mat4 projection;
 uniform mat4 view;
 uniform mat4 model;
 uniform Light light;
 
+out vec4 Colour;
+out vec2 TexCoords;
+
 void main()
 {
-
-  vec4 worldPosition = model * vec4(position, 1.0);
-  gl_Position = projection * view * model * worldPosition;
-
-  pass_textureCoordinates = textureCoordinates;
-
-  surfaceNormal = (model * vec4(normal, 0.f)).xyz;
-  toLightVector = light.position - worldPosition.xyz;
-
+  Colour = color;
+  TexCoords = textureCoordinates;
+  gl_Position = projection * view * model * vec4(position, 1.0);
 }
