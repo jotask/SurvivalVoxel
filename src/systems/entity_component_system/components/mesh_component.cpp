@@ -133,6 +133,7 @@ namespace aiko
         m_shader.setMat4("model", getEntity()->getTransform().getModelMatrix());
         glBindVertexArray(m_vao);
         glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_meshData.indices.size()), GL_UNSIGNED_INT, 0);
+        glBindVertexArray(0);
 
     }
 
