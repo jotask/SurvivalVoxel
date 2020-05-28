@@ -87,7 +87,15 @@ namespace aiko
             normal.y = mesh->mNormals[i].y;
             normal.z = mesh->mNormals[i].z;
 
-            const auto color = glm::vec4( 1.0f , 1.0f , 1.0f , 1.0f );
+
+            const aiMaterial *mtl = scene->mMaterials[mesh->mMaterialIndex];
+
+            auto color = glm::vec4( 1.0f , 1.0f , 1.0f , 1.0f );
+            aiColor4D diffuse;
+            if (AI_SUCCESS == aiGetMaterialColor(mtl, AI_MATKEY_COLOR_DIFFUSE, &diffuse))
+            {
+                color = { diffuse.r, diffuse.g, diffuse.b, diffuse.a };
+            }
 
             glm::vec2 uv;
             if (mesh->mTextureCoords[0] != nullptr)
