@@ -72,9 +72,9 @@ namespace aiko
                         for (auto y = 0; y < Chunk::s_chunkSize.y; y++)
                         {
 
-                            //const auto color = glm::vec4{ distr(eng), distr(eng), distr(eng), 0.15f };
                             auto& voxel = chunk->getVoxel({ x, y, z });
                             const auto color = getVoxelColor(voxel);
+                            const auto uv = glm::vec2(0.0f, 0.0f);
 
                             if (voxel.getVoxelType() == VoxelInfo::VoxelType::AIR)
                             {
@@ -84,55 +84,55 @@ namespace aiko
                             if(shouldMakeFace(x, y, z, Face::Back) == true)
                             {
                                 // Back Face Vertices + Texture Coordinates
-                                vertices.push_back(VertexInfo(glm::vec3(x           , y             , z), glm::vec4(color)));
-                                vertices.push_back(VertexInfo(glm::vec3(x + size.x  , y             , z), glm::vec4(color)));
-                                vertices.push_back(VertexInfo(glm::vec3(x + size.x  , y + size.y    , z), glm::vec4(color)));
-                                vertices.push_back(VertexInfo(glm::vec3(x           , y + size.y    , z), glm::vec4(color)));
+                                vertices.push_back(VertexInfo(glm::vec3(x           , y             , z), glm::vec4(color), uv));
+                                vertices.push_back(VertexInfo(glm::vec3(x + size.x  , y             , z), glm::vec4(color), uv));
+                                vertices.push_back(VertexInfo(glm::vec3(x + size.x  , y + size.y    , z), glm::vec4(color), uv));
+                                vertices.push_back(VertexInfo(glm::vec3(x           , y + size.y    , z), glm::vec4(color), uv));
                             }
 
                             if (shouldMakeFace(x, y, z, Face::Right) == true)
                             {
                                 // Right Face Vertices + Texture Coordinates
-                                vertices.push_back(VertexInfo(glm::vec3(x + size.x, y + size.y  , z), glm::vec4(color)));
-                                vertices.push_back(VertexInfo(glm::vec3(x + size.x, y + size.y  , z + size.z), glm::vec4(color)));
-                                vertices.push_back(VertexInfo(glm::vec3(x + size.x, y           , z + size.z), glm::vec4(color)));
-                                vertices.push_back(VertexInfo(glm::vec3(x + size.x, y           , z), glm::vec4(color)));
+                                vertices.push_back(VertexInfo(glm::vec3(x + size.x, y + size.y  , z), glm::vec4(color), uv));
+                                vertices.push_back(VertexInfo(glm::vec3(x + size.x, y + size.y  , z + size.z), glm::vec4(color), uv));
+                                vertices.push_back(VertexInfo(glm::vec3(x + size.x, y           , z + size.z), glm::vec4(color), uv));
+                                vertices.push_back(VertexInfo(glm::vec3(x + size.x, y           , z), glm::vec4(color), uv));
                             }
                             
                             if (shouldMakeFace(x, y, z, Face::Front) == true)
                             {
                                 // Front Face Vertices + Texture Coordinates
-                                vertices.push_back(VertexInfo(glm::vec3(x           , y             , z + size.z), glm::vec4(color)));
-                                vertices.push_back(VertexInfo(glm::vec3(x + size.x  , y             , z + size.z), glm::vec4(color)));
-                                vertices.push_back(VertexInfo(glm::vec3(x + size.x  , y + size.y    , z + size.z), glm::vec4(color)));
-                                vertices.push_back(VertexInfo(glm::vec3(x           , y + size.y    , z + size.z), glm::vec4(color)));
+                                vertices.push_back(VertexInfo(glm::vec3(x           , y             , z + size.z), glm::vec4(color), uv));
+                                vertices.push_back(VertexInfo(glm::vec3(x + size.x  , y             , z + size.z), glm::vec4(color), uv));
+                                vertices.push_back(VertexInfo(glm::vec3(x + size.x  , y + size.y    , z + size.z), glm::vec4(color), uv));
+                                vertices.push_back(VertexInfo(glm::vec3(x           , y + size.y    , z + size.z), glm::vec4(color), uv));
                             }
 
                             if (shouldMakeFace(x, y, z, Face::Left) == true)
                             {
                                 // Left Face Vertices + Texture Coordinates
-                                vertices.push_back(VertexInfo(glm::vec3(x, y            , z + size.z), glm::vec4(color)));
-                                vertices.push_back(VertexInfo(glm::vec3(x, y            , z), glm::vec4(color)));
-                                vertices.push_back(VertexInfo(glm::vec3(x, y + size.y   , z), glm::vec4(color)));
-                                vertices.push_back(VertexInfo(glm::vec3(x, y + size.y   , z + size.z), glm::vec4(color)));
+                                vertices.push_back(VertexInfo(glm::vec3(x, y            , z + size.z), glm::vec4(color), uv));
+                                vertices.push_back(VertexInfo(glm::vec3(x, y            , z), glm::vec4(color), uv));
+                                vertices.push_back(VertexInfo(glm::vec3(x, y + size.y   , z), glm::vec4(color), uv));
+                                vertices.push_back(VertexInfo(glm::vec3(x, y + size.y   , z + size.z), glm::vec4(color), uv));
                             }
                             
                             if (shouldMakeFace(x, y, z, Face::Top) == true)
                             {
                                 // Top Face Vertices + Texture Coordinates
-                                vertices.push_back(VertexInfo(glm::vec3(x + size.x  , y + size.y , z), glm::vec4(color)));
-                                vertices.push_back(VertexInfo(glm::vec3(x           , y + size.y , z), glm::vec4(color)));
-                                vertices.push_back(VertexInfo(glm::vec3(x           , y + size.y , z + size.z), glm::vec4(color)));
-                                vertices.push_back(VertexInfo(glm::vec3(x + size.x  , y + size.y , z + size.z), glm::vec4(color)));
+                                vertices.push_back(VertexInfo(glm::vec3(x + size.x  , y + size.y , z), glm::vec4(color), uv));
+                                vertices.push_back(VertexInfo(glm::vec3(x           , y + size.y , z), glm::vec4(color), uv));
+                                vertices.push_back(VertexInfo(glm::vec3(x           , y + size.y , z + size.z), glm::vec4(color), uv));
+                                vertices.push_back(VertexInfo(glm::vec3(x + size.x  , y + size.y , z + size.z), glm::vec4(color), uv));
                             }
                             
                             if (shouldMakeFace(x, y, z, Face::Bottom) == true)
                             {
                                 // Bottom Face Vertices + Texture Coordinates
-                                vertices.push_back(VertexInfo(glm::vec3(x           , y, z + size.z), glm::vec4(color)));
-                                vertices.push_back(VertexInfo(glm::vec3(x + size.x  , y, z + size.z), glm::vec4(color)));
-                                vertices.push_back(VertexInfo(glm::vec3(x + size.x  , y, z), glm::vec4(color)));
-                                vertices.push_back(VertexInfo(glm::vec3(x           , y, z), glm::vec4(color)));
+                                vertices.push_back(VertexInfo(glm::vec3(x           , y, z + size.z), glm::vec4(color), uv));
+                                vertices.push_back(VertexInfo(glm::vec3(x + size.x  , y, z + size.z), glm::vec4(color), uv));
+                                vertices.push_back(VertexInfo(glm::vec3(x + size.x  , y, z), glm::vec4(color), uv));
+                                vertices.push_back(VertexInfo(glm::vec3(x           , y, z), glm::vec4(color), uv));
                             }
                         }
                     }

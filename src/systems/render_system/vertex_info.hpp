@@ -8,27 +8,20 @@ namespace aiko
     {
 
     public:
-        VertexInfo(const glm::vec3& vertexPosition, const glm::vec4& vertexColor, const glm::vec3 normal = glm::vec3(0.f))
+
+        VertexInfo(const glm::vec3& vertexPosition, const glm::vec3 normal, const glm::vec4& color, const glm::vec2& vertexTexture)
             : m_position(vertexPosition)
-            , m_color(vertexColor)
             , m_normal(normal)
-            , m_texture(0)
-        {
-
-        }
-
-        VertexInfo(const glm::vec3& vertexPosition, const glm::vec2& vertexTexture, const glm::vec3 normal = glm::vec3(0.f))
-            : m_position(vertexPosition)
-            , m_color(0)
+            , m_color(color)
             , m_texture(vertexTexture)
         {
 
         }
 
-        VertexInfo(const glm::vec3& vertexPosition, const glm::vec3 normal, const glm::vec2& vertexTexture, const glm::vec3 color)
+        VertexInfo(const glm::vec3& vertexPosition, const glm::vec4& color, const glm::vec2& vertexTexture, const glm::vec3 normal = glm::vec3(0.0f))
             : m_position(vertexPosition)
             , m_normal(normal)
-            , m_color({color, 1.0})
+            , m_color(color)
             , m_texture(vertexTexture)
         {
 
