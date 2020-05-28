@@ -43,6 +43,9 @@ namespace aiko
         // Render the mesh
         void render(Shader& shader)
         {
+
+            shader.use();
+
             // Bind appropriate textures
             GLuint diffuseNr = 1;
             GLuint specularNr = 1;
@@ -93,6 +96,9 @@ namespace aiko
                 glActiveTexture(GL_TEXTURE0 + i);
                 glBindTexture(GL_TEXTURE_2D, 0);
             }
+
+            shader.unuse();
+
         }
 
     private:
