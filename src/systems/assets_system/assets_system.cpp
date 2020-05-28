@@ -31,9 +31,10 @@ namespace aiko
     bool AssetsSystem::init()
     {
         m_imguiSystem->registerSystem("AssetsSystem", m_renderImgui);
-
+        
+        auto fullPathToFile = std::filesystem::current_path() / ("../assets/dragon_low_poly.obj");
         //auto fullPathToFile = std::filesystem::current_path() / ("../assets/dragon.obj");
-        auto fullPathToFile = std::filesystem::current_path() / ("../assets/stall_2.obj");
+        //auto fullPathToFile = std::filesystem::current_path() / ("../assets/stall_2.obj");
 
         loadModel(fullPathToFile.u8string());
 
