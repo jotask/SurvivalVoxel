@@ -198,25 +198,48 @@ namespace aiko
         fileName = directory + '/' + fileName;
 
         GLuint textureId;
-
         glGenTextures(1, &textureId);
+
         int width;
         int height;
-        unsigned char* image = SOIL_load_image(fileName.c_str(), &width, &height, 0 , SOIL_LOAD_RGB);
+        int nComponents;
 
-        glBindTexture(GL_TEXTURE_2D, textureId);
+        auto* image = SOIL_load_image(fileName.c_str(), &width, &height, &nComponents , SOIL_LOAD_AUTO);
 
-        glTexImage2D(GL_TEXTURE, 0, GL_RGB, width, height, 0 , GL_RGB, GL_UNSIGNED_BYTE, image);
+        if (image != nullptr)
+        {
 
-        glGenerateMipmap(GL_TEXTURE_2D);
+            GLenum format;
+            if (nComponents == 1)
+            {
+                format = GL_RED;
+            }
+            else if (nComponents == 3)
+            {
+                format = GL_RGB;
+            }
+            else if (nComponents == 4)
+            {
+                format = GL_RGBA;
+            }
 
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glBindTexture(GL_TEXTURE_2D, textureId);
+            glTexImage2D(GL_TEXTURE, 0, format, width, height, 0 , format, GL_UNSIGNED_BYTE, image);
+            glGenerateMipmap(GL_TEXTURE_2D);
 
-        glBindTexture(GL_TEXTURE_2D, 0);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-        SOIL_free_image_data(image);
+            glBindTexture(GL_TEXTURE_2D, 0);
+
+            SOIL_free_image_data(image);
+        }
+        else
+        {
+            std::cout << "Texture failed to load at path: " << path << std::endl;
+        }
 
         return textureId;
 
