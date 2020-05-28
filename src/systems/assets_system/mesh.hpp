@@ -123,12 +123,12 @@ namespace aiko
             // Vertex Positions
             glEnableVertexAttribArray(GLuint(Attributes::Position));
             glVertexAttribPointer(GLuint(Attributes::Position), 3, GL_FLOAT, GL_FALSE, sizeof(VertexInfo), (GLvoid *)0);
-            // Vertex Color
-            glEnableVertexAttribArray(GLuint(Attributes::Color));
-            glVertexAttribPointer(GLuint(Attributes::Color), 3, GL_FLOAT, GL_FALSE, sizeof(VertexInfo), (GLvoid *)offsetof(VertexInfo, m_color));
             // Vertex Normals
             glEnableVertexAttribArray(GLuint(Attributes::Normal));
             glVertexAttribPointer(GLuint(Attributes::Normal), 3, GL_FLOAT, GL_FALSE, sizeof(VertexInfo), (GLvoid *)offsetof(VertexInfo, m_normal));
+            // Vertex Color
+            glEnableVertexAttribArray(GLuint(Attributes::Color));
+            glVertexAttribPointer(GLuint(Attributes::Color), 4, GL_FLOAT, GL_FALSE, sizeof(VertexInfo), (GLvoid *)offsetof(VertexInfo, m_color));
             // Vertex Texture Coords
             glEnableVertexAttribArray(GLuint(Attributes::UVs));
             glVertexAttribPointer(GLuint(Attributes::UVs), 2, GL_FLOAT, GL_FALSE, sizeof(VertexInfo), (GLvoid *)offsetof(VertexInfo, m_texture));
