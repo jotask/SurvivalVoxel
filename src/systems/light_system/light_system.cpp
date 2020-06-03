@@ -82,14 +82,20 @@ namespace aiko
         {
             auto& shader = shaderPair.second;
             shader->use();
-            for (auto& lightId : m_lights)
+            constexpr auto MAX_LIGHT_NUMBER = 4;
+            for (auto i = 0u ; i < MAX_LIGHT_NUMBER; i++)
             {
-                auto& light = m_entitySystem->getEntityByIdInTag(lightId, entity::EntityTag::LIGHT).getComponent<Light>();
-                shader->setVec3("light.position", light.position);
-                shader->setVec3("light.color", light.color);
-                shader->setVec3("light.ambient", light.ambient);
-                shader->setVec3("light.diffuse", light.diffuse);
-                shader->setVec3("light.specular", light.specular);
+                if (i < m_lights.size())
+                {
+                    auto& light = m_entitySystem->getEntityByIdInTag(m_lights[i], entity::EntityTag::LIGHT).getComponent<Light>();
+                    shader->setVec3("light[" + std::to_string(i) + "].position", light.position);
+                    shader->setVec3("light[" + std::to_string(i) + "].color", light.color);
+                }
+                else
+                {
+                    shader->setVec3("light[" + std::to_string(i) + "].position", glm::vec3(0.f));
+                    shader->setVec3("light[" + std::to_string(i) + "].color", glm::vec3(0.f));
+                }
             }
 
             shader->unuse();
