@@ -49,6 +49,7 @@ project "SurvivalVoxel"
         "dependencies/assimp/include",
         "dependencies/assimp/config/",
         "dependencies/GLSL-Shader-Includes/",
+        "dependencies/jsoncpp/include",
     }
 
     files {
@@ -65,6 +66,7 @@ project "SurvivalVoxel"
         "Soil2",
         "Bullet3",
         "assimp",
+        "Jsoncpp",
     }
 
     filter "system:linux"
@@ -90,3 +92,4 @@ group "Dependencies"
     include "dependencies/soil2.lua"
     include "dependencies/bullet3.lua"
     include "dependencies/assimp.lua"
+    include "dependencies/jsoncpp.lua"
