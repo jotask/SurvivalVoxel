@@ -22,6 +22,7 @@ uniform Light light;
 out vec2 pass_textureCoordinates;
 out vec3 surfaceNormal;
 out vec3 toLightVector;
+out vec3 toCameraVector;
 
 void main()
 {
@@ -30,4 +31,5 @@ void main()
   pass_textureCoordinates = textureCoordinates;
   surfaceNormal = (model * vec4(normal, 0.0f)).xyz;
   toLightVector = light.position - worldPosition.xyz;
+  toCameraVector = (inverse(view) * vec4(0.0, 0.0f, 0.0, 1.0f)).xyz - worldPosition.xyz;
 }

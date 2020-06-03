@@ -12,10 +12,14 @@ struct Light
 in vec2 pass_textureCoordinates;
 in vec3 surfaceNormal;
 in vec3 toLightVector;
+in vec3 toCameraVector;
 
 out vec4 out_color;
 
 uniform Light light;
+
+uniform float shineDamper;
+uniform float reflectivity;
 
 void main()
 {
@@ -25,8 +29,16 @@ void main()
 
     float nDot1 = dot(unitNormal, unitLightVector);
     float brightness = max(nDot1, 0.0f);
-
     vec3 diffuse = brightness * light.color;
 
-    out_color = vec4(diffuse, 1.0f);
+    vec3 unitVectorToCamera = normalize(toCameraVector);
+    vec3 lightDirection = -unitLightVector;
+    vec3 reflectedLightDirection = reflect(lightDirection, unitNormal);
+
+    float specularFactor = max(dot(reflectedLightDirection, unitVectorToCamera), 0.0f);
+    float dampedFactor = pow(specularFactor, shineDamper);
+    vec3 finalSpecular = dampedFactor * reflectivity * light.color;
+
+    out_color = vec4(diffuse, 1.0f) /* * texture(modelTexture, pass_textureCoordinates) */ + vec4(finalSpecular, 1.0f);
+
 }
