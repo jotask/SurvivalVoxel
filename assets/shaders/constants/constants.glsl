@@ -1,0 +1,1 @@
+const int MAX_NUMER_OF_LIGHTS 4
