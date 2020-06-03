@@ -1,5 +1,7 @@
 #include "shader.hpp"
 
+#include <iostream>
+
 namespace aiko
 {
 
@@ -98,7 +100,13 @@ namespace aiko
 
     GLint Shader::getUniformLocation(const std::string & uniformName) const
     {
-        return glGetUniformLocation(m_programId, uniformName.c_str());
+        const auto uniformLocation = glGetUniformLocation(m_programId, uniformName.c_str());
+        // if (uniformLocation == -1)
+        // {
+        //     std::cout << "Uniform location not found for " << uniformName << " on shader " << m_shaderName << std::endl;
+        //     throw std::runtime_error("Uniform location not found for " + uniformName + " on shader " + m_shaderName);
+        // }
+        return uniformLocation;
     }
 
 }
