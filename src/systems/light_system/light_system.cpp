@@ -91,6 +91,8 @@ namespace aiko
                 shader->setVec3("light.diffuse", light.diffuse);
                 shader->setVec3("light.specular", light.specular);
             }
+
+            shader->unuse();
         }
     }
 
