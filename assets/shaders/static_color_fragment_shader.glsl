@@ -8,7 +8,6 @@ struct Light
     vec3 color;
 };
 
-in vec2 pass_textureCoordinates;
 in vec3 surfaceNormal;
 in vec3 toLightVector[MAX_LIGHT_NUMBER];
 in vec3 toCameraVector;

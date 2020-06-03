@@ -18,7 +18,6 @@ uniform mat4 view;
 uniform mat4 model;
 uniform Light light[MAX_LIGHT_NUMBER];
 
-out vec2 pass_textureCoordinates;
 out vec3 surfaceNormal;
 out vec3 toLightVector[MAX_LIGHT_NUMBER];
 out vec3 toCameraVector;
@@ -27,7 +26,6 @@ void main()
 {
   vec4 worldPosition = model * vec4(position, 1.f);
   gl_Position = projection * view * worldPosition;
-  pass_textureCoordinates = textureCoordinates;
   surfaceNormal = (model * vec4(normal, 0.0f)).xyz;
   for(int i = 0 ; i < MAX_LIGHT_NUMBER; i++)
   {
