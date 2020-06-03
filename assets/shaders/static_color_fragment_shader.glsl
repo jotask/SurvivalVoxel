@@ -1,10 +1,5 @@
 #version 450 core
 
-struct Camera
-{
-    vec3 positon;
-};
-
 struct Light
 {
     vec3 position;
@@ -14,14 +9,24 @@ struct Light
     vec3 specular;
 };
 
-in vec4 Colour;
+in vec2 pass_textureCoordinates;
+in vec3 surfaceNormal;
+in vec3 toLightVector;
 
 out vec4 out_color;
 
-uniform sampler2D texture_diffuse_1;
 uniform Light light;
 
 void main()
 {
-    out_color = Colour;
+
+    vec3 unitNormal = normalize(surfaceNormal);
+    vec3 unitLightVector = normalize(toLightVector);
+
+    float nDot1 = dot(unitNormal, unitLightVector);
+    float brightness = max(nDot1, 0.0f);
+
+    vec3 diffuse = brightness * light.color;
+
+    out_color = vec4(diffuse, 1.0f);
 }
