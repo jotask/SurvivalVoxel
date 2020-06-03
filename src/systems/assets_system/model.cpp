@@ -9,6 +9,8 @@
 #include <assimp/postprocess.h>
 #include <SOIL2.h>
 
+#include <imgui.h>
+
 #include <iostream>
 
 namespace aiko
@@ -19,7 +21,7 @@ namespace aiko
         , m_shader(shader)
         , m_path(path)
     {
-        getEntity()->getTransform().scale *= 3.f;
+        getEntity()->getTransform().scale *= 2.f;
     }
 
     void Model::load()
@@ -29,8 +31,23 @@ namespace aiko
 
     void Model::render()
     {
+
+        static auto shineDamper = 1.0f;
+        static auto reflectivity = 1.0f;
+
+        {
+            if (ImGui::Begin("test") == true)
+            {
+                ImGui::SliderFloat("shineDamper", &shineDamper, 0.0f, 1.0f);
+                ImGui::SliderFloat("reflectivity", &reflectivity, 0.0f, 1.0f);
+            }
+            ImGui::End();
+        }
+
         m_shader.use();
         m_shader.setMat4("model", getEntity()->getTransform().getModelMatrix());
+        m_shader.setFloat("shineDamper", shineDamper);
+        m_shader.setFloat("reflectivity", reflectivity);
         m_shader.unuse();
         for (GLuint i = 0; i < m_meshes.size(); i++)
         {
