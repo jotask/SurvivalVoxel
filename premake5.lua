@@ -48,6 +48,7 @@ project "SurvivalVoxel"
         "dependencies/bullet3/src",
         "dependencies/assimp/include",
         "dependencies/assimp/config/",
+        "dependencies/GLSL-Shader-Includes/",
     }
 
     files {
@@ -63,7 +64,7 @@ project "SurvivalVoxel"
         "ImGui",
         "Soil2",
         "Bullet3",
-        "assimp"
+        "assimp",
     }
 
     filter "system:linux"
@@ -89,3 +90,4 @@ group "Dependencies"
     include "dependencies/soil2.lua"
     include "dependencies/bullet3.lua"
     include "dependencies/assimp.lua"
+    include "dependencies/glsl_shader_includes.lua"
