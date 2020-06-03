@@ -3,7 +3,7 @@
 struct Camera
 {
     vec3 positon;
-}
+};
 
 struct Light
 {
