@@ -1,6 +1,7 @@
 #include "shader_system.hpp"
 
 #include "utils/utilities.hpp"
+#include "utils/json_loader.hpp"
 
 #include <Shadinclude.hpp>
 
@@ -20,13 +21,20 @@ namespace aiko
 
     bool ShaderSystem::init()
     {
-        createProgram("staticShader", "shaders/static_vertex_shader.glsl", "shaders/static_fragment_shader.glsl");
-        createProgram("staticColorShader", "shaders/static_color_vertex_shader.glsl", "shaders/static_fragment_shader.glsl");
-        createProgram("staticTextureShader", "shaders/static_texture_vertex_shader.glsl", "shaders/static_fragment_shader.glsl");
-        createProgram("colorShader", "shaders/vertex_shader.glsl", "shaders/fragment_shader.glsl");
-        createProgram("cubeShader", "shaders/cube_vertex_shader.glsl", "shaders/cube_fragment_shader.glsl");
-        createProgram("chunkShader", "shaders/chunk_vertex_shader.glsl", "shaders/chunk_fragment_shader.glsl");
-        createProgram("bullet3Shader", "shaders/bullet3_vertex_shader.glsl", "shaders/bullet3_fragment_shader.glsl");
+
+        auto shadersJson = jsonLoader::loadJson("../assets/shaders.json");
+
+        const auto folderForShaders = shadersJson["folder"].asString() + "/";
+
+        const auto shadersList = shadersJson["shaders"];
+        for (auto i = 0u; i < shadersList.size(); i++)
+        {
+            const auto name = shadersList[i]["name"].asString();
+            const auto vertex = shadersList[i]["vertex"].asString();
+            const auto fragment = shadersList[i]["fragment"].asString();
+            createProgram(name, folderForShaders + vertex, folderForShaders + fragment);
+        }
+
         return true;
     }
 

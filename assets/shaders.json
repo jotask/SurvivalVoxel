@@ -1,0 +1,45 @@
+{
+    "folder": "shaders",
+    "shaders": [
+        {
+            "name"      : "ray",
+            "vertex"    : "static_raymarching_vertex_shader.glsl",
+            "fragment"  : "static_raymarching_fragment_shader.glsl"
+        },
+        {
+            "name"      : "staticShader",
+            "vertex"    : "static_vertex_shader.glsl",
+            "fragment"  : "static_fragment_shader.glsl"
+        },
+        {
+            "name"      : "staticColorShader",
+            "vertex"    : "static_color_vertex_shader.glsl",
+            "fragment"  : "static_color_fragment_shader.glsl"
+        },
+        {
+            "name"      : "staticTextureShader",
+            "vertex"    : "static_texture_vertex_shader.glsl",
+            "fragment"  : "static_texture_fragment_shader.glsl"
+        },
+        {
+            "name"      : "colorShader",
+            "vertex"    : "vertex_shader.glsl",
+            "fragment"  : "fragment_shader.glsl"
+        },
+        {
+            "name"      : "cubeShader",
+            "vertex"    : "cube_vertex_shader.glsl",
+            "fragment"  : "cube_fragment_shader.glsl"
+        },
+        {
+            "name"      : "chunkShader",
+            "vertex"    : "chunk_vertex_shader.glsl",
+            "fragment"  : "chunk_fragment_shader.glsl"
+        },
+        {
+            "name"      : "bullet3Shader",
+            "vertex"    : "bullet3_vertex_shader.glsl",
+            "fragment"  : "bullet3_fragment_shader.glsl"
+        },
+    ]
+}
