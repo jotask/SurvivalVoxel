@@ -25,3 +25,6 @@
 [submodule "dependencies/GLSL-Shader-Includes"]
 	path = dependencies/GLSL-Shader-Includes
 	url = https://github.com/tntmeijs/GLSL-Shader-Includes.git
+[submodule "dependencies/jsoncpp"]
+	path = dependencies/jsoncpp
+	url = https://github.com/open-source-parsers/jsoncpp.git
