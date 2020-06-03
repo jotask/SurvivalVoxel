@@ -38,6 +38,7 @@ namespace aiko
     private:
 
         bool m_renderImgui;
+        bool m_renderLightCubes;
 
         ImguiSystem* m_imguiSystem;
         ShaderSystem* m_shaderSystem;

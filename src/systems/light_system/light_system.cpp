@@ -11,6 +11,7 @@ namespace aiko
 {
     LightSystem::LightSystem()
         : m_renderImgui(false)
+        , m_renderLightCubes(true)
         , m_imguiSystem(nullptr)
         , m_shaderSystem(nullptr)
         , m_entitySystem(nullptr)
@@ -62,6 +63,7 @@ namespace aiko
         if (m_renderImgui == true)
         {
             ImGui::Begin("Light", &m_renderImgui);
+            ImGui::Checkbox("Draw Debug light markers", &m_renderLightCubes);
             for (auto i = 0 ; i < m_lights.size() ; i++)
             {
                 ImGui::PushID(i);
@@ -99,6 +101,19 @@ namespace aiko
             }
 
             shader->unuse();
+        }
+
+        if (m_renderLightCubes == true)
+        {
+            auto& shader = m_shaderSystem->getShader("lightShader");
+            shader.use();
+            for (const auto& l : m_lights)
+            {
+                auto& light = m_entitySystem->getEntityByIdInTag(l, entity::EntityTag::LIGHT).getComponent<Light>();
+                shader.setVec3("position", light.position);
+                shader.setVec3("color", light.color);
+            }
+            shader.unuse();
         }
     }
 
