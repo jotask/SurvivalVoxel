@@ -2,13 +2,13 @@
     "folder": "models",
     "assets": [
         {
-            "load"      : true,
+            "load"      : false,
             "name"      : "box",
             "file"      : "box.obj",
             "shader"    : "staticColorShader"
         },
         {
-            "load"      : false,
+            "load"      : true,
             "name"      : "dragon_low_poly",
             "file"      : "dragon_low_poly.obj",
             "shader"    : "staticColorShader"
