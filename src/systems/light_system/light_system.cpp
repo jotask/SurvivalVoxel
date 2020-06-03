@@ -30,7 +30,9 @@ namespace aiko
     {
         m_imguiSystem->registerSystem("LightSystem", m_renderImgui);
 
-        addLight({ 0.f, 500.f, 0.f }, { 1.f, 1.f, 1.f }, { 0.5f, 0.5f, 0.5f }, { 0.f , 0.f, 0.f }, { 1.f , 1.f , 1.f });
+        addLight({ 0.f, 100, 0.f }, { 1.f, 1.f, 1.f }, { 0.5f, 0.5f, 0.5f }, { 0.f , 0.f, 0.f }, { 1.f , 1.f , 1.f });
+        addLight({ 0.f, 100, 0.f }, { 0.f, 1.f, 1.f }, { 0.5f, 0.5f, 0.5f }, { 0.f , 0.f, 0.f }, { 1.f , 1.f , 1.f });
+        addLight({ 0.f, 100, 0.f }, { 0.f, 1.f, 0.f }, { 0.5f, 0.5f, 0.5f }, { 0.f , 0.f, 0.f }, { 1.f , 1.f , 1.f });
 
         return true;
     }
