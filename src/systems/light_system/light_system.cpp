@@ -62,6 +62,7 @@ namespace aiko
             ImGui::Begin("Light", &m_renderImgui);
             for (auto i = 0 ; i < m_lights.size() ; i++)
             {
+                ImGui::PushID(i);
                 auto& light = m_entitySystem->getEntityByIdInTag(m_lights[i], entity::EntityTag::LIGHT).getComponent<Light>();
                 const auto lightName = "Light: " + std::to_string(i);
                 ImGui::Text(lightName.c_str());
@@ -70,6 +71,7 @@ namespace aiko
                 ImGui::SliderFloat3("ambient", &light.ambient.x, 0.f, 1.f);
                 ImGui::SliderFloat3("diffuse", &light.diffuse.x, 0.f, 1.f);
                 ImGui::SliderFloat3("specular", &light.specular.x, 0.f, 1.f);
+                ImGui::PopID();
             }
             ImGui::End();
         }
