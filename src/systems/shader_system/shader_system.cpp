@@ -2,6 +2,8 @@
 
 #include "utils/utilities.hpp"
 
+#include <Shadinclude.hpp>
+
 #include <algorithm>
 
 namespace aiko
@@ -80,8 +82,9 @@ namespace aiko
 
     void ShaderSystem::createProgram(const std::string & shaderName, const std::string & vertexShaderFilename, const std::string & fragmentShaderFilename)
     {
-        const auto vertexShaderCode = utils::readFile(vertexShaderFilename);
-        const auto fragmentShaderCode = utils::readFile(fragmentShaderFilename);
+
+        const auto vertexShaderCode = Shadinclude::load((std::filesystem::current_path() / ("../assets/" + vertexShaderFilename)).u8string());
+        const auto fragmentShaderCode = Shadinclude::load((std::filesystem::current_path() / ("../assets/" + fragmentShaderFilename)).u8string());
 
         const auto vertexShaderId = createShader(GL_VERTEX_SHADER, vertexShaderCode, "vertex shader");
         const auto fragmentShaderId = createShader(GL_FRAGMENT_SHADER, fragmentShaderCode, "fragment shader");
