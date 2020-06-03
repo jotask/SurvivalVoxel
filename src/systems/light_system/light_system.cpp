@@ -68,7 +68,7 @@ namespace aiko
                 auto& light = m_entitySystem->getEntityByIdInTag(m_lights[i], entity::EntityTag::LIGHT).getComponent<Light>();
                 const auto lightName = "Light: " + std::to_string(i);
                 ImGui::Text(lightName.c_str());
-                ImGui::SliderFloat3("Position", &light.position.x, 0 , 500);
+                ImGui::SliderFloat3("Position", &light.position.x, -200 , 200);
                 ImGui::ColorEdit3("Color", &light.color.x);
                 ImGui::SliderFloat3("ambient", &light.ambient.x, 0.f, 1.f);
                 ImGui::SliderFloat3("diffuse", &light.diffuse.x, 0.f, 1.f);
