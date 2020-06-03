@@ -41,5 +41,10 @@
             "vertex"    : "bullet3_vertex_shader.glsl",
             "fragment"  : "bullet3_fragment_shader.glsl"
         },
+        {
+            "name"      : "lightShader",
+            "vertex"    : "light_vertex_shader.glsl",
+            "fragment"  : "light_fragment_shader.glsl"
+        }
     ]
 }
