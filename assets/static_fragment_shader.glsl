@@ -1,5 +1,10 @@
 #version 450 core
 
+struct Camera
+{
+    vec3 positon;
+};
+
 struct Light
 {
     vec3 position;

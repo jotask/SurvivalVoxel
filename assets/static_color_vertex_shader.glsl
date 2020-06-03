@@ -25,6 +25,5 @@ out vec2 TexCoords;
 void main()
 {
   Colour = color;
-  TexCoords = textureCoordinates;
   gl_Position = projection * view * model * vec4(position, 1.0);
 }

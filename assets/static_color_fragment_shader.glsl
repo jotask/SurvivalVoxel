@@ -1,5 +1,10 @@
 #version 450 core
 
+struct Camera
+{
+    vec3 positon;
+}
+
 struct Light
 {
     vec3 position;
@@ -10,7 +15,6 @@ struct Light
 };
 
 in vec4 Colour;
-in vec2 TexCoords;
 
 out vec4 out_color;
 
