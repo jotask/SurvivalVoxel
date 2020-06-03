@@ -22,3 +22,6 @@
 [submodule "dependencies/SOIL2"]
 	path = dependencies/SOIL2
 	url = https://github.com/SpartanJ/SOIL2.git
+[submodule "dependencies/GLSL-Shader-Includes"]
+	path = dependencies/GLSL-Shader-Includes
+	url = https://github.com/tntmeijs/GLSL-Shader-Includes.git
