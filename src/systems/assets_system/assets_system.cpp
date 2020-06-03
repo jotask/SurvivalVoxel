@@ -4,6 +4,7 @@
 #include "systems/entity_component_system/entity_component_system.hpp"
 #include "systems/entity_component_system/entity.hpp"
 #include "systems/shader_system/shader_system.hpp"
+#include "utils/json_loader.hpp"
 
 #include <imgui.h>
 
@@ -32,13 +33,25 @@ namespace aiko
     {
         m_imguiSystem->registerSystem("AssetsSystem", m_renderImgui);
 
-        auto fullPathToFile = std::filesystem::current_path() / ("../assets/box.obj");
-        // auto fullPathToFile = std::filesystem::current_path() / ("../assets/dragon_low_poly.obj");
-        //auto fullPathToFile = std::filesystem::current_path() / ("../assets/dragon.obj");
-        //auto fullPathToFile = std::filesystem::current_path() / ("../assets/stall_2.obj");
+        auto assetsJson = jsonLoader::loadJson("../assets/assets.json");
 
-        loadModel(fullPathToFile.u8string());
+        const auto modelFolder = assetsJson["folder"].asString() + "/";
 
+        const auto assetsList = assetsJson["assets"];
+        for (auto i = 0u ; i < assetsList.size(); i++)
+        {
+            const auto load = assetsList[i]["load"].asBool();
+            if(load == true)
+            {
+                const auto name = assetsList[i]["name"].asString();
+                const auto file = assetsList[i]["file"].asString();
+                const auto shader = assetsList[i]["shader"].asString();
+
+                loadModel(name, modelFolder + file, shader);
+
+            }
+
+        }
         return true;
     }
 
@@ -52,12 +65,17 @@ namespace aiko
         }
     }
 
-    void AssetsSystem::loadModel(const std::string path)
+    void AssetsSystem::loadModel(const std::string name, const std::string file, const std::string shaderName)
     {
-        auto& shader = m_shaderSystem->getShader();
+        auto& shader = m_shaderSystem->getShader(shaderName);
 
         auto& entity = m_entityComponentSystem->addEntity();
-        auto& model = entity.addComponent<Model>(&entity, shader, path);
+
+        auto fullPathToFile = std::filesystem::current_path() / ("../assets/models/box.obj");
+
+        auto tmp = (std::filesystem::current_path() / "../assets/" /file).u8string();
+
+        auto& model = entity.addComponent<Model>(&entity, shader, tmp);
         model.load();
         m_models.push_back(std::move(model));
     }

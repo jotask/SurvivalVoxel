@@ -25,7 +25,7 @@ namespace aiko
 
         virtual void render() override;
 
-        void loadModel(const std::string path);
+        void loadModel(const std::string name, const std::string file, const std::string shader);
 
     private:
 
