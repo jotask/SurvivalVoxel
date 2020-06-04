@@ -14,7 +14,7 @@ project "assimp"
     "4065",
     "4275",
     "4267"
-}
+  }
 
   defines {
     "ASSIMP_BUILD_NO_C4D_IMPORTER", -- Cinema4D is MSVC only and needs some weird headers to work
