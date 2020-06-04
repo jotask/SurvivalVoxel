@@ -1,14 +1,14 @@
 project "OpenAl"
     kind "StaticLib"
-    language "C"
+    language "C++"
+    cppdialect "C++14"
     architecture "x86_64"
 
     targetdir "../build/bin/%{cfg.buildcfg}"
     objdir "../build/obj/%{cfg.buildcfg}"
 
     defines {
-        "AL_BUILD_LIBRARY",
-        "AL_ALEXT_PROTOTYPES",
+        "AL_LIBTYPE_STATIC",
     }
 
     files {
@@ -37,9 +37,22 @@ project "OpenAl"
     }
 
     filter "system:windows"
+        systemversion "latest"
         defines {
+            "WIN32",
+            "_WINDOWS",
+            "AL_BUILD_LIBRARY",
+            "AL_ALEXT_PROTOTYPES",
+            "_WIN32",
+            "_WIN32_WINNT=0x0502",
             "_CRT_SECURE_NO_WARNINGS",
             "NOMINMAX",
+            "CMAKE_INTDIR=\"Debug\"",
+            "OpenAL_EXPORTS"
+        }
+
+        links {
+            "winmm"
         }
 
         files {

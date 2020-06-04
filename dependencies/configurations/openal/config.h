@@ -1,6 +1,6 @@
 /* API declaration export attribute */
-#define AL_API  __declspec(dllexport)
-#define ALC_API __declspec(dllexport)
+#define AL_API 
+#define ALC_API
 
 /* Define a restrict macro for non-aliased pointers */
 #define RESTRICT __restrict
@@ -41,9 +41,6 @@
 /* Define if we have the SndIO backend */
 /* #undef HAVE_SNDIO */
 
-/* Define if we have the QSA backend */
-/* #undef HAVE_QSA */
-
 /* Define if we have the WASAPI backend */
 #define HAVE_WASAPI
 
@@ -68,20 +65,17 @@
 /* Define if we have the OpenSL backend */
 /* #undef HAVE_OPENSL */
 
+/* Define if we have the Oboe backend */
+/* #undef HAVE_OBOE */
+
 /* Define if we have the Wave Writer backend */
 #define HAVE_WAVE
 
 /* Define if we have the SDL2 backend */
 /* #undef HAVE_SDL2 */
 
-/* Define if we have the stat function */
-#define HAVE_STAT
-
 /* Define to the size of a long int type */
 #define SIZEOF_LONG 4
-
-/* Define if we have GCC's format attribute */
-/* #undef HAVE_GCC_FORMAT */
 
 /* Define if we have dlfcn.h */
 /* #undef HAVE_DLFCN_H */
@@ -92,17 +86,11 @@
 /* Define if we have malloc.h */
 #define HAVE_MALLOC_H
 
-/* Define if we have dirent.h */
-/* #undef HAVE_DIRENT_H */
-
 /* Define if we have cpuid.h */
 /* #undef HAVE_CPUID_H */
 
 /* Define if we have intrin.h */
 #define HAVE_INTRIN_H
-
-/* Define if we have sys/sysconf.h */
-/* #undef HAVE_SYS_SYSCONF_H */
 
 /* Define if we have guiddef.h */
 #define HAVE_GUIDDEF_H

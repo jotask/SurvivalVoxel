@@ -36,6 +36,10 @@ project "SurvivalVoxel"
     targetdir "build/bin/%{cfg.buildcfg}"
     objdir "build/obj/%{cfg.buildcfg}"
 
+    defines {
+        "AL_LIBTYPE_STATIC"
+    }
+
     includedirs {
         "src/",
         "dependencies/glad/include/",
