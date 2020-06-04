@@ -8,6 +8,7 @@
 #include "systems/camera_system.hpp"
 #include "systems/assets_system/assets_system.hpp"
 #include "systems/shader_system/shader_system.hpp"
+#include "systems/audio_system/audio_system.hpp"
 #include "systems/light_system/light_system.hpp"
 #include "systems/physics_system/physics_system.hpp"
 #include "systems/event_system/event_system.hpp"
@@ -49,6 +50,7 @@ namespace aiko
         m_systems.push_back(std::make_unique<ShaderSystem>());
         m_systems.push_back(std::make_unique<LightSystem>());
         m_systems.push_back(std::make_unique<PhysicsSystem>());
+        m_systems.push_back(std::make_unique<AudioSystem>());
         m_systems.push_back(std::make_unique<EntityComponentSystem>());
         m_systems.push_back(std::make_unique<AssetsSystem>());
 
