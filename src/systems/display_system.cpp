@@ -2,7 +2,9 @@
 
 #include "systems/event_system/event_system.hpp"
 #include "systems/event_system/engine_events.hpp"
+#include "utils/json_loader.hpp"
 
+#include "json/json.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -34,7 +36,13 @@ namespace aiko
 
         printf("GLFW version: %s\n", glfwGetVersionString());
 
-        m_window = glfwCreateWindow(800, 600, "Survival Voxel", nullptr, nullptr);
+        const auto json = jsonLoader::loadJson("../config/window.json");
+
+        const auto width = json["window"]["size"]["width"].asInt();
+        const auto height = json["window"]["size"]["height"].asInt();
+        const auto tittle = json["window"]["tittle"].asString();
+
+        m_window = glfwCreateWindow(width, height, tittle.c_str(), nullptr, nullptr);
 
         if (m_window == nullptr)
         {
