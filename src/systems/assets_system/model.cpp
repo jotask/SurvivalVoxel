@@ -33,7 +33,7 @@ namespace aiko
     {
 
         static auto shineDamper = 1.0f;
-        static auto reflectivity = 1.0f;
+        static auto reflectivity = 0.0f;
 
         {
             if (ImGui::Begin("test") == true)
