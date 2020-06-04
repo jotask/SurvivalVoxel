@@ -51,6 +51,7 @@ project "SurvivalVoxel"
         "dependencies/GLSL-Shader-Includes/",
         "dependencies/jsoncpp/include",
         "dependencies/spdlog/include",
+        "dependencies/openal-soft/include",
     }
 
     files {
@@ -69,6 +70,7 @@ project "SurvivalVoxel"
         "assimp",
         "Jsoncpp",
         "SpdLog",
+        "OpenAl",
     }
 
     filter "system:linux"
@@ -96,3 +98,4 @@ group "Dependencies"
     include "dependencies/assimp.lua"
     include "dependencies/jsoncpp.lua"
     include "dependencies/spdlog.lua"
+    include "dependencies/openal.lua"
