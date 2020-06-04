@@ -4,6 +4,7 @@
 #include "systems/entity_component_system/entity.hpp"
 #include "systems/shader_system/shader_system.hpp"
 #include "systems/entity_component_system/entity_component_system.hpp"
+#include "systems/light_system/debug_light_renderer.hpp"
 
 #include <imgui.h>
 
@@ -15,6 +16,7 @@ namespace aiko
         , m_imguiSystem(nullptr)
         , m_shaderSystem(nullptr)
         , m_entitySystem(nullptr)
+        , m_lightRenderer(nullptr)
     {
 
     }
@@ -34,6 +36,9 @@ namespace aiko
         addLight({ 0.f, 100, 0.f }, { 1.f, 1.f, 1.f }, { 0.5f, 0.5f, 0.5f }, { 0.f , 0.f, 0.f }, { 1.f , 1.f , 1.f });
         addLight({ 0.f, 100, 0.f }, { 0.f, 1.f, 1.f }, { 0.5f, 0.5f, 0.5f }, { 0.f , 0.f, 0.f }, { 1.f , 1.f , 1.f });
         addLight({ 0.f, 100, 0.f }, { 0.f, 1.f, 0.f }, { 0.5f, 0.5f, 0.5f }, { 0.f , 0.f, 0.f }, { 1.f , 1.f , 1.f });
+
+        m_lightRenderer = std::make_unique<DebugLightRenderer>();
+        m_lightRenderer->init();
 
         return true;
     }
@@ -70,7 +75,7 @@ namespace aiko
                 auto& light = m_entitySystem->getEntityByIdInTag(m_lights[i], entity::EntityTag::LIGHT).getComponent<Light>();
                 const auto lightName = "Light: " + std::to_string(i);
                 ImGui::Text(lightName.c_str());
-                ImGui::SliderFloat3("Position", &light.position.x, -200 , 200);
+                ImGui::SliderFloat3("Position", &light.position.x, -50 , 50);
                 ImGui::ColorEdit3("Color", &light.color.x);
                 ImGui::SliderFloat3("ambient", &light.ambient.x, 0.f, 1.f);
                 ImGui::SliderFloat3("diffuse", &light.diffuse.x, 0.f, 1.f);
@@ -103,15 +108,22 @@ namespace aiko
             shader->unuse();
         }
 
-        if (m_renderLightCubes == true)
+        if (m_lightRenderer!= nullptr && m_renderLightCubes == true)
         {
             auto& shader = m_shaderSystem->getShader("lightShader");
             shader.use();
+            auto model = glm::mat4(1.0f);
             for (const auto& l : m_lights)
             {
                 auto& light = m_entitySystem->getEntityByIdInTag(l, entity::EntityTag::LIGHT).getComponent<Light>();
-                shader.setVec3("position", light.position);
-                shader.setVec3("color", light.color);
+
+                model = glm::mat4(1.0f);
+                model = glm::translate(model, light.position);
+                model = glm::scale(model, glm::vec3(0.5f));
+
+                shader.setMat4("model", model);
+                shader.setVec3("lightColor", light.color);
+                m_lightRenderer->render();
             }
             shader.unuse();
         }

@@ -3,6 +3,7 @@
 #include "systems/system_interface.hpp"
 #include "systems/light_system/light.hpp"
 #include "systems/entity_component_system/entity_types.hpp"
+#include "utils/shared.hpp"
 
 #include <glm/glm.hpp>
 
@@ -14,6 +15,7 @@ namespace aiko
     class ImguiSystem;
     class ShaderSystem;
     class EntityComponentSystem;
+    class DebugLightRenderer;
 
     class LightSystem : public System
     {
@@ -43,6 +45,7 @@ namespace aiko
         ImguiSystem* m_imguiSystem;
         ShaderSystem* m_shaderSystem;
         EntityComponentSystem* m_entitySystem;
+        AikoPtr<DebugLightRenderer> m_lightRenderer;
 
         std::vector<entity::EntityId> m_lights;
 
