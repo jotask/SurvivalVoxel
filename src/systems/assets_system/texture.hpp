@@ -1,5 +1,7 @@
 #pragma once
 
+#include "systems/assets_system/asset.hpp"
+
 #include <glad/glad.h>
 
 #include <string>
@@ -7,12 +9,14 @@
 namespace aiko
 {
 
-    class Texture
+    class Texture : public Asset
     {
     public:
 
         Texture(const GLuint id, std::string type, std::string path);
-        ~Texture() = default;
+        virtual ~Texture() = default;
+
+        virtual bool load() override;
 
         GLuint getId() const;
         std::string getType() const;

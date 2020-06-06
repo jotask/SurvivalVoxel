@@ -20,9 +20,9 @@ namespace aiko
 
         const auto isDynamic = (m_data.mass != 0.f);
 
-        if (entity->hasComponent<Mesh>() == true)
+        if (entity->hasComponent<Mesho>() == true)
         {
-            auto& mesh = entity->getComponent<Mesh>();
+            auto& mesh = entity->getComponent<Mesho>();
             if (isDynamic == false)
             {
                 m_triangleMeshStatic = std::move(factory::physics::createStaticCollisionShapeFromMeshData(getEntity()->getTransform(), mesh.getMeshData()));

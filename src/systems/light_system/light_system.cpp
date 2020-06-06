@@ -137,7 +137,7 @@ namespace aiko
     void LightSystem::addLight(glm::vec3 position, glm::vec3 color, glm::vec3 diffuse, glm::vec3 ambient, glm::vec3 specular)
     {
         auto& entity = m_entitySystem->addEntity(entity::EntityTag::LIGHT);
-        auto& light = entity.addComponent<Light>(&entity);
+        auto& light = entity.addComponent<Light>();
         light.position = position;
         light.color = color;
         light.diffuse = diffuse;

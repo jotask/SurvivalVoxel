@@ -82,7 +82,7 @@ namespace aiko
 
             auto data = chunk::factory::generateChunkData(this);
             auto* entity = getEntity();
-            auto& mesh = getEntity()->addComponent<Mesh>(entity, shader, data);
+            auto& mesh = getEntity()->addComponent<Mesho>(shader, data);
             mesh.create();
         }
     }

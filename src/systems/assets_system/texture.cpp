@@ -4,11 +4,17 @@ namespace aiko
 {
 
     Texture::Texture(const GLuint id, std::string type, std::string path)
-        : m_id(id)
+        : Asset(AssetType::Texture)
+        , m_id(id)
         , m_type(type)
         , m_path(path)
     {
 
+    }
+
+    bool Texture::load()
+    {
+        return false;
     }
 
     GLuint Texture::getId() const

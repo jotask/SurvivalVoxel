@@ -19,14 +19,11 @@
 namespace aiko
 {
 
-    Mesh::Mesh(std::vector<VertexInfo> vertices, std::vector<GLuint> indices, std::vector<Texture> textures)
+    Mesh::Mesh(const MeshData& data)
+        : Asset(AssetType::Mesh)
+        , m_meshData(data)
     {
-        this->vertices = vertices;
-        this->indices = indices;
-        this->textures = textures;
-
-        // Now that we have all the required data, set the vertex buffers and its attribute pointers.
-        this->setupMesh();
+        load();
     }
 
     // Render the mesh
@@ -41,12 +38,12 @@ namespace aiko
         GLuint normalNr = 1;
         GLuint heightNr = 1;
 
-        for (GLuint i = 0; i < this->textures.size(); i++)
+        for (GLuint i = 0; i < m_meshData.m_textures.size(); i++)
         {
             glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
             // retrieve texture number (the N in diffuse_textureN)
             std::string number;
-            std::string name = textures[i].getType();
+            std::string name = m_meshData.m_textures[i].getType();
             if (name == "texture_diffuse")
             {
                 number = std::to_string(diffuseNr++);
@@ -68,7 +65,7 @@ namespace aiko
             shader.setInt((name + '_' + number).c_str(), i);
 
             // And finally bind the texture
-            glBindTexture(GL_TEXTURE_2D, this->textures[i].getId());
+            glBindTexture(GL_TEXTURE_2D, m_meshData.m_textures[i].getId());
         }
 
         // Also set each mesh's shininess property to a default value (if you want you could extend this to another mesh property and possibly change this value)
@@ -76,11 +73,11 @@ namespace aiko
 
         // Draw mesh
         glBindVertexArray(this->VAO);
-        glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(this->indices.size()), GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_meshData.m_indices.size()), GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 
         // Always good practice to set everything back to defaults once configured.
-        for (GLuint i = 0; i < this->textures.size(); i++)
+        for (GLuint i = 0; i < m_meshData.m_textures.size(); i++)
         {
             glActiveTexture(GL_TEXTURE0 + i);
             glBindTexture(GL_TEXTURE_2D, 0);
@@ -90,7 +87,7 @@ namespace aiko
 
     }
 
-    void Mesh::setupMesh()
+    bool Mesh::load()
     {
         // Create buffers/arrays
         glGenVertexArrays(1, &this->VAO);
@@ -99,11 +96,11 @@ namespace aiko
         // Load data into vertex buffers
         glGenBuffers(1, &this->VBO);
         glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
-        glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(VertexInfo), &this->vertices[0], GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, m_meshData.m_vertices.size() * sizeof(VertexInfo), &m_meshData.m_vertices[0], GL_STATIC_DRAW);
 
         glGenBuffers(1, &this->EBO);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->indices.size() * sizeof(GLuint), &this->indices[0], GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_meshData.m_indices.size() * sizeof(GLuint), &m_meshData.m_indices[0], GL_STATIC_DRAW);
 
         // Set the vertex attribute pointers
         // Vertex Positions
@@ -120,6 +117,9 @@ namespace aiko
         glVertexAttribPointer(GLuint(Attributes::UVs), 2, GL_FLOAT, GL_FALSE, sizeof(VertexInfo), (GLvoid *)offsetof(VertexInfo, m_texture));
 
         glBindVertexArray(0);
+
+        return true;
+
     }
 
 }

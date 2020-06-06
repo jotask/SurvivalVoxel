@@ -4,6 +4,7 @@
 #include "system/chunk_system/vertex_info.hpp"
 #include "engine.hpp"
 #include "system/shader_system/shader_system.hpp"
+#include "systems/render_system/mesh_data.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
@@ -18,7 +19,7 @@ namespace aiko
         namespace mesh
         {
 
-            static Mesh::MeshData generateSpehereData(const int _resolution, const float _radius)
+            static MeshData generateSpehereData(const int _resolution, const float _radius)
             {
 
                 const auto res = std::max(_resolution, 20);

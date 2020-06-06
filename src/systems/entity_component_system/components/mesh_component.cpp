@@ -11,7 +11,7 @@
 namespace aiko
 {
 
-    Mesh::Mesh(Entity* entity, Shader& shader, MeshData& meshData)
+    Mesho::Mesho(Entity* entity, Shader& shader, MeshData& meshData)
         : Component(entity)
         , m_meshData(meshData)
         , m_shader(shader)
@@ -22,12 +22,12 @@ namespace aiko
 
     }
 
-    Mesh::~Mesh()
+    Mesho::~Mesho()
     {
         destroy();
     }
 
-    void Mesh::create()
+    void Mesho::create()
     {
 
         glGenVertexArrays(1, &m_vao);
@@ -58,7 +58,7 @@ namespace aiko
 
     }
 
-    void Mesh::setTexture(const std::string & textureName, GLuint textureId)
+    void Mesho::setTexture(const std::string & textureName, GLuint textureId)
     {
         if (textureId != 0)
         {
@@ -70,49 +70,49 @@ namespace aiko
         }
     }
 
-    GLuint Mesh::getTextureId(const std::string& texture) const
+    GLuint Mesho::getTextureId(const std::string& texture) const
     {
         return m_textures.at(texture);
     }
 
-    GLuint Mesh::getVao() const
+    GLuint Mesho::getVao() const
     {
         return m_vao;
     }
 
-    GLuint Mesh::getVbo() const
+    GLuint Mesho::getVbo() const
     {
         return m_vbo;
     }
 
-    GLuint Mesh::getIbo() const
+    GLuint Mesho::getIbo() const
     {
         return m_ibo;
     }
 
-    Shader& Mesh::getShader() const
+    Shader& Mesho::getShader() const
     {
         return m_shader;
     }
 
-    void Mesh::destroy()
+    void Mesho::destroy()
     {
         glDeleteVertexArrays(1, &m_vao);
         glDeleteBuffers(1, &m_vbo);
         glDeleteBuffers(1, &m_ibo);
     }
 
-    MeshData& Mesh::getMeshData()
+    MeshData& Mesho::getMeshData()
     {
         return m_meshData;
     }
 
-    void Mesh::update()
+    void Mesho::update()
     {
 
     }
 
-    void Mesh::render()
+    void Mesho::render()
     {
 
         static Material m_material = { {1.f, 1.f, 1.f}, {0.1f, 0.1f, 0.1f}, {1.f, 1.f, 1.f}, {10.f} };

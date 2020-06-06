@@ -18,12 +18,12 @@ namespace aiko
 
     class Entity;
 
-    class Mesh : public Component
+    class Mesho : public Component
     {
     public:
 
-        Mesh(Entity* entity, Shader& shader, MeshData& meshData);
-        ~Mesh();
+        Mesho(Entity* entity, Shader& shader, MeshData& meshData);
+        ~Mesho();
 
         void create();
 

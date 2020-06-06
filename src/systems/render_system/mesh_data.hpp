@@ -11,6 +11,14 @@ namespace aiko
     {
     public:
 
+        MeshData(std::vector<VertexInfo> vertices, std::vector<GLuint> indices, std::vector<Texture> textures)
+            : m_vertices(vertices)
+            , m_indices(indices)
+            , m_textures(textures)
+        {
+
+        }
+
         MeshData(std::vector<VertexInfo> vertices, std::vector<GLuint> indices)
             : m_vertices(vertices)
             , m_indices(indices)

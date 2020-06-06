@@ -75,7 +75,7 @@ namespace aiko
         template<class T, class... TArgs>
         T& addComponent(TArgs&&... args)
         {
-            T* c(new T(std::forward<TArgs>(args)...));
+            T* c(new T(this, std::forward<TArgs>(args)...));
             AikoUPtr<Component> ptr{ c };
             m_components.emplace_back(std::move(ptr));
 
