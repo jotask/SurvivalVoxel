@@ -1,49 +1,46 @@
 #pragma once
 
 #include "systems/system_interface.hpp"
-#include "systems/game_state_manager_system/state.hpp"
+
+#include <optional>
+#include <utility>
 
 namespace aiko
 {
 
     class ImguiSystem;
+    class State;
 
-    class GameStateManager : public System
+    class GameStateManagerSystem : public System
     {
     public:
 
-        GameStateManager();
-        virtual ~GameStateManager() override;
+        GameStateManagerSystem();
+        virtual ~GameStateManagerSystem() override;
 
         virtual bool connect(SystemConnector&) override;
         virtual bool init() override;
-
-        virtual void preUpdate() override;
         virtual void update() override;
         virtual void postUpdate() override;
-
-        virtual void preRender() override;
         virtual void render() override;
-        virtual void postRender() override;
 
-        template<class T, class ...Args>
-        void pushState(Args...)
+        template<class T>
+        void changeState(bool popLastState = true)
         {
-            m_states.emplace_back(std::make_unique<T>(Args...));
-            while (getCurrentState()->onEnter() == false);
+            static_assert(std::is_base_of<State, T>::value, "State is not base from the abstract state class!");
+            m_nextState = std::make_pair(popLastState, std::make_unique<T>());
         }
 
-        State* getCurrentState();
-
-        void popState();
-
     private:
+        State* getCurrentState();
 
         bool m_renderImgui;
 
         ImguiSystem* m_imguiSystem;
 
         std::vector<AikoUPtr<State>> m_states;
+
+        std::optional<std::pair<bool, AikoUPtr<State>>> m_nextState;
 
     };
 

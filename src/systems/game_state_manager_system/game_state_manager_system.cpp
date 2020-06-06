@@ -2,62 +2,77 @@
 
 #include "systems/imgui_system.hpp"
 
+#include "systems/game_state_manager_system/states/test_state.hpp"
+
 #include <imgui.h>
 
 namespace aiko
 {
-    GameStateManager::GameStateManager()
+    GameStateManagerSystem::GameStateManagerSystem()
         : m_renderImgui(false)
         , m_imguiSystem(nullptr)
+        , m_nextState(std::nullopt)
     {
 
     }
 
-    GameStateManager::~GameStateManager()
+    GameStateManagerSystem::~GameStateManagerSystem()
     {
         while (m_states.empty() == false)
         {
-            popState();
+            m_states.pop_back();
         }
     }
 
-    bool GameStateManager::connect(SystemConnector & connector)
+    bool GameStateManagerSystem::connect(SystemConnector & connector)
     {
         m_imguiSystem = connector.findSystem<ImguiSystem>();
 
         return true;
     }
 
-    bool GameStateManager::init()
+    bool GameStateManagerSystem::init()
     {
         m_imguiSystem->registerSystem("GameStateManager", m_renderImgui);
+
+        changeState<TestState>();
+
         return true;
     }
 
-    void GameStateManager::preUpdate()
+    void GameStateManagerSystem::update()
     {
 
-    }
-
-    void GameStateManager::update()
-    {
         if (getCurrentState() != nullptr)
         {
-            while (getCurrentState()->onUpdate() == false);
+            while (getCurrentState()->onUpdate(this) == false);
         }
     }
 
-    void GameStateManager::postUpdate()
+    void GameStateManagerSystem::postUpdate()
     {
+        if (m_nextState != std::nullopt)
+        {
 
+            if (getCurrentState() != nullptr)
+            {
+                while (getCurrentState()->onExit() == false);
+            }
+
+            if (m_nextState.value().first == true && m_states.empty() == false)
+            {
+                m_states.pop_back();
+            }
+
+            m_states.push_back(std::move(m_nextState.value().second));
+            m_nextState = std::nullopt;
+
+            while (getCurrentState()->onEnter() == false);
+
+        }
     }
 
-    void GameStateManager::preRender()
-    {
-
-    }
-
-    void GameStateManager::render()
+    void GameStateManagerSystem::render()
     {
         if (m_renderImgui == true)
         {
@@ -66,12 +81,8 @@ namespace aiko
         }
     }
 
-    void GameStateManager::postRender()
-    {
 
-    }
-
-    State * GameStateManager::getCurrentState()
+    State * GameStateManagerSystem::getCurrentState()
     {
         if (m_states.empty() == true)
         {
@@ -80,15 +91,6 @@ namespace aiko
         else
         {
             return m_states.back().get();
-        }
-    }
-
-    void GameStateManager::popState()
-    {
-        if (getCurrentState() != nullptr)
-        {
-            while (getCurrentState()->onExit() == false);
-            m_states.pop_back();
         }
     }
 

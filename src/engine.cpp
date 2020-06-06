@@ -54,7 +54,7 @@ namespace aiko
         m_systems.push_back(std::make_unique<AudioSystem>());
         m_systems.push_back(std::make_unique<EntityComponentSystem>());
         m_systems.push_back(std::make_unique<AssetsSystem>());
-        m_systems.push_back(std::make_unique<GameStateManager>());
+        m_systems.push_back(std::make_unique<GameStateManagerSystem>());
 
         // Game systems
         // m_systems.push_back(std::make_unique<ChunkSystem>());
