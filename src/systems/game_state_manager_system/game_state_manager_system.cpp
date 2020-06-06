@@ -5,6 +5,7 @@
 #include "systems/game_state_manager_system/states/test_state.hpp"
 
 #include <imgui.h>
+#include <iostream>
 
 namespace aiko
 {
@@ -12,6 +13,7 @@ namespace aiko
         : m_renderImgui(false)
         , m_imguiSystem(nullptr)
         , m_nextState(std::nullopt)
+        , m_popLastState(false)
     {
 
     }
@@ -70,6 +72,26 @@ namespace aiko
             while (getCurrentState()->onEnter() == false);
 
         }
+        else if (m_popLastState == true)
+        {
+            m_popLastState = false;
+
+            if (getCurrentState() != nullptr)
+            {
+                while (getCurrentState()->onExit() == false);
+            }
+
+            if (getCurrentState() != nullptr)
+            {
+                while (getCurrentState()->onEnter() == false);
+            }
+            else
+            {
+                std::cout << "No more States!" << std::endl;
+            }
+
+
+        }
     }
 
     void GameStateManagerSystem::render()
@@ -81,6 +103,11 @@ namespace aiko
         }
     }
 
+
+    void GameStateManagerSystem::popState()
+    {
+        m_popLastState = true;
+    }
 
     State * GameStateManagerSystem::getCurrentState()
     {
