@@ -15,6 +15,7 @@
 #include "systems/system_connector.hpp"
 #include "systems/entity_component_system/entity_component_system.hpp"
 #include "systems/event_system/engine_events.hpp"
+#include "systems/game_state_manager_system/game_state_manager_system.hpp"
 
 #include "systems/chunk_system/chunk_system.hpp"
 
@@ -53,6 +54,7 @@ namespace aiko
         m_systems.push_back(std::make_unique<AudioSystem>());
         m_systems.push_back(std::make_unique<EntityComponentSystem>());
         m_systems.push_back(std::make_unique<AssetsSystem>());
+        m_systems.push_back(std::make_unique<GameStateManager>());
 
         // Game systems
         // m_systems.push_back(std::make_unique<ChunkSystem>());
