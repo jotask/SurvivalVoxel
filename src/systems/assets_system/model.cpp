@@ -38,7 +38,7 @@ namespace aiko
         m_textures.push_back(texture);
     }
 
-    void Model::render()
+    void Model::render(glm::mat4 modelMatrix)
     {
 
         static auto shineDamper = 1.0f;
@@ -53,11 +53,8 @@ namespace aiko
             ImGui::End();
         }
 
-        auto model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0,0,0));
-
         m_shader.use();
-        m_shader.setMat4("model", model);
+        m_shader.setMat4("model", modelMatrix);
         m_shader.setFloat("shineDamper", shineDamper);
         m_shader.setFloat("reflectivity", reflectivity);
         m_shader.unuse();

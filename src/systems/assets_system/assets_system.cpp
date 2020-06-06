@@ -58,6 +58,8 @@ namespace aiko
                     models.emplace_back(std::make_unique<Model>(opt.value()));
 
                     auto& e = m_entityComponentSystem->addEntity();
+                    e.getTransform().scale *= 2.f;
+
                     auto* tmp = static_cast<Model*>(models[models.size() - 1].get());
                     e.addComponent<ModelComponent>(tmp);
 

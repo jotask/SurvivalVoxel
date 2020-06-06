@@ -1,6 +1,7 @@
 #include "model_component.hpp"
 
 #include "systems/entity_component_system/entity.hpp"
+
 #include "systems/assets_system/model.hpp"
 
 namespace aiko
@@ -15,7 +16,8 @@ namespace aiko
 
     void ModelComponent::render()
     {
-        m_model->render();
+        auto modelMatrix = getEntity()->getTransform().getModelMatrix();
+        m_model->render(modelMatrix);
     }
 
 }

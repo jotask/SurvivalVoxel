@@ -27,7 +27,7 @@ namespace aiko
         void addMesh(Mesh* mesh);
         void addTexture(Texture* texture);
 
-        void render();
+        void render(glm::mat4 modelMatrix);
 
     private:
 
