@@ -11,6 +11,7 @@
 #include "systems/physics_system/rigid_body_converter.hpp"
 #include "systems/physics_system/rigid_body_data.hpp"
 #include "utils/transform.hpp"
+#include "systems/render_system/mesh_data.hpp"
 
 #include <btBulletDynamicsCommon.h>
 
@@ -25,28 +26,28 @@ namespace aiko
         namespace physics
         {
 
-            static AikoUPtr<btTriangleMesh> createStaticCollisionShapeFromMeshData(Transform transform, Mesh::MeshData& mesh)
+            static AikoUPtr<btTriangleMesh> createStaticCollisionShapeFromMeshData(Transform transform, MeshData& mesh)
             {
 
                 auto shape = std::make_unique<btTriangleMesh>();
 
-                for (int i = 0 ; i < mesh.indices.size() ; i += 3)
+                for (int i = 0 ; i < mesh.m_indices.size() ; i += 3)
                 {
-                    auto v1 = mesh.vertices[mesh.indices[i + 0]].m_position;
-                    auto v2 = mesh.vertices[mesh.indices[i + 1]].m_position;
-                    auto v3 = mesh.vertices[mesh.indices[i + 2]].m_position;
+                    auto v1 = mesh.m_vertices[mesh.m_indices[i + 0]].m_position;
+                    auto v2 = mesh.m_vertices[mesh.m_indices[i + 1]].m_position;
+                    auto v3 = mesh.m_vertices[mesh.m_indices[i + 2]].m_position;
                     shape->addTriangle({ v1.x, v1.y, v1.z }, { v2.x, v2.y, v2.z }, { v3.x, v3.y, v3.z });
                 }
 
                 return std::move(shape);
             }
 
-            static AikoUPtr<btConvexHullShape> createConvexHullCollisionShapeFromMeshData(Transform transform, Mesh::MeshData& mesh)
+            static AikoUPtr<btConvexHullShape> createConvexHullCollisionShapeFromMeshData(Transform transform, MeshData& mesh)
             {
 
                 auto shape = std::make_unique<btConvexHullShape>();
 
-                for (auto& v : mesh.vertices)
+                for (auto& v : mesh.m_vertices)
                 {
                     shape->addPoint(aiko::physics::converter::glmToBullet(v.getVertexPosition()));
                 }

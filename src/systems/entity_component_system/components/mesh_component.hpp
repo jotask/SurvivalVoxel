@@ -4,6 +4,7 @@
 #include "systems/shader_system/shader.hpp"
 #include "systems/render_system/material.hpp"
 #include "systems/entity_component_system/components/component.hpp"
+#include "systems/render_system/mesh_data.hpp"
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
@@ -20,18 +21,6 @@ namespace aiko
     class Mesh : public Component
     {
     public:
-
-        struct MeshData
-        {
-            MeshData(const std::vector<VertexInfo> _vertices, std::vector<unsigned int> _indices)
-                : vertices(_vertices)
-                , indices(_indices)
-            {
-
-            }
-            const std::vector<VertexInfo> vertices;
-            std::vector<unsigned int> indices;
-        };
 
         Mesh(Entity* entity, Shader& shader, MeshData& meshData);
         ~Mesh();

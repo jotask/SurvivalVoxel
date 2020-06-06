@@ -37,13 +37,13 @@ namespace aiko
         glGenBuffers(1, &m_vbo);
         // Array Buffer Size for Vertices = Number of Vertices * size of each vertex 
         glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-        glBufferData(GL_ARRAY_BUFFER, m_meshData.vertices.size() * sizeof(VertexInfo), &m_meshData.vertices[0], GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, m_meshData.m_vertices.size() * sizeof(VertexInfo), &m_meshData.m_vertices[0], GL_STATIC_DRAW);
 
         // Bind ibo
         glGenBuffers(1, &m_ibo);
         // Array Buffer Size for Indices = Number of Indices * size of each index (unsigned int)
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_meshData.indices.size() * sizeof(unsigned int), &m_meshData.indices[0], GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_meshData.m_indices.size() * sizeof(unsigned int), &m_meshData.m_indices[0], GL_STATIC_DRAW);
 
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexInfo), (void*)(offsetof(VertexInfo, VertexInfo::m_position)));
@@ -102,7 +102,7 @@ namespace aiko
         glDeleteBuffers(1, &m_ibo);
     }
 
-    Mesh::MeshData& Mesh::getMeshData()
+    MeshData& Mesh::getMeshData()
     {
         return m_meshData;
     }
@@ -132,7 +132,7 @@ namespace aiko
         m_shader.setFloat("material.shininess", m_material.shininess);
         m_shader.setMat4("model", getEntity()->getTransform().getModelMatrix());
         glBindVertexArray(m_vao);
-        glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_meshData.indices.size()), GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_meshData.m_indices.size()), GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 
     }

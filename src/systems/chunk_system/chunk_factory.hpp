@@ -30,7 +30,7 @@ namespace aiko
                 }
             }
 
-            static Mesh::MeshData generateChunkData(Chunk* chunk)
+            static MeshData generateChunkData(Chunk* chunk)
             {
 
                 std::vector<VertexInfo> vertices;
