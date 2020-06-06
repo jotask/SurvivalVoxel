@@ -4,7 +4,10 @@
 #include "systems/entity_component_system/entity_component_system.hpp"
 #include "systems/entity_component_system/entity.hpp"
 #include "systems/shader_system/shader_system.hpp"
+#include "systems/entity_component_system/components/model_component.hpp"
 #include "utils/json_loader.hpp"
+
+#include "systems/assets_system/assimp_loader.hpp"
 
 #include <imgui.h>
 
@@ -15,7 +18,6 @@ namespace aiko
     AssetsSystem::AssetsSystem()
         : m_imguiSystem(nullptr)
         , m_entityComponentSystem(nullptr)
-        , m_shaderSystem(nullptr)
         , m_renderImgui(false)
     {
 
@@ -25,7 +27,6 @@ namespace aiko
     {
         m_imguiSystem = connector.findSystem<ImguiSystem>();
         m_entityComponentSystem = connector.findSystem<EntityComponentSystem>();
-        m_shaderSystem = connector.findSystem<ShaderSystem>();
         return true;
     }
 
@@ -47,7 +48,20 @@ namespace aiko
                 const auto file = assetsList[i]["file"].asString();
                 const auto shader = assetsList[i]["shader"].asString();
 
-                loadModel(name, modelFolder + file, shader);
+                auto opt = loader::assimp::loadModel(this, name, modelFolder + file, shader);
+
+                if (opt != std::nullopt)
+                {
+
+                    auto& models = m_assets[AssetType::Model];
+
+                    models.emplace_back(std::make_unique<Model>(opt.value()));
+
+                    auto& e = m_entityComponentSystem->addEntity();
+                    auto* tmp = static_cast<Model*>(models[models.size() - 1].get());
+                    e.addComponent<ModelComponent>(tmp);
+
+                }
 
             }
 
@@ -60,24 +74,8 @@ namespace aiko
         if (m_renderImgui == true)
         {
             ImGui::Begin("AssetsSystem", &m_renderImgui);
-            ImGui::Text("Assets Loaded: " + m_models.size());
             ImGui::End();
         }
-    }
-
-    void AssetsSystem::loadModel(const std::string name, const std::string file, const std::string shaderName)
-    {
-        auto& shader = m_shaderSystem->getShader(shaderName);
-
-        auto& entity = m_entityComponentSystem->addEntity();
-
-        auto fullPathToFile = std::filesystem::current_path() / ("../assets/models/box.obj");
-
-        auto tmp = (std::filesystem::current_path() / "../assets/" /file).u8string();
-
-        auto& model = entity.addComponent<Model>(&entity, shader, tmp);
-        model.load();
-        m_models.push_back(std::move(model));
     }
 
 }

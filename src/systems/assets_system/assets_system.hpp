@@ -2,9 +2,12 @@
 
 #include "systems/system_interface.hpp"
 #include "systems/assets_system/model.hpp"
+#include "systems/assets_system/asset.hpp"
 
 #include <string>
 #include <vector>
+#include <map>
+#include <optional>
 
 namespace aiko
 {
@@ -25,17 +28,20 @@ namespace aiko
 
         virtual void render() override;
 
-        void loadModel(const std::string name, const std::string file, const std::string shader);
+        auto& getAssets(AssetType type)
+        {
+            return m_assets[type];
+        }
 
     private:
 
         ImguiSystem*    m_imguiSystem;
         EntityComponentSystem* m_entityComponentSystem;
-        ShaderSystem* m_shaderSystem;
 
         bool m_renderImgui;
 
-        std::vector<Model> m_models;
+        std::map<AssetType, std::vector<AikoUPtr<Asset>>> m_assets;
+
 
     };
 
