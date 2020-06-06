@@ -31,6 +31,8 @@ namespace aiko
             m_nextState = std::make_pair(popLastState, std::make_unique<T>());
         }
 
+        void popState();
+
     private:
         State* getCurrentState();
 
@@ -41,6 +43,8 @@ namespace aiko
         std::vector<AikoUPtr<State>> m_states;
 
         std::optional<std::pair<bool, AikoUPtr<State>>> m_nextState;
+
+        bool m_popLastState;
 
     };
 

@@ -44,7 +44,6 @@ namespace aiko
 
     void GameStateManagerSystem::update()
     {
-
         if (getCurrentState() != nullptr)
         {
             while (getCurrentState()->onUpdate(this) == false);
@@ -81,6 +80,11 @@ namespace aiko
                 while (getCurrentState()->onExit() == false);
             }
 
+            if (m_states.empty() == false)
+            {
+                m_states.pop_back();
+            }
+
             if (getCurrentState() != nullptr)
             {
                 while (getCurrentState()->onEnter() == false);
@@ -99,6 +103,11 @@ namespace aiko
         if (m_renderImgui == true)
         {
             ImGui::Begin("GameStateManager", &m_renderImgui);
+            ImGui::Text("Number of States %d", m_states.size());
+            if (ImGui::Button("PopState") == true)
+            {
+                popState();
+            }
             ImGui::End();
         }
     }
