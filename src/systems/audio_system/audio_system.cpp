@@ -7,6 +7,7 @@
 #include <imgui.h>
 
 #include <iostream>
+#include <vector>
 
 namespace aiko
 {
@@ -47,25 +48,22 @@ namespace aiko
 
             // Device enumeration
 
-            ALboolean enumeration;
-
-            enumeration = alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT");
+            ALboolean enumeration = alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT");
             if (enumeration == AL_FALSE)
             {
                 std::cout << "enumeration not supported" << std::endl;
-                // enumeration not supported
             }
             else
             {
                 std::cout << "enumeration supported" << std::endl;
-                // enumeration supported
             }
 
             // Retrieving the device list
 
             auto list_audio_devices = [](const ALCchar *devices)
             {
-                const ALCchar *device = devices, *next = devices + 1;
+                const ALCchar *device = devices;
+                const ALCchar *next = devices + 1;
                 size_t len = 0;
 
                 fprintf(stdout, "Devices list:\n");
@@ -83,10 +81,8 @@ namespace aiko
 
             // Context creation and initialization
 
-            ALCcontext *context;
-
-            context = alcCreateContext(device, NULL);
-            if (!alcMakeContextCurrent(context))
+            ALCcontext* context = alcCreateContext(device, NULL);
+            if (alcMakeContextCurrent(context) == ALC_FALSE)
             {
                 std::cout << "failed to make context current" << std::endl;
                 std::cout << "test for errors here using alGetError()" << std::endl;
@@ -118,7 +114,7 @@ namespace aiko
             // check for errors
             alSource3f(source, AL_VELOCITY, 0, 0, 0);
             // check for errors
-            alSourcei(source, AL_LOOPING, AL_TRUE);
+            alSourcei(source, AL_LOOPING, AL_FALSE);
             // check for errros
 
             // Buffer generation
@@ -128,20 +124,20 @@ namespace aiko
             // check for errors
 
             /* Fill buffer with Sine-Wave */
-            float freq = 440.f;
-            int seconds = 4;
-            unsigned sample_rate = 22050;
+            const auto freq = 440.f;
+            const auto seconds = 4;
+            const auto sample_rate = 22050u;
             size_t buf_size = seconds * sample_rate;
 
-            short *samples;
-            samples = new short[buf_size];
+            auto samples = std::vector<short>(buf_size);
             for (int i = 0; i < buf_size; ++i)
             {
-                samples[i] = 32760 * sin((2.f*float(3.1415)*freq) / sample_rate * i);
+                const auto data = 32760 * sin((2.f*float(3.1415)*freq) / sample_rate * i);
+                samples[i] = static_cast<short>(data);
             }
 
             /* Download buffer to OpenAL */
-            alBufferData(buffer, AL_FORMAT_MONO16, samples, buf_size, sample_rate);
+            alBufferData(buffer, AL_FORMAT_MONO16, samples.data(), static_cast<ALsizei>(samples.size()), sample_rate);
 
             // Binding a source to a buffer
             alSourcei(source, AL_BUFFER, buffer);
