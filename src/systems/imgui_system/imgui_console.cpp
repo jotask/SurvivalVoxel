@@ -41,24 +41,13 @@ namespace aiko
         m_items.push_back(buf);
     }
 
-    void AikoConsole::draw(const char* title, bool* p_open)
+    void AikoConsole::draw(bool* p_open)
     {
         ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
-        if (ImGui::Begin(title, p_open) == false)
+        if (ImGui::Begin("AikoConsole", p_open) == false)
         {
             ImGui::End();
             return;
-        }
-
-        // As a specific feature guaranteed by the library, after calling Begin() the last Item represent the title bar. So e.g. IsItemHovered() will return true when hovering the title bar.
-        // Here we create a context menu only available from the title bar.
-        if (ImGui::BeginPopupContextItem())
-        {
-            if (ImGui::MenuItem("Close Console"))
-            {
-                *p_open = false;
-            }
-            ImGui::EndPopup();
         }
 
         if (ImGui::SmallButton("Add Dummy Error"))
@@ -73,20 +62,6 @@ namespace aiko
         ImGui::SameLine();
         bool copy_to_clipboard = ImGui::SmallButton("Copy");
         ImGui::SameLine();
-
-        static auto printSpam = false;
-        ImGui::Checkbox("PrintSpam", &printSpam);
-        ImGui::SameLine();
-
-        if (printSpam == true)
-        {
-            static float t = 0.0f;
-            if (ImGui::GetTime() - t > 0.02f)
-            {
-                t = static_cast<float>(ImGui::GetTime());
-                addLog("Spam %f", t);
-            }
-        }
 
         ImGui::Separator();
 

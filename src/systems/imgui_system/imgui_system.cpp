@@ -72,7 +72,7 @@ namespace aiko
         if (m_showConsole == true)
         {
             static AikoConsole console;
-            console.draw("AikoConsole", &m_showConsole);
+            console.draw(&m_showConsole);
         }
     }
 

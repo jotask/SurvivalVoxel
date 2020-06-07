@@ -20,7 +20,7 @@ namespace aiko
 
         void addLog(const char* fmt, ...);
 
-        void draw(const char* title, bool* p_open);
+        void draw(bool* p_open);
 
     private:
 
