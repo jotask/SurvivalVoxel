@@ -14,7 +14,6 @@ namespace aiko
         CommandMap s_commands = {
             {"HELP", &command_Help},
             {"CLEAR", &command_Clear},
-            {"HISTORY", &command_History},
         };
 
     }

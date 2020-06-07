@@ -10,12 +10,6 @@
 namespace aiko
 {
 
-    // Portable helpers
-    static int   Stricmp(const char* str1, const char* str2) { int d; while ((d = toupper(*str2) - toupper(*str1)) == 0 && *str1) { str1++; str2++; } return d; }
-    static int   Strnicmp(const char* str1, const char* str2, int n) { int d = 0; while (n > 0 && (d = toupper(*str2) - toupper(*str1)) == 0 && *str1) { str1++; str2++; n--; } return d; }
-    static char* Strdup(const char *str) { size_t len = strlen(str) + 1; void* buf = malloc(len); IM_ASSERT(buf); return (char*)memcpy(buf, (const void*)str, len); }
-    static void  Strtrim(char* str) { char* str_end = str + strlen(str); while (str_end > str && str_end[-1] == ' ') str_end--; *str_end = 0; }
-
     AikoConsole::AikoConsole()
         : m_historyPos(-1)
         , m_autoScroll (true)
@@ -44,7 +38,7 @@ namespace aiko
         vsnprintf(buf, IM_ARRAYSIZE(buf), fmt, args);
         buf[IM_ARRAYSIZE(buf) - 1] = 0;
         va_end(args);
-        m_items.push_back(Strdup(buf));
+        m_items.push_back(buf);
     }
 
     void AikoConsole::draw(const char* title, bool* p_open)
@@ -67,18 +61,6 @@ namespace aiko
             ImGui::EndPopup();
         }
 
-        ImGui::TextWrapped("Aiko Console");
-        ImGui::TextWrapped("Enter 'HELP' for help, press TAB to use text completion.");
-
-        // TODO: display items starting from the bottom
-
-        if (ImGui::SmallButton("Add Dummy Text"))
-        {
-            addLog("%d some text", m_items.size());
-            addLog("some more text");
-            addLog("display very important message here!");
-        }
-        ImGui::SameLine();
         if (ImGui::SmallButton("Add Dummy Error"))
         {
             addLog("[error] something went wrong");
@@ -117,7 +99,9 @@ namespace aiko
 
         // Options, Filter
         if (ImGui::Button("Options"))
+        {
             ImGui::OpenPopup("Options");
+        }
         ImGui::SameLine();
         m_filter.Draw("Filter (\"incl,-excl\") (\"error\")", 180);
         ImGui::Separator();
@@ -126,7 +110,10 @@ namespace aiko
         ImGui::BeginChild("ScrollingRegion", ImVec2(0, -footer_height_to_reserve), false, ImGuiWindowFlags_HorizontalScrollbar); // Leave room for 1 separator + 1 InputText
         if (ImGui::BeginPopupContextWindow())
         {
-            if (ImGui::Selectable("Clear")) clearLog();
+            if (ImGui::Selectable("Clear"))
+            {
+                clearLog();
+            }
             ImGui::EndPopup();
         }
 
@@ -143,26 +130,44 @@ namespace aiko
         // If your items are of variable size you may want to implement code similar to what ImGuiListClipper does. Or split your data into fixed height items to allow random-seeking into your list.
         ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1)); // Tighten spacing
         if (copy_to_clipboard)
+        {
             ImGui::LogToClipboard();
+        }
         for (int i = 0; i < m_items.size(); i++)
         {
             const char* item = m_items[i].c_str();
-            if (!m_filter.PassFilter(item))
+            if (m_filter.PassFilter(item) == false)
+            {
                 continue;
+            }
 
             // Normally you would store more information in your item (e.g. make Items[] an array of structure, store color/type etc.)
             bool pop_color = false;
-            if (strstr(item, "[error]")) { ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.4f, 0.4f, 1.0f)); pop_color = true; }
-            else if (strncmp(item, "# ", 2) == 0) { ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.8f, 0.6f, 1.0f)); pop_color = true; }
+            if (strstr(item, "[error]"))
+            {
+                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.4f, 0.4f, 1.0f));
+                pop_color = true;
+            }
+            else if (strncmp(item, "# ", 2) == 0)
+            {
+                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.8f, 0.6f, 1.0f));
+                pop_color = true;
+            }
             ImGui::TextUnformatted(item);
             if (pop_color)
+            {
                 ImGui::PopStyleColor();
+            }
         }
-        if (copy_to_clipboard)
+        if (copy_to_clipboard == true)
+        {
             ImGui::LogFinish();
+        }
 
         if (m_scrollToBottom || (m_autoScroll && ImGui::GetScrollY() >= ImGui::GetScrollMaxY()))
+        {
             ImGui::SetScrollHereY(1.0f);
+        }
         m_scrollToBottom = false;
 
         ImGui::PopStyleVar();
@@ -180,18 +185,21 @@ namespace aiko
 
         if (ImGui::InputText("Input", &m_inputBuf[0], m_inputBuf.size(), ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackCompletion | ImGuiInputTextFlags_CallbackHistory, textEditCallbackStub, (void*)this))
         {
-            char* s = m_inputBuf.data();
-            Strtrim(s);
-            if (s[0])
-                execCommand(s);
-            strcpy(s, "");
+            auto input = std::string(m_inputBuf.data());
+            if (input.empty() == false)
+            {
+                execCommand(input);
+            }
+            std::fill(m_inputBuf.begin(), m_inputBuf.end(), '\0');
             reclaim_focus = true;
         }
 
         // Auto-focus on window apparition
         ImGui::SetItemDefaultFocus();
-        if (reclaim_focus)
+        if (reclaim_focus == true)
+        {
             ImGui::SetKeyboardFocusHere(-1); // Auto focus previous widget
+        }
 
         ImGui::End();
     }
@@ -210,7 +218,7 @@ namespace aiko
                 break;
             }
         }
-        m_history.push_back(Strdup(command_line.c_str()));
+        m_history.push_back(command_line.c_str());
 
         // process commands
         auto foundCommand = std::find_if(commands::s_commands.begin(), commands::s_commands.end(), [&](std::pair<std::string, commands::CommandCallbackFnt> const& data) {
@@ -238,7 +246,6 @@ namespace aiko
         {
         case ImGuiInputTextFlags_CallbackCompletion:
         {
-            // Example of TEXT COMPLETION
 
             // Locate beginning of current word
             const char* word_end = data->Buf + data->CursorPos;
@@ -253,21 +260,24 @@ namespace aiko
 
             // Build a list of candidates
             std::vector<std::string> candidates;
-            for (int i = 0; i < m_commands.size(); i++)
-                if (Strnicmp(m_commands[i].c_str(), word_start, (int)(word_end - word_start)) == 0)
-                    candidates.push_back(m_commands[i].c_str());
+            for (auto& command : commands::s_commands)
+            {
+                if (containsString(command.first, data->Buf) == true)
+                {
+                    candidates.push_back(command.first);
+                }
+            }
 
-            if (candidates.size() == 0)
+            if (candidates.empty() == true)
             {
                 // No match
-                addLog("No match for \"%.*s\"!\n", (int)(word_end - word_start), word_start);
+                addLog("No match for \"%s\"!\n", data->Buf);
             }
             else if (candidates.size() == 1)
             {
                 // Single match. Delete the beginning of the word and replace it entirely so we've got nice casing
                 data->DeleteChars((int)(word_start - data->Buf), (int)(word_end - word_start));
                 data->InsertChars(data->CursorPos, candidates[0].c_str());
-                data->InsertChars(data->CursorPos, " ");
             }
             else
             {
@@ -278,12 +288,20 @@ namespace aiko
                     int c = 0;
                     bool all_candidates_matches = true;
                     for (int i = 0; i < candidates.size() && all_candidates_matches; i++)
+                    {
                         if (i == 0)
+                        {
                             c = toupper(candidates[i][match_len]);
+                        }
                         else if (c == 0 || c != toupper(candidates[i][match_len]))
+                        {
                             all_candidates_matches = false;
-                    if (!all_candidates_matches)
+                        }
+                    }
+                    if (all_candidates_matches == false)
+                    {
                         break;
+                    }
                     match_len++;
                 }
 
@@ -296,7 +314,9 @@ namespace aiko
                 // List matches
                 addLog("Possible matches:\n");
                 for (int i = 0; i < candidates.size(); i++)
+                {
                     addLog("- %s\n", candidates[i]);
+                }
             }
 
             break;
@@ -308,15 +328,23 @@ namespace aiko
             if (data->EventKey == ImGuiKey_UpArrow)
             {
                 if (m_historyPos == -1)
+                {
                     m_historyPos = static_cast<int>(m_history.size()) - 1;
+                }
                 else if (m_historyPos > 0)
+                {
                     m_historyPos--;
+                }
             }
             else if (data->EventKey == ImGuiKey_DownArrow)
             {
                 if (m_historyPos != -1)
+                {
                     if (++m_historyPos >= m_history.size())
+                    {
                         m_historyPos = -1;
+                    }
+                }
             }
 
             // A better implementation would preserve the data on the current input line along with cursor position.

@@ -23,12 +23,5 @@ namespace aiko
             console->clearLog();
         }
 
-        void command_History(AikoConsole* console)
-        {
-            // int first = m_history.size() - 10;
-            // for (int i = first > 0 ? first : 0; i < m_history.size(); i++)
-            //     addLog("%3d: %s\n", i, m_history[i]);
-        }
-
     }
 }

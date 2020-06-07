@@ -22,13 +22,12 @@ namespace aiko
 
         void draw(const char* title, bool* p_open);
 
-        void execCommand(const std::string command_line);
-
-        int textEditCallback(ImGuiInputTextCallbackData* data);
-
     private:
 
+        void execCommand(const std::string command_line);
+        int textEditCallback(ImGuiInputTextCallbackData* data);
         bool isStringEquals(const std::string& a, const std::string& b);
+        bool containsString(const std::string&, const std::string&);
 
         std::array<char, 256>           m_inputBuf;
         std::vector<std::string>        m_items;
