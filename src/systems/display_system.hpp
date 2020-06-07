@@ -34,9 +34,13 @@ namespace aiko
         // Not happy but maybe change this for an event?
         bool shouldWindowClose() const;
 
+        void swapBuffers() const;
+
     private:
 
         GLFWwindow* m_window;
+
+        bool        m_lockFps;
 
     };
 

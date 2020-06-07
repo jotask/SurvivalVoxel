@@ -6,7 +6,6 @@
 
 namespace aiko
 {
-    class DisplaySystem;
     class ImguiSystem;
 
     class RenderSystem : public System
@@ -23,10 +22,7 @@ namespace aiko
 
         virtual void beginFrame() override;
 
-        void swapBuffers() const;
-
     private:
-        DisplaySystem* m_displaySystem;
         ImguiSystem* m_imguiSystem;
 
         bool m_renderImgui;

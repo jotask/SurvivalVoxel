@@ -12,6 +12,7 @@ namespace aiko
 {
     DisplaySystem::DisplaySystem()
         : m_window(nullptr)
+        , m_lockFps(true)
     {
 
     }
@@ -29,18 +30,26 @@ namespace aiko
             return false;
         }
 
+        const auto json = jsonLoader::loadJson("../config/window.json");
+        const auto width = json["window"]["size"]["width"].asInt();
+        const auto height = json["window"]["size"]["height"].asInt();
+        const auto tittle = json["window"]["tittle"].asString();
+        const auto lockFps = json["window"]["lockFPS"].asBool();
+        m_lockFps = lockFps;
+
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
 
+        if (m_lockFps == false)
+        {
+            glfwWindowHint(GLFW_DOUBLEBUFFER, GL_FALSE);
+        }
+
         printf("GLFW version: %s\n", glfwGetVersionString());
 
-        const auto json = jsonLoader::loadJson("../config/window.json");
 
-        const auto width = json["window"]["size"]["width"].asInt();
-        const auto height = json["window"]["size"]["height"].asInt();
-        const auto tittle = json["window"]["tittle"].asString();
 
         m_window = glfwCreateWindow(width, height, tittle.c_str(), nullptr, nullptr);
 
@@ -172,6 +181,18 @@ namespace aiko
     bool DisplaySystem::shouldWindowClose() const
     {
         return glfwWindowShouldClose(m_window);
+    }
+
+    void DisplaySystem::swapBuffers() const
+    {
+        if (m_lockFps == true)
+        {
+            glfwSwapBuffers(getWindow());
+        }
+        else
+        {
+            glFlush();
+        }
     }
 
 }

@@ -1,6 +1,5 @@
 #include "render_system.hpp"
 
-#include "systems/display_system.hpp"
 #include "systems/imgui_system/imgui_system.hpp"
 
 #include <glad/glad.h>
@@ -10,8 +9,7 @@
 namespace aiko
 {
     RenderSystem::RenderSystem()
-        : m_displaySystem(nullptr)
-        , m_renderImgui(false)
+        : m_renderImgui(false)
         , m_drawWireframes(false)
         , m_bgColor(1.f)
     {
@@ -20,7 +18,6 @@ namespace aiko
 
     bool RenderSystem::connect(SystemConnector & connector)
     {
-        m_displaySystem = connector.findSystem<DisplaySystem>();
         m_imguiSystem = connector.findSystem<ImguiSystem>();
         return true;
     }
@@ -55,11 +52,6 @@ namespace aiko
         {
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         }
-    }
-
-    void RenderSystem::swapBuffers() const
-    {
-        glfwSwapBuffers(m_displaySystem->getWindow());
     }
 
 }

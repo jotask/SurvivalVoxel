@@ -24,7 +24,7 @@
 namespace aiko
 {
     Engine::Engine()
-        : m_renderSystem(nullptr)
+        : m_displaySystem(nullptr)
         , m_shouldBeRunning(true)
     {
 
@@ -57,11 +57,11 @@ namespace aiko
         m_systems.push_back(std::make_unique<GameStateManagerSystem>());
 
         // Game systems
-        // m_systems.push_back(std::make_unique<ChunkSystem>());
+        m_systems.push_back(std::make_unique<ChunkSystem>());
 
         // Connect all system before we initialize them
         auto systemConnector = SystemConnector(m_systems);
-        m_renderSystem = systemConnector.findSystem<RenderSystem>();
+        m_displaySystem = systemConnector.findSystem<DisplaySystem>();
         std::for_each(m_systems.begin(), m_systems.end(), [&systemConnector](auto& sys) { sys->connect(systemConnector); });
 
         // Initialise all systems
@@ -89,7 +89,7 @@ namespace aiko
             std::for_each(m_systems.begin(), m_systems.end(), [](auto& sys) { sys->postRender(); });
             std::for_each(m_systems.begin(), m_systems.end(), [](auto& sys) { sys->endFrame(); });
 
-            m_renderSystem->swapBuffers();
+            m_displaySystem->swapBuffers();
 
         }
 

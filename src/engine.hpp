@@ -11,7 +11,7 @@
 namespace aiko
 {
 
-    class RenderSystem;
+    class DisplaySystem;
 
     class Engine
     {
@@ -53,7 +53,7 @@ namespace aiko
 
         std::vector<AikoUPtr<System>> m_systems;
 
-        RenderSystem*   m_renderSystem;
+        DisplaySystem*   m_displaySystem;
 
         bool m_shouldBeRunning;
 
