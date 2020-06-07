@@ -1,6 +1,6 @@
 #include "systems/game_state_manager_system/game_state_manager_system.hpp"
 
-#include "systems/imgui_system.hpp"
+#include "systems/imgui_system/imgui_system.hpp"
 
 #include "systems/game_state_manager_system/states/test_state.hpp"
 

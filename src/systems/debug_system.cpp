@@ -1,6 +1,6 @@
 #include "systems/debug_system.hpp"
 
-#include "systems/imgui_system.hpp"
+#include "systems/imgui_system/imgui_system.hpp"
 #include "systems/shader_system/shader_system.hpp"
 
 #include <imgui.h>

@@ -1,7 +1,7 @@
 #include "systems/camera_system.hpp"
 
 #include "systems/display_system.hpp"
-#include "systems/imgui_system.hpp"
+#include "systems/imgui_system/imgui_system.hpp"
 #include "systems/event_system/event_system.hpp"
 #include "systems/shader_system/shader_system.hpp"
 #include "systems/event_system/engine_events.hpp"
