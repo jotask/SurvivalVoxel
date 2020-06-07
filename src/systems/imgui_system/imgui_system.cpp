@@ -1,15 +1,18 @@
-#include "systems/imgui_system.hpp"
+#include "imgui_system.hpp"
+
+#include "systems/display_system.hpp"
+#include "systems/imgui_system/imgui_console.hpp"
 
 #include <imgui.h>
 #include <examples/imgui_impl_glfw.h>
 #include <examples/imgui_impl_opengl3.h>
 
-#include "systems/display_system.hpp"
 
 namespace aiko
 {
     ImguiSystem::ImguiSystem()
         : m_showDemoWindow(false)
+        , m_showConsole(false)
         , m_displaySystem(nullptr)
     {
 
@@ -53,10 +56,23 @@ namespace aiko
             }
             ImGui::EndMenu();
         }
+        if (ImGui::BeginMenu("Debug"))
+        {
+            if (ImGui::MenuItem("Console", "", m_showConsole, true))
+            {
+                m_showConsole = !m_showConsole;
+            }
+            ImGui::EndMenu();
+        }
         ImGui::EndMainMenuBar();
         if (m_showDemoWindow == true)
         {
             ImGui::ShowDemoWindow(&m_showDemoWindow);
+        }
+        if (m_showConsole == true)
+        {
+            static AikoConsole console;
+            console.draw("AikoConsole", &m_showConsole);
         }
     }
 

@@ -30,6 +30,7 @@ namespace aiko
     private:
 
         bool m_showDemoWindow;
+        bool m_showConsole;
 
         DisplaySystem* m_displaySystem;
 
