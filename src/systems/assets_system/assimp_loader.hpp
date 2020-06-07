@@ -122,8 +122,10 @@ namespace aiko
             {
                 for (GLuint i = 0; i < node->mNumMeshes; i++)
                 {
-                    auto* mesh = scene->mMeshes[node->mMeshes[i]];
-                    model.addMesh(processMesh(sys, mesh, scene, directory));
+                    auto* aiMesh = scene->mMeshes[node->mMeshes[i]];
+                    auto* mesh = processMesh(sys, aiMesh, scene, directory);
+                    mesh->load();
+                    model.addMesh(mesh);
                 }
                 for (GLuint i = 0; i < node->mNumChildren; i++)
                 {
