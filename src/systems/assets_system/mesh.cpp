@@ -23,7 +23,7 @@ namespace aiko
         : Asset(AssetType::Mesh)
         , m_meshData(data)
     {
-        load();
+
     }
 
     // Render the mesh
