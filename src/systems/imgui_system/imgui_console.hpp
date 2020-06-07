@@ -28,6 +28,8 @@ namespace aiko
 
     private:
 
+        bool isStringEquals(const std::string& a, const std::string& b);
+
         std::array<char, 256>           m_inputBuf;
         std::vector<std::string>        m_items;
         std::vector<std::string>        m_commands;

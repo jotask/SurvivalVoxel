@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <algorithm>
 
 namespace aiko
 {
@@ -199,13 +200,13 @@ namespace aiko
 
     void AikoConsole::execCommand(const std::string command_line)
     {
-        addLog("# %s\n", command_line);
+        addLog("# %s\n", command_line.c_str());
 
         // Insert into history. First find match and delete it so it can be pushed to the back. This isn't trying to be smart or optimal.
         m_historyPos = -1;
         for (int i = m_history.size() - 1; i >= 0; i--)
         {
-            if (Stricmp(m_history[i].c_str(), command_line.c_str()) == 0)
+            if (m_history[i] == command_line)
             {
                 m_history.erase(m_history.begin() + i);
                 break;
@@ -214,17 +215,17 @@ namespace aiko
         m_history.push_back(Strdup(command_line.c_str()));
 
         // Process command
-        if (Stricmp(command_line.c_str(), "CLEAR") == 0)
+        if (isStringEquals(command_line, "CLEAR"))
         {
             clearLog();
         }
-        else if (Stricmp(command_line.c_str(), "HELP") == 0)
+        else if (isStringEquals(command_line, "HELP"))
         {
             addLog("Commands:");
             for (int i = 0; i < m_commands.size(); i++)
                 addLog("- %s", m_commands[i]);
         }
-        else if (Stricmp(command_line.c_str(), "HISTORY") == 0)
+        else if (isStringEquals(command_line, "HISTORY"))
         {
             int first = m_history.size() - 10;
             for (int i = first > 0 ? first : 0; i < m_history.size(); i++)
@@ -232,7 +233,7 @@ namespace aiko
         }
         else
         {
-            addLog("Unknown command: '%s'\n", command_line);
+            addLog("Unknown command: '%s'\n", command_line.c_str());
         }
 
         // On commad input, we scroll to bottom even if AutoScroll==false
@@ -337,6 +338,12 @@ namespace aiko
         }
         }
         return 0;
+    }
+
+    bool AikoConsole::isStringEquals(const std::string & a, const std::string & b)
+    {
+        auto lamba = [](char a, char b) { return tolower(a) == tolower(b); };
+        return std::equal(a.begin(), a.end(), b.begin(), b.end(), lamba);
     }
 
 }
