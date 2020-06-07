@@ -141,4 +141,13 @@ namespace aiko
         return *e;
     }
 
+    void EntityComponentSystem::removeEntity(const entity::EntityId id)
+    {
+        for (auto& allTags : m_entities)
+        {
+            auto& collection = allTags.second;
+            allTags.second.erase(std::remove_if(collection.begin(), collection.end(), [id](const AikoUPtr<Entity>& e) { return e->getId() == id; }), collection.end());
+        }
+    }
+
 }

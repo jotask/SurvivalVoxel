@@ -40,6 +40,8 @@ namespace aiko
 
         Entity& addEntity(const entity::EntityTag tag = entity::EntityTag::DEFAULT);
 
+        void removeEntity(const entity::EntityId);
+
     private:
 
         std::map<entity::EntityTag, entity::EntityCollection> m_entities;
