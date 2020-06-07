@@ -20,18 +20,19 @@ namespace aiko
 
         const auto isDynamic = (m_data.mass != 0.f);
 
-        if (entity->hasComponent<Mesho>() == true)
+        if (entity->hasComponent<MeshComponent>() == true)
         {
-            auto& mesh = entity->getComponent<Mesho>();
-            if (isDynamic == false)
-            {
-                m_triangleMeshStatic = std::move(factory::physics::createStaticCollisionShapeFromMeshData(getEntity()->getTransform(), mesh.getMeshData()));
-                m_collisionShape = std::make_unique<btBvhTriangleMeshShape>(m_triangleMeshStatic.get(), true);
-            }
-            else
-            {
-                m_collisionShape = std::move(factory::physics::createConvexHullCollisionShapeFromMeshData(getEntity()->getTransform(), mesh.getMeshData()));
-            }
+            std::exception("Not implemented");
+            // auto& mesh = entity->getComponent<MeshComponent>();
+            // if (isDynamic == false)
+            // {
+            //     m_triangleMeshStatic = std::move(factory::physics::createStaticCollisionShapeFromMeshData(getEntity()->getTransform(), mesh.getMeshData()));
+            //     m_collisionShape = std::make_unique<btBvhTriangleMeshShape>(m_triangleMeshStatic.get(), true);
+            // }
+            // else
+            // {
+            //     m_collisionShape = std::move(factory::physics::createConvexHullCollisionShapeFromMeshData(getEntity()->getTransform(), mesh.getMeshData()));
+            // }
         }
         else
         {
