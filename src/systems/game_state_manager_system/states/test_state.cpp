@@ -26,6 +26,9 @@ namespace aiko
             e.getTransform().scale *= 2.f;
 
             auto* model = static_cast<Model*>(assetModels[assetModels.size() - 1].get());
+
+            model->load();
+
             e.addComponent<ModelComponent>(model);
         }
 
