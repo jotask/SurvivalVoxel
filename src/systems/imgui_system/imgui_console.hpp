@@ -32,7 +32,6 @@ namespace aiko
 
         std::array<char, 256>           m_inputBuf;
         std::vector<std::string>        m_items;
-        std::vector<std::string>        m_commands;
         std::vector<std::string>        m_history;
         int                             m_historyPos;    // -1: new line, 0..History.Size-1 browsing history.
         ImGuiTextFilter                 m_filter;

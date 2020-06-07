@@ -1,5 +1,7 @@
 #include "imgui_console.hpp"
 
+#include "systems/imgui_system/commands.hpp"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
@@ -20,10 +22,6 @@ namespace aiko
         , m_scrollToBottom (false)
     {
         clearLog();
-        m_commands.push_back("HELP");
-        m_commands.push_back("HISTORY");
-        m_commands.push_back("CLEAR");
-        m_commands.push_back("CLASSIFY");  // "classify" is only here to provide an example of "C"+[tab] completing to "CL" and displaying matches.
         addLog("Welcome to the console!");
     }
 
@@ -103,7 +101,7 @@ namespace aiko
             static float t = 0.0f;
             if (ImGui::GetTime() - t > 0.02f)
             {
-                t = ImGui::GetTime();
+                t = static_cast<float>(ImGui::GetTime());
                 addLog("Spam %f", t);
             }
         }
@@ -204,7 +202,7 @@ namespace aiko
 
         // Insert into history. First find match and delete it so it can be pushed to the back. This isn't trying to be smart or optimal.
         m_historyPos = -1;
-        for (int i = m_history.size() - 1; i >= 0; i--)
+        for (int i = static_cast<int>(m_history.size()) - 1; i >= 0; i--)
         {
             if (m_history[i] == command_line)
             {
@@ -214,22 +212,15 @@ namespace aiko
         }
         m_history.push_back(Strdup(command_line.c_str()));
 
-        // Process command
-        if (isStringEquals(command_line, "CLEAR"))
+        // process commands
+        auto foundCommand = std::find_if(commands::s_commands.begin(), commands::s_commands.end(), [&](std::pair<std::string, commands::CommandCallbackFnt> const& data) {
+            return isStringEquals(data.first, command_line);
+        });
+
+        if (foundCommand != commands::s_commands.end())
         {
-            clearLog();
-        }
-        else if (isStringEquals(command_line, "HELP"))
-        {
-            addLog("Commands:");
-            for (int i = 0; i < m_commands.size(); i++)
-                addLog("- %s", m_commands[i]);
-        }
-        else if (isStringEquals(command_line, "HISTORY"))
-        {
-            int first = m_history.size() - 10;
-            for (int i = first > 0 ? first : 0; i < m_history.size(); i++)
-                addLog("%3d: %s\n", i, m_history[i]);
+            auto& callback = foundCommand->second;
+            callback(this);
         }
         else
         {
@@ -317,7 +308,7 @@ namespace aiko
             if (data->EventKey == ImGuiKey_UpArrow)
             {
                 if (m_historyPos == -1)
-                    m_historyPos = m_history.size() - 1;
+                    m_historyPos = static_cast<int>(m_history.size()) - 1;
                 else if (m_historyPos > 0)
                     m_historyPos--;
             }
@@ -340,10 +331,20 @@ namespace aiko
         return 0;
     }
 
-    bool AikoConsole::isStringEquals(const std::string & a, const std::string & b)
+    bool AikoConsole::isStringEquals(const std::string& a, const std::string& b)
     {
         auto lamba = [](char a, char b) { return tolower(a) == tolower(b); };
         return std::equal(a.begin(), a.end(), b.begin(), b.end(), lamba);
+    }
+
+    bool AikoConsole::containsString(const std::string& a, const std::string& b)
+    {
+        auto it = std::search(
+            a.begin(), a.end(),
+            b.begin(), b.end(),
+            [](char ch1, char ch2) { return tolower(ch1) == tolower(ch2); }
+        );
+        return (it != a.end());
     }
 
 }
