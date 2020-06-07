@@ -7,6 +7,7 @@
 #include "systems/shader_system/shader.hpp"
 #include "utils/shared.hpp"
 #include "engine.hpp"
+#include "systems/render_system/mesh_data.hpp"
 
 #include <memory>
 #include <random>
