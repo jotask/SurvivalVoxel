@@ -28,6 +28,17 @@ namespace aiko
 
         virtual void render() override;
 
+        template<class T, class... TArgs>
+        T* addAsset(AssetType type, TArgs&&... args)
+        {
+            T* a(new T(std::forward<TArgs>(args)...));
+            AikoUPtr<Asset> ptr { a };
+            m_assets[type].emplace_back(std::move(ptr));
+
+            return a;
+
+        }
+
         auto& getAssets(AssetType type)
         {
             return m_assets[type];
