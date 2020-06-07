@@ -3,6 +3,7 @@
 #include "systems/chunk_system/chunk_factory.hpp"
 #include "systems/entity_component_system/entity.hpp"
 #include "systems/chunk_system/chunk_system.hpp"
+#include "systems/assets_system/assets_system.hpp"
 #include "utils/utilities.hpp"
 
 #include "PerlinNoise.hpp"
@@ -77,13 +78,17 @@ namespace aiko
         {
 
             auto* shaderSystem = aiko::Engine::getInstance().getSystem<ShaderSystem>();
-            auto& shader = shaderSystem->getShader("chunkShader");
+            auto* assetsSystem = aiko::Engine::getInstance().getSystem<AssetsSystem>();
 
+            auto& shader = shaderSystem->getShader("staticColorShader");
 
             auto data = chunk::factory::generateChunkData(this);
             auto* entity = getEntity();
-            auto& mesh = getEntity()->addComponent<Mesho>(shader, data);
-            mesh.create();
+
+            auto* meshAsset = assetsSystem->addAsset<Mesh>(AssetType::Mesh, data);
+            meshAsset->load();
+
+            auto& mesh = getEntity()->addComponent<MeshComponent>(meshAsset, &shader);
         }
     }
 

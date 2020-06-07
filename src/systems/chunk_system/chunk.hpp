@@ -29,8 +29,6 @@ namespace aiko
 
     private:
 
-        friend class Mesh;
-
         using VoxelId = unsigned int;
 
         unsigned int convertToVoxelIndex(const glm::ivec3&) const;
