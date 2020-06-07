@@ -68,9 +68,9 @@ namespace aiko
 
         m_world->setGravity(c_gravity);
 
-        if(true)
+        if(false)
         {
-            const auto createGround = true;
+            const auto createGround = false;
             const auto createBall = false;
 
             if(createGround == true)
