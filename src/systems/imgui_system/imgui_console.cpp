@@ -14,34 +14,25 @@ namespace aiko
     static void  Strtrim(char* str) { char* str_end = str + strlen(str); while (str_end > str && str_end[-1] == ' ') str_end--; *str_end = 0; }
 
     AikoConsole::AikoConsole()
+        : m_historyPos(-1)
+        , m_autoScroll (true)
+        , m_scrollToBottom (false)
     {
         clearLog();
-        memset(m_inputBuf, 0, sizeof(m_inputBuf));
-        m_historyPos = -1;
         m_commands.push_back("HELP");
         m_commands.push_back("HISTORY");
         m_commands.push_back("CLEAR");
         m_commands.push_back("CLASSIFY");  // "classify" is only here to provide an example of "C"+[tab] completing to "CL" and displaying matches.
-        m_autoScroll = true;
-        m_scrollToBottom = false;
-        addLog("Welcome to Dear ImGui!");
+        addLog("Welcome to the console!");
     }
 
     AikoConsole::~AikoConsole()
     {
         clearLog();
-        for (int i = 0; i < m_history.size(); i++)
-        {
-            free(m_history[i]);
-        }
     }
 
     void AikoConsole::clearLog()
     {
-        for (int i = 0; i < m_items.size(); i++)
-        {
-            free(m_items[i]);
-        }
         m_items.clear();
     }
 
@@ -100,7 +91,21 @@ namespace aiko
         }
         ImGui::SameLine();
         bool copy_to_clipboard = ImGui::SmallButton("Copy");
-        static float t = 0.0f; if (ImGui::GetTime() - t > 0.02f) { t = ImGui::GetTime(); addLog("Spam %f", t); }
+        ImGui::SameLine();
+
+        static auto printSpam = false;
+        ImGui::Checkbox("PrintSpam", &printSpam);
+        ImGui::SameLine();
+
+        if (printSpam == true)
+        {
+            static float t = 0.0f;
+            if (ImGui::GetTime() - t > 0.02f)
+            {
+                t = ImGui::GetTime();
+                addLog("Spam %f", t);
+            }
+        }
 
         ImGui::Separator();
 
@@ -142,7 +147,7 @@ namespace aiko
             ImGui::LogToClipboard();
         for (int i = 0; i < m_items.size(); i++)
         {
-            const char* item = m_items[i];
+            const char* item = m_items[i].c_str();
             if (!m_filter.PassFilter(item))
                 continue;
 
@@ -170,13 +175,13 @@ namespace aiko
 
         auto textEditCallbackStub = [](ImGuiInputTextCallbackData* data)
         {
-            AikoConsole* console = (AikoConsole*)data->UserData;
+            auto* console = static_cast<AikoConsole*>(data->UserData);
             return console->textEditCallback(data);
         };
 
-        if (ImGui::InputText("Input", m_inputBuf, IM_ARRAYSIZE(m_inputBuf), ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackCompletion | ImGuiInputTextFlags_CallbackHistory, textEditCallbackStub, (void*)this))
+        if (ImGui::InputText("Input", &m_inputBuf[0], m_inputBuf.size(), ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackCompletion | ImGuiInputTextFlags_CallbackHistory, textEditCallbackStub, (void*)this))
         {
-            char* s = m_inputBuf;
+            char* s = m_inputBuf.data();
             Strtrim(s);
             if (s[0])
                 execCommand(s);
@@ -192,33 +197,34 @@ namespace aiko
         ImGui::End();
     }
 
-    void AikoConsole::execCommand(const char* command_line)
+    void AikoConsole::execCommand(const std::string command_line)
     {
         addLog("# %s\n", command_line);
 
         // Insert into history. First find match and delete it so it can be pushed to the back. This isn't trying to be smart or optimal.
         m_historyPos = -1;
         for (int i = m_history.size() - 1; i >= 0; i--)
-            if (Stricmp(m_history[i], command_line) == 0)
+        {
+            if (Stricmp(m_history[i].c_str(), command_line.c_str()) == 0)
             {
-                free(m_history[i]);
                 m_history.erase(m_history.begin() + i);
                 break;
             }
-        m_history.push_back(Strdup(command_line));
+        }
+        m_history.push_back(Strdup(command_line.c_str()));
 
         // Process command
-        if (Stricmp(command_line, "CLEAR") == 0)
+        if (Stricmp(command_line.c_str(), "CLEAR") == 0)
         {
             clearLog();
         }
-        else if (Stricmp(command_line, "HELP") == 0)
+        else if (Stricmp(command_line.c_str(), "HELP") == 0)
         {
             addLog("Commands:");
             for (int i = 0; i < m_commands.size(); i++)
                 addLog("- %s", m_commands[i]);
         }
-        else if (Stricmp(command_line, "HISTORY") == 0)
+        else if (Stricmp(command_line.c_str(), "HISTORY") == 0)
         {
             int first = m_history.size() - 10;
             for (int i = first > 0 ? first : 0; i < m_history.size(); i++)
@@ -254,21 +260,21 @@ namespace aiko
             }
 
             // Build a list of candidates
-            ImVector<const char*> candidates;
+            std::vector<std::string> candidates;
             for (int i = 0; i < m_commands.size(); i++)
-                if (Strnicmp(m_commands[i], word_start, (int)(word_end - word_start)) == 0)
-                    candidates.push_back(m_commands[i]);
+                if (Strnicmp(m_commands[i].c_str(), word_start, (int)(word_end - word_start)) == 0)
+                    candidates.push_back(m_commands[i].c_str());
 
-            if (candidates.Size == 0)
+            if (candidates.size() == 0)
             {
                 // No match
                 addLog("No match for \"%.*s\"!\n", (int)(word_end - word_start), word_start);
             }
-            else if (candidates.Size == 1)
+            else if (candidates.size() == 1)
             {
                 // Single match. Delete the beginning of the word and replace it entirely so we've got nice casing
                 data->DeleteChars((int)(word_start - data->Buf), (int)(word_end - word_start));
-                data->InsertChars(data->CursorPos, candidates[0]);
+                data->InsertChars(data->CursorPos, candidates[0].c_str());
                 data->InsertChars(data->CursorPos, " ");
             }
             else
@@ -279,7 +285,7 @@ namespace aiko
                 {
                     int c = 0;
                     bool all_candidates_matches = true;
-                    for (int i = 0; i < candidates.Size && all_candidates_matches; i++)
+                    for (int i = 0; i < candidates.size() && all_candidates_matches; i++)
                         if (i == 0)
                             c = toupper(candidates[i][match_len]);
                         else if (c == 0 || c != toupper(candidates[i][match_len]))
@@ -292,12 +298,12 @@ namespace aiko
                 if (match_len > 0)
                 {
                     data->DeleteChars((int)(word_start - data->Buf), (int)(word_end - word_start));
-                    data->InsertChars(data->CursorPos, candidates[0], candidates[0] + match_len);
+                    data->InsertChars(data->CursorPos, candidates[0].c_str(), candidates[0].c_str() + match_len);
                 }
 
                 // List matches
                 addLog("Possible matches:\n");
-                for (int i = 0; i < candidates.Size; i++)
+                for (int i = 0; i < candidates.size(); i++)
                     addLog("- %s\n", candidates[i]);
             }
 
@@ -324,7 +330,7 @@ namespace aiko
             // A better implementation would preserve the data on the current input line along with cursor position.
             if (prev_history_pos != m_historyPos)
             {
-                const char* history_str = (m_historyPos >= 0) ? m_history[m_historyPos] : "";
+                const char* history_str = (m_historyPos >= 0) ? m_history[m_historyPos].c_str() : "";
                 data->DeleteChars(0, data->BufTextLen);
                 data->InsertChars(0, history_str);
             }

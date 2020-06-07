@@ -3,6 +3,8 @@
 #include <imgui.h>
 
 #include <vector>
+#include <array>
+#include <string>
 
 namespace aiko
 {
@@ -20,20 +22,20 @@ namespace aiko
 
         void draw(const char* title, bool* p_open);
 
-        void execCommand(const char* command_line);
+        void execCommand(const std::string command_line);
 
         int textEditCallback(ImGuiInputTextCallbackData* data);
 
     private:
 
-        char                        m_inputBuf[256];
-        std::vector<char*>          m_items;
-        std::vector<const char*>    m_commands;
-        std::vector<char*>          m_history;
-        int                         m_historyPos;    // -1: new line, 0..History.Size-1 browsing history.
-        ImGuiTextFilter             m_filter;
-        bool                        m_autoScroll;
-        bool                        m_scrollToBottom;
+        std::array<char, 256>           m_inputBuf;
+        std::vector<std::string>        m_items;
+        std::vector<std::string>        m_commands;
+        std::vector<std::string>        m_history;
+        int                             m_historyPos;    // -1: new line, 0..History.Size-1 browsing history.
+        ImGuiTextFilter                 m_filter;
+        bool                            m_autoScroll;
+        bool                            m_scrollToBottom;
 
     };
 
