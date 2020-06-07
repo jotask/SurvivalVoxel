@@ -1,7 +1,7 @@
 #include "render_system.hpp"
 
 #include "systems/display_system.hpp"
-#include "systems/imgui_system.hpp"
+#include "systems/imgui_system/imgui_system.hpp"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
