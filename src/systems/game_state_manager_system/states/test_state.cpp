@@ -19,11 +19,15 @@ namespace aiko
 
         auto& assetModels = assetsSystem->getAssets(AssetType::Model);
 
-        auto& e = ecs->addEntity();
-        e.getTransform().scale *= 2.f;
+        if (assetModels.empty() == false)
+        {
 
-        auto* model = static_cast<Model*>(assetModels[assetModels.size() - 1].get());
-        e.addComponent<ModelComponent>(model);
+            auto& e = ecs->addEntity();
+            e.getTransform().scale *= 2.f;
+
+            auto* model = static_cast<Model*>(assetModels[assetModels.size() - 1].get());
+            e.addComponent<ModelComponent>(model);
+        }
 
         return true;
     }
