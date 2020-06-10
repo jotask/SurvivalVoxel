@@ -4,7 +4,7 @@
 #include "systems/debug_system.hpp"
 #include "systems/render_system/render_system.hpp"
 #include "systems/imgui_system/imgui_system.hpp"
-#include "systems/input_system.hpp"
+#include "systems/input_system/input_system.hpp"
 #include "systems/camera_system.hpp"
 #include "systems/assets_system/assets_system.hpp"
 #include "systems/shader_system/shader_system.hpp"
