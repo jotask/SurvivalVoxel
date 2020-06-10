@@ -45,6 +45,11 @@
             "name"      : "lightShader",
             "vertex"    : "light_vertex_shader.glsl",
             "fragment"  : "light_fragment_shader.glsl"
+        },
+        {
+            "name"      : "postProcessing",
+            "vertex"    : "postProcessing_vertex_shader.glsl",
+            "fragment"  : "postProcessing_fragment_shader.glsl"
         }
     ]
 }
