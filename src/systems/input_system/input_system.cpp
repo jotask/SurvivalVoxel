@@ -1,4 +1,4 @@
-#include "systems/input_system.hpp"
+#include "systems/input_system/input_system.hpp"
 
 #include "systems/display_system.hpp"
 
