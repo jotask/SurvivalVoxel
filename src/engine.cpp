@@ -12,6 +12,7 @@
 #include "systems/light_system/light_system.hpp"
 #include "systems/physics_system/physics_system.hpp"
 #include "systems/event_system/event_system.hpp"
+#include "systems/post_processor_system/post_processor_system.hpp"
 #include "systems/system_connector.hpp"
 #include "systems/entity_component_system/entity_component_system.hpp"
 #include "systems/event_system/engine_events.hpp"
@@ -44,11 +45,12 @@ namespace aiko
         // Engine systems first
         m_systems.push_back(std::make_unique<DisplaySystem>());
         m_systems.push_back(std::make_unique<RenderSystem>());
+        m_systems.push_back(std::make_unique<ShaderSystem>());
+        m_systems.push_back(std::make_unique<PostProcessorSystem>());
         m_systems.push_back(std::make_unique<DebugSystem>());
         m_systems.push_back(std::make_unique<ImguiSystem>());
         m_systems.push_back(std::make_unique<InputSystem>());
         m_systems.push_back(std::make_unique<CameraSystem>());
-        m_systems.push_back(std::make_unique<ShaderSystem>());
         m_systems.push_back(std::make_unique<LightSystem>());
         m_systems.push_back(std::make_unique<PhysicsSystem>());
         m_systems.push_back(std::make_unique<AudioSystem>());
