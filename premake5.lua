@@ -56,6 +56,7 @@ project "SurvivalVoxel"
         "dependencies/jsoncpp/include",
         "dependencies/spdlog/include",
         "dependencies/openal-soft/include",
+        "dependencies/gainput/lib/include"
     }
 
     files {
@@ -75,6 +76,7 @@ project "SurvivalVoxel"
         "Jsoncpp",
         "SpdLog",
         "OpenAl",
+        "Gainput"
     }
 
     filter "system:linux"
@@ -103,3 +105,4 @@ group "Dependencies"
     include "dependencies/jsoncpp.lua"
     include "dependencies/spdlog.lua"
     include "dependencies/openal.lua"
+    include "dependencies/gainput.lua"
