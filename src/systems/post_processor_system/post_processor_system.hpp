@@ -10,6 +10,7 @@ namespace aiko
 {
 
     class Shader;
+    class RenderSystem;
     class ShaderSystem;
     class DisplaySystem;
 
@@ -38,6 +39,7 @@ namespace aiko
 
         void onWindowResize(Event&);
 
+        RenderSystem* m_renderSystem;
         DisplaySystem* m_displaySystem;
         ShaderSystem* m_shaderSystem;
         Shader* m_shader;

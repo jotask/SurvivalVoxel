@@ -1,6 +1,7 @@
 #include "systems/post_processor_system/post_processor_system.hpp"
 
 #include "systems/shader_system/shader.hpp"
+#include "systems/render_system/render_system.hpp"
 #include "systems/shader_system/shader_system.hpp"
 #include "systems/event_system/engine_events.hpp"
 #include "systems/event_system/event_system.hpp"
@@ -14,7 +15,8 @@
 namespace aiko
 {
     PostProcessorSystem::PostProcessorSystem()
-        : m_displaySystem(nullptr)
+        : m_renderSystem(nullptr)
+        , m_displaySystem(nullptr)
         , m_shaderSystem(nullptr)
         , m_shader(nullptr)
         , m_msfbo(-1)
@@ -33,6 +35,7 @@ namespace aiko
 
     bool PostProcessorSystem::connect(SystemConnector & connector)
     {
+        m_renderSystem = connector.findSystem<RenderSystem>();
         m_displaySystem = connector.findSystem<DisplaySystem>();
         m_shaderSystem = connector.findSystem<ShaderSystem>();
         return true;
@@ -179,7 +182,8 @@ namespace aiko
         if (m_renderEffects)
         {
             glBindFramebuffer(GL_FRAMEBUFFER, m_msfbo);
-            glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+            const auto color = m_renderSystem->getBackgroundColor();
+            glClearColor(color.r, color.g, color.b, color.a);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
         else

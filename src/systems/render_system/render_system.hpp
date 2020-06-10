@@ -22,6 +22,8 @@ namespace aiko
 
         virtual void beginFrame() override;
 
+        const glm::vec4& getBackgroundColor();
+
     private:
         ImguiSystem* m_imguiSystem;
 

@@ -54,4 +54,9 @@ namespace aiko
         }
     }
 
+    const glm::vec4 & RenderSystem::getBackgroundColor()
+    {
+        return m_bgColor;
+    }
+
 }
