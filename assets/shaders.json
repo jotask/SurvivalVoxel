@@ -50,6 +50,11 @@
             "name"      : "postProcessing",
             "vertex"    : "postProcessing_vertex_shader.glsl",
             "fragment"  : "postProcessing_fragment_shader.glsl"
+        },
+        {
+            "name"      : "font",
+            "vertex"    : "font_vertex_shader.glsl",
+            "fragment"  : "font_fragment_shader.glsl"
         }
     ]
 }
