@@ -7,10 +7,11 @@
 #include "systems/event_system/event_system.hpp"
 #include "systems/display_system.hpp"
 
-#include "GLFW/glfw3.h"
-
+#include <GLFW/glfw3.h>
 #include <spdlog/spdlog.h>
 #include <imgui.h>
+
+#include <array>
 
 namespace aiko
 {
@@ -19,10 +20,10 @@ namespace aiko
         , m_displaySystem(nullptr)
         , m_shaderSystem(nullptr)
         , m_shader(nullptr)
-        , m_msfbo(-1)
+        , m_texture()
+        , m_vao(-1)
         , m_fbo(-1)
         , m_rbo(-1)
-        , m_vao(-1)
         , m_width(0)
         , m_height(0)
         , m_renderEffects(true)
@@ -52,28 +53,25 @@ namespace aiko
 
         m_shader = &m_shaderSystem->getShader("postProcessing");
 
-        // initialize renderbuffer/framebuffer object
-        glGenFramebuffers(1, &m_msfbo);
+        // Generate frambuffer
         glGenFramebuffers(1, &m_fbo);
-        glGenRenderbuffers(1, &m_rbo);
-
-        // initialize renderbuffer storage with a multisampled color buffer (don't need a depth/stencil buffer)
-        glBindFramebuffer(GL_FRAMEBUFFER, m_msfbo);
-        glBindRenderbuffer(GL_RENDERBUFFER, m_rbo);
-        glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_RGB, m_width, m_height);
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, m_rbo);
-        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-        {
-            spdlog::error("Postprocessor: Failed to initialize MSFBO");
-            return false;
-        }
-
         glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+
+        // create a color attachment texture
+        m_texture.init();
         m_texture.generate(m_width, m_height, nullptr);
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texture.getId(), 0);
+
+        // create a renderbuffer object for depth and stencil attachment (we won't be sampling these)
+        glGenRenderbuffers(1, &m_rbo);
+        glBindRenderbuffer(GL_RENDERBUFFER, m_rbo);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_width, m_height); // use a single renderbuffer object for both a depth AND stencil buffer.
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_rbo); // now actually attach it
+
+        // now that we actually created the framebuffer and added all attachments we want to check if it is actually complete now
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         {
-            spdlog::error("Postprocessor: Failed to initialize FBO");
+            spdlog::error("ERROR::FRAMEBUFFER:: Framebuffer is not complete!");
             return false;
         }
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -103,54 +101,45 @@ namespace aiko
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             glBindVertexArray(0);
 
-        }
+            }
 
         {
             m_shader->use();
-            float offset = 1.0f / 300.0f;
-            float offsets[9][2] = {
-                { -offset,  offset  },  // top-left
-                {  0.0f,    offset  },  // top-center
-                {  offset,  offset  },  // top-right
-                { -offset,  0.0f    },  // center-left
-                {  0.0f,    0.0f    },  // center-center
-                {  offset,  0.0f    },  // center - right
-                { -offset, -offset  },  // bottom-left
-                {  0.0f,   -offset  },  // bottom-center
-                {  offset, -offset  }   // bottom-right    
-            };
-            glUniform2fv(glGetUniformLocation(m_shader->getProgramId(), "offsets"), 9, (float*)offsets);
-            int edge_kernel[9] = {
-                -1, -1, -1,
-                -1,  8, -1,
-                -1, -1, -1
-            };
-            glUniform1iv(glGetUniformLocation(m_shader->getProgramId(), "edge_kernel"), 9, edge_kernel);
-            float blur_kernel[9] = {
-                1.0f / 16.0f, 2.0f / 16.0f, 1.0f / 16.0f,
-                2.0f / 16.0f, 4.0f / 16.0f, 2.0f / 16.0f,
-                1.0f / 16.0f, 2.0f / 16.0f, 1.0f / 16.0f
-            };
-            glUniform1fv(glGetUniformLocation(m_shader->getProgramId(), "blur_kernel"), 9, blur_kernel);
+            {
+                constexpr const float offset = 1.0f / 300.0f;
+                float offsets[9][2] = {
+                    { -offset,  offset  },  // top-left
+                    {  0.0f,    offset  },  // top-center
+                    {  offset,  offset  },  // top-right
+                    { -offset,  0.0f    },  // center-left
+                    {  0.0f,    0.0f    },  // center-center
+                    {  offset,  0.0f    },  // center - right
+                    { -offset, -offset  },  // bottom-left
+                    {  0.0f,   -offset  },  // bottom-center
+                    {  offset, -offset  }   // bottom-right    
+                };
+                glUniform2fv(glGetUniformLocation(m_shader->getProgramId(), "offsets"), 9, (float*)offsets);
+            }
+            {
+                std::array<int, 9> edgeKernel = {
+                    -1, -1, -1,
+                    -1,  8, -1,
+                    -1, -1, -1
+                };
+                glUniform1iv(glGetUniformLocation(m_shader->getProgramId(), "edge_kernel"), static_cast<GLsizei>(edgeKernel.size()), edgeKernel.data());
+            }
+            {
+                std::array<float, 9> blurKernel = {
+                    1.0f / 16.0f, 2.0f / 16.0f, 1.0f / 16.0f,
+                    2.0f / 16.0f, 4.0f / 16.0f, 2.0f / 16.0f,
+                    1.0f / 16.0f, 2.0f / 16.0f, 1.0f / 16.0f
+                };
+                glUniform1fv(glGetUniformLocation(m_shader->getProgramId(), "blur_kernel"), static_cast<GLsizei>(blurKernel.size()), blurKernel.data());
+            }
             m_shader->unuse();
         }
 
         return true;
-    }
-
-    void PostProcessorSystem::preUpdate()
-    {
-
-    }
-
-    void PostProcessorSystem::update()
-    {
-
-    }
-
-    void PostProcessorSystem::postUpdate()
-    {
-
     }
 
     void PostProcessorSystem::preRender()
@@ -177,8 +166,12 @@ namespace aiko
     {
         if (m_renderEffects)
         {
-            glBindFramebuffer(GL_FRAMEBUFFER, m_msfbo);
-            const auto color = m_renderSystem->getBackgroundColor();
+             // bind to framebuffer and draw scene as we normally would to color texture 
+            glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+            glEnable(GL_DEPTH_TEST); // enable depth testing (is disabled for rendering screen-space quad)
+
+            // make sure we clear the framebuffer's content
+            auto color = m_renderSystem->getBackgroundColor();
             glClearColor(color.r, color.g, color.b, color.a);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
@@ -192,10 +185,12 @@ namespace aiko
     {
         if (m_renderEffects)
         {
-            glBindFramebuffer(GL_READ_FRAMEBUFFER, m_msfbo);
-            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_fbo);
-            glBlitFramebuffer(0, 0, m_width, m_height, 0, 0, m_width, m_height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+            // now bind back to default framebuffer and draw a quad plane with the attached framebuffer color texture
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
+            // clear all relevant buffers
+            glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // set clear color to white (not really necessery actually, since we won't be able to see behind the quad anyways)
+            glClear(GL_COLOR_BUFFER_BIT);
 
             // set uniforms/options
             m_shader->use();
@@ -206,11 +201,9 @@ namespace aiko
             m_shader->setFloat("time", static_cast<float>(glfwGetTime()));
 
             // render textured quad
-            glActiveTexture(GL_TEXTURE0);
-            m_texture.bind();
             glBindVertexArray(m_vao);
+            m_texture.bind();
             glDrawArrays(GL_TRIANGLES, 0, 6);
-            glBindVertexArray(0);
 
             m_shader->unuse();
         }
@@ -221,14 +214,14 @@ namespace aiko
         const auto& msg = static_cast<const WindowResizeEvent&>(evnt);
         m_width = msg.width;
         m_height = msg.height;
-
-        glBindFramebuffer(GL_FRAMEBUFFER, m_msfbo);
-        glBindRenderbuffer(GL_RENDERBUFFER, m_rbo);
-        glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_RGB, m_width, m_height);
-        m_texture.generate(m_width, m_height, nullptr);
         glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+        m_texture.bind();
         m_texture.generate(m_width, m_height, nullptr);
+        glBindRenderbuffer(GL_RENDERBUFFER, m_rbo);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_width, m_height);
+        glBindRenderbuffer(GL_RENDERBUFFER, 0);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
     }
 
 }

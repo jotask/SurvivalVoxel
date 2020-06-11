@@ -24,10 +24,6 @@ namespace aiko
         virtual bool connect(SystemConnector&) override;
         virtual bool init() override;
 
-        virtual void preUpdate() override;
-        virtual void update() override;
-        virtual void postUpdate() override;
-
         virtual void preRender() override;
         virtual void render() override;
         virtual void postRender() override;
@@ -46,10 +42,9 @@ namespace aiko
 
         Texture2D m_texture;
 
-        GLuint m_msfbo;
+        GLuint m_vao;
         GLuint m_fbo;
         GLuint m_rbo;
-        GLuint m_vao;
 
         unsigned int m_width;
         unsigned int m_height;
