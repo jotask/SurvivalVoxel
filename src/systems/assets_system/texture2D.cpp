@@ -23,16 +23,20 @@ namespace aiko
         return m_id;
     }
 
-    void Texture2D::generate(GLuint width, GLuint height, unsigned char * data)
+    void Texture2D::init()
     {
-
-        // FIXME :: Dirty right now but it works
-        /// we don't want to generate more textures, only one for texture that is modiflied
         if (m_id == -1)
         {
             glGenTextures(1, &m_id);
         }
+        else
+        {
+            spdlog::error("Attempting to generate the same texture twice. Skipping this process as texture has already been generated");
+        }
+    }
 
+    void Texture2D::generate(GLuint width, GLuint height, unsigned char * data)
+    {
         m_width = width;
         m_height = height;
         glBindTexture(GL_TEXTURE_2D, m_id);

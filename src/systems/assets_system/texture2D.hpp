@@ -16,6 +16,8 @@ namespace aiko
 
         GLuint getId() const;
 
+        void init();
+
         void generate(GLuint width, GLuint height, unsigned char* data);
 
         void bind();
