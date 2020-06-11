@@ -3,11 +3,12 @@ layout (location = 0) in vec4 vertex; // <vec2 position, vec2 texCoords>
 
 out vec2 TexCoords;
 
+uniform float time;
 uniform bool chaos;
-uniform bool confuse;
 uniform bool shake;
 uniform bool blur;
-uniform float time;
+uniform bool edge;
+uniform bool invertColors;
 
 void main()
 {
@@ -18,10 +19,6 @@ void main()
         float strength = 0.3;
         vec2 pos = vec2(texture.x + sin(time) * strength, texture.y + cos(time) * strength);
         TexCoords = pos;
-    }
-    else if (confuse)
-    {
-        TexCoords = vec2(1.0 - texture.x, 1.0 - texture.y);
     }
     else
     {

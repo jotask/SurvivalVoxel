@@ -13,6 +13,8 @@ uniform bool chaos;
 uniform bool confuse;
 uniform bool shake;
 uniform bool blur;
+uniform bool edge;
+uniform bool invertColors;
 
 void main()
 {
@@ -20,18 +22,15 @@ void main()
     color = vec4(0.0f);
 
     vec3 samplers[KERNEL_SIZE];
-    
+
     // sample from texture offsets if using convolution matrix
-    if(chaos || shake || blur)
+    for(int i = 0; i < KERNEL_SIZE; i++)
     {
-       for(int i = 0; i < KERNEL_SIZE; i++)
-       {
-            samplers[i] = vec3(texture(scene, TexCoords.st + offsets[i]));
-       }
+        samplers[i] = vec3(texture(scene, TexCoords.st + offsets[i]));
     }
 
     // process effects
-    if (chaos)
+    if (edge)
     {
         for(int i = 0; i < KERNEL_SIZE; i++)
         {
@@ -47,7 +46,7 @@ void main()
         }
         color.a = 1.0f;
     }
-    else if (confuse)
+    else if (invertColors)
     {
         color = vec4(1.0 - texture(scene, TexCoords).rgb, 1.0);
     }
