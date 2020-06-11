@@ -12,15 +12,17 @@ uniform float     blur_kernel[KERNEL_SIZE];
 uniform bool chaos;
 uniform bool confuse;
 uniform bool shake;
+uniform bool blur;
 
 void main()
 {
 
-
     color = vec4(0.0f);
+
     vec3 samplers[KERNEL_SIZE];
+    
     // sample from texture offsets if using convolution matrix
-    if(chaos || shake)
+    if(chaos || shake || blur)
     {
        for(int i = 0; i < KERNEL_SIZE; i++)
        {
@@ -37,17 +39,21 @@ void main()
         }
         color.a = 1.0f;
     }
-    else if (confuse)
-    {
-        color = vec4(1.0 - texture(scene, TexCoords).rgb, 1.0);
-    }
-    else if (shake)
+    else if (blur)
     {
         for(int i = 0; i < KERNEL_SIZE; i++)
         {
             color += vec4(samplers[i] * blur_kernel[i], 0.0f);
         }
         color.a = 1.0f;
+    }
+    else if (confuse)
+    {
+        color = vec4(1.0 - texture(scene, TexCoords).rgb, 1.0);
+    }
+    else if (shake)
+    {
+        color = vec4(texture(scene, TexCoords).rgb, 1.0);
     }
     else
     {
