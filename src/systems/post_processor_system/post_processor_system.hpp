@@ -3,8 +3,11 @@
 #include "systems/system_interface.hpp"
 #include "systems/assets_system/texture2D.hpp"
 #include "systems/event_system/event.hpp"
+#include "systems/post_processor_system/effects/effect.hpp"
 
 #include <glad/glad.h>
+
+#include <vector>
 
 namespace aiko
 {
@@ -51,8 +54,8 @@ namespace aiko
 
         bool m_renderEffects;
         bool m_chaos;
-        bool m_confuse;
-        bool m_shake;
+
+        std::vector<AikoUPtr<postprocessing::Effect>> m_effects;
 
 
     };

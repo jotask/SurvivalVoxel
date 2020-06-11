@@ -7,6 +7,12 @@
 #include "systems/event_system/event_system.hpp"
 #include "systems/display_system.hpp"
 
+#include "systems/post_processor_system/effects/blur_effect.hpp"
+#include "systems/post_processor_system/effects/shake_effect.hpp"
+#include "systems/post_processor_system/effects/edge_effect.hpp"
+#include "systems/post_processor_system/effects/invert_colors_effect.hpp"
+#include "systems/post_processor_system/effects/chaos_effect.hpp"
+
 #include <GLFW/glfw3.h>
 #include <spdlog/spdlog.h>
 #include <imgui.h>
@@ -28,8 +34,6 @@ namespace aiko
         , m_height(0)
         , m_renderEffects(true)
         , m_chaos(false)
-        , m_confuse(false)
-        , m_shake(false)
     {
 
     }
@@ -105,6 +109,13 @@ namespace aiko
 
         {
             m_shader->use();
+
+            m_effects.emplace_back(std::make_unique<postprocessing::BlurFx>());
+            m_effects.emplace_back(std::make_unique<postprocessing::ShakeFx>());
+            m_effects.emplace_back(std::make_unique<postprocessing::EdgeFx>());
+            m_effects.emplace_back(std::make_unique<postprocessing::InvertColorsFx>());
+            m_effects.emplace_back(std::make_unique<postprocessing::ChaosFx>());
+
             {
                 constexpr const float offset = 1.0f / 300.0f;
                 float offsets[9][2] = {
@@ -120,22 +131,12 @@ namespace aiko
                 };
                 glUniform2fv(glGetUniformLocation(m_shader->getProgramId(), "offsets"), 9, (float*)offsets);
             }
+
+            for (auto& fx : m_effects)
             {
-                std::array<int, 9> edgeKernel = {
-                    -1, -1, -1,
-                    -1,  8, -1,
-                    -1, -1, -1
-                };
-                glUniform1iv(glGetUniformLocation(m_shader->getProgramId(), "edge_kernel"), static_cast<GLsizei>(edgeKernel.size()), edgeKernel.data());
+                fx->init(m_shader);
             }
-            {
-                std::array<float, 9> blurKernel = {
-                    1.0f / 16.0f, 2.0f / 16.0f, 1.0f / 16.0f,
-                    2.0f / 16.0f, 4.0f / 16.0f, 2.0f / 16.0f,
-                    1.0f / 16.0f, 2.0f / 16.0f, 1.0f / 16.0f
-                };
-                glUniform1fv(glGetUniformLocation(m_shader->getProgramId(), "blur_kernel"), static_cast<GLsizei>(blurKernel.size()), blurKernel.data());
-            }
+
             m_shader->unuse();
         }
 
@@ -146,9 +147,10 @@ namespace aiko
     {
         ImGui::Begin("PostProcessorSystem");
         ImGui::Checkbox("SystemEnabled", &m_renderEffects);
-        ImGui::Checkbox("Chaos", &m_chaos);
-        ImGui::Checkbox("Shake", &m_shake);
-        ImGui::Checkbox("Confuse", &m_confuse);
+        for (auto& fx : m_effects)
+        {
+            ImGui::Checkbox(fx->getName().c_str(), &fx->isEnabled());
+        }
         ImGui::End();
     }
 
@@ -187,18 +189,21 @@ namespace aiko
         {
             // now bind back to default framebuffer and draw a quad plane with the attached framebuffer color texture
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
-            glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
+            // disable depth test so screen-space quad isn't discarded due to depth test.
+            glDisable(GL_DEPTH_TEST);
+
             // clear all relevant buffers
-            glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // set clear color to white (not really necessery actually, since we won't be able to see behind the quad anyways)
+            const auto color = m_renderSystem->getBackgroundColor();
+            glClearColor(color.r, color.g, color.b, color.a);
             glClear(GL_COLOR_BUFFER_BIT);
 
             // set uniforms/options
             m_shader->use();
-
-            m_shader->setBool("confuse", m_confuse);
-            m_shader->setBool("chaos", m_chaos);
-            m_shader->setBool("shake", m_shake);
             m_shader->setFloat("time", static_cast<float>(glfwGetTime()));
+            for (auto& fx : m_effects)
+            {
+                fx->use(m_shader);
+            }
 
             // render textured quad
             glBindVertexArray(m_vao);
