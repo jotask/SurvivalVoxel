@@ -14,6 +14,12 @@ namespace aiko
             virtual void init(Shader* shader);
             virtual void use(Shader* shader);
 
+            virtual void updateSettings() override;
+
+        private:
+
+            float m_strength;
+
         };
     }
 }

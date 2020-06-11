@@ -15,6 +15,7 @@ namespace aiko
 
             virtual void init(Shader* shader) = 0;
             virtual void use(Shader* shader) = 0;
+            virtual void updateSettings() {};
 
             const std::string& getName() const;
             bool& isEnabled();

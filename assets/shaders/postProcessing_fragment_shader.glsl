@@ -10,7 +10,6 @@ uniform int       edge_kernel[KERNEL_SIZE];
 uniform float     blur_kernel[KERNEL_SIZE];
 
 uniform bool chaos;
-uniform bool confuse;
 uniform bool shake;
 uniform bool blur;
 uniform bool edge;

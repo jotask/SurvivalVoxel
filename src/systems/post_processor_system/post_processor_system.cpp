@@ -145,18 +145,22 @@ namespace aiko
 
     void PostProcessorSystem::preRender()
     {
+
+    }
+
+    void PostProcessorSystem::render()
+    {
         ImGui::Begin("PostProcessorSystem");
         ImGui::Checkbox("SystemEnabled", &m_renderEffects);
         for (auto& fx : m_effects)
         {
             ImGui::Checkbox(fx->getName().c_str(), &fx->isEnabled());
+            if (fx->isEnabled() == true)
+            {
+                fx->updateSettings();
+            }
         }
         ImGui::End();
-    }
-
-    void PostProcessorSystem::render()
-    {
-        
     }
 
     void PostProcessorSystem::postRender()

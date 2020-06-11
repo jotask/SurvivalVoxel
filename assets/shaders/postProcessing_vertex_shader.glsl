@@ -10,14 +10,16 @@ uniform bool blur;
 uniform bool edge;
 uniform bool invertColors;
 
+uniform float chaosStrength;
+uniform float shakeStrength;
+
 void main()
 {
     gl_Position = vec4(vertex.xy, 0.0f, 1.0f); 
     vec2 texture = vertex.zw;
     if (chaos)
     {
-        float strength = 0.3;
-        vec2 pos = vec2(texture.x + sin(time) * strength, texture.y + cos(time) * strength);
+        vec2 pos = vec2(texture.x + sin(time) * chaosStrength, texture.y + cos(time) * chaosStrength);
         TexCoords = pos;
     }
     else
@@ -26,8 +28,7 @@ void main()
     }
     if (shake)
     {
-        float strength = 0.01;
-        gl_Position.x += cos(time * 10) * strength;
-        gl_Position.y += cos(time * 15) * strength;
+        gl_Position.x += cos(time * 10) * shakeStrength;
+        gl_Position.y += cos(time * 15) * shakeStrength;
     }
 } 
