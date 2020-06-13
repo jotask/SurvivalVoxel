@@ -37,6 +37,3 @@
 [submodule "dependencies/gainput"]
 	path = dependencies/gainput
 	url = https://github.com/jkuhlmann/gainput.git
-[submodule "dependencies/freetype2"]
-	path = dependencies/freetype2
-	url = https://github.com/aseprite/freetype2.git
