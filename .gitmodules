@@ -37,3 +37,6 @@
 [submodule "dependencies/gainput"]
 	path = dependencies/gainput
 	url = https://github.com/jkuhlmann/gainput.git
+[submodule "dependencies/ftgl"]
+	path = dependencies/ftgl
+	url = https://github.com/frankheckenbach/ftgl
