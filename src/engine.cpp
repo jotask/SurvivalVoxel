@@ -14,6 +14,7 @@
 #include "systems/event_system/event_system.hpp"
 #include "systems/post_processor_system/post_processor_system.hpp"
 #include "systems/system_connector.hpp"
+#include "systems/font_system/font_system.hpp"
 #include "systems/entity_component_system/entity_component_system.hpp"
 #include "systems/event_system/engine_events.hpp"
 #include "systems/game_state_manager_system/game_state_manager_system.hpp"
@@ -56,6 +57,7 @@ namespace aiko
         m_systems.push_back(std::make_unique<AudioSystem>());
         m_systems.push_back(std::make_unique<EntityComponentSystem>());
         m_systems.push_back(std::make_unique<AssetsSystem>());
+        m_systems.push_back(std::make_unique<FontSystem>());
         m_systems.push_back(std::make_unique<GameStateManagerSystem>());
 
         // Game systems
