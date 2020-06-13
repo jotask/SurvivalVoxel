@@ -1,0 +1,9 @@
+{
+    "folder": "fonts",
+    "fonst": [
+        {
+            "name"      : "box",
+            "file"      : "box.obj"
+        }
+    ]
+}
