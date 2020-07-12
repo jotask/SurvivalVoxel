@@ -37,7 +37,7 @@ namespace aiko
 
         void createProgram(const std::string& shaderName, const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename);
 
-        GLuint createShader(GLenum shader_type, const std::string& source, const std::string& shaderName);
+        GLuint createShader(GLenum shader_type, const std::string& file, const std::string& source, const std::string& shaderName);
 
         std::map<const std::string, AikoUPtr<Shader>> m_programs;
 
