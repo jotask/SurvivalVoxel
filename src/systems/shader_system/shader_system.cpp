@@ -38,41 +38,6 @@ namespace aiko
         return true;
     }
 
-    bool ShaderSystem::connect(SystemConnector & connector)
-    {
-        return true;
-    }
-
-    void ShaderSystem::preUpdate()
-    {
-
-    }
-
-    void ShaderSystem::update()
-    {
-
-    }
-
-    void ShaderSystem::postUpdate()
-    {
-
-    }
-
-    void ShaderSystem::preRender()
-    {
-
-    }
-
-    void ShaderSystem::render()
-    {
-
-    }
-
-    void ShaderSystem::postRender()
-    {
-
-    }
-
     Shader& ShaderSystem::getShader(const std::string shader)
     {
         if (m_programs.find(shader) != m_programs.end())
