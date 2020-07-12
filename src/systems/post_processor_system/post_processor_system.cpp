@@ -5,6 +5,7 @@
 #include "systems/shader_system/shader_system.hpp"
 #include "systems/event_system/engine_events.hpp"
 #include "systems/event_system/event_system.hpp"
+#include "systems/imgui_system/imgui_system.hpp"
 #include "systems/display_system.hpp"
 
 #include "systems/post_processor_system/effects/blur_effect.hpp"
@@ -25,6 +26,7 @@ namespace aiko
         : m_renderSystem(nullptr)
         , m_displaySystem(nullptr)
         , m_shaderSystem(nullptr)
+        , m_imguiSystem(nullptr)
         , m_shader(nullptr)
         , m_texture()
         , m_vao(-1)
@@ -32,7 +34,8 @@ namespace aiko
         , m_rbo(-1)
         , m_width(0)
         , m_height(0)
-        , m_renderEffects(true)
+        , m_renderImgui(false)
+        , m_renderEffects(false)
     {
 
     }
@@ -42,6 +45,7 @@ namespace aiko
         m_renderSystem = connector.findSystem<RenderSystem>();
         m_displaySystem = connector.findSystem<DisplaySystem>();
         m_shaderSystem = connector.findSystem<ShaderSystem>();
+        m_imguiSystem = connector.findSystem<ImguiSystem>();
         return true;
     }
 
@@ -49,6 +53,8 @@ namespace aiko
     {
 
         EventSystem::it().bind<WindowResizeEvent>(this, &PostProcessorSystem::onWindowResize);
+
+        m_imguiSystem->registerSystem("PostProcessorSystem", m_renderImgui);
 
         auto windowSize = m_displaySystem->getWindowSize();
         m_width = static_cast<unsigned int>(windowSize.x);
@@ -149,17 +155,20 @@ namespace aiko
 
     void PostProcessorSystem::render()
     {
-        ImGui::Begin("PostProcessorSystem");
-        ImGui::Checkbox("SystemEnabled", &m_renderEffects);
-        for (auto& fx : m_effects)
+        if (m_renderImgui)
         {
-            ImGui::Checkbox(fx->getName().c_str(), &fx->isEnabled());
-            if (fx->isEnabled() == true)
+            ImGui::Begin("PostProcessorSystem");
+            ImGui::Checkbox("SystemEnabled", &m_renderEffects);
+            for (auto& fx : m_effects)
             {
-                fx->updateSettings();
+                ImGui::Checkbox(fx->getName().c_str(), &fx->isEnabled());
+                if (fx->isEnabled() == true)
+                {
+                    fx->updateSettings();
+                }
             }
+            ImGui::End();
         }
-        ImGui::End();
     }
 
     void PostProcessorSystem::postRender()
