@@ -53,7 +53,6 @@ namespace aiko
         unsigned int m_height;
 
         bool m_renderEffects;
-        bool m_chaos;
 
         std::vector<AikoUPtr<postprocessing::Effect>> m_effects;
 

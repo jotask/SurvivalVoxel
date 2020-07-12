@@ -33,7 +33,6 @@ namespace aiko
         , m_width(0)
         , m_height(0)
         , m_renderEffects(true)
-        , m_chaos(false)
     {
 
     }
