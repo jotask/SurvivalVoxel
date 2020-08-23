@@ -9,16 +9,24 @@ uniform vec2      offsets[KERNEL_SIZE];
 uniform int       edge_kernel[KERNEL_SIZE];
 uniform float     blur_kernel[KERNEL_SIZE];
 
+uniform float time;
 uniform bool chaos;
 uniform bool shake;
 uniform bool blur;
 uniform bool edge;
 uniform bool invertColors;
+uniform bool mandrelbot;
 
 void main()
 {
 
     color = vec4(0.0f);
+
+    if(mandrelbot == true)
+    {
+        color = vec4(sin(time), cos(time), sin(time), 1.0f);
+        return;
+    }
 
     vec3 samplers[KERNEL_SIZE];
 

@@ -9,12 +9,21 @@ uniform bool shake;
 uniform bool blur;
 uniform bool edge;
 uniform bool invertColors;
+uniform bool mandrelbot;
 
 uniform float chaosStrength;
 uniform float shakeStrength;
 
 void main()
 {
+
+    if(mandrelbot == true)
+    {
+        gl_Position = vec4(vertex.xy, 0.0f, 1.0f); 
+        TexCoords = vertex.zw;
+        return;
+    }
+
     gl_Position = vec4(vertex.xy, 0.0f, 1.0f); 
     vec2 texture = vertex.zw;
     if (chaos)
