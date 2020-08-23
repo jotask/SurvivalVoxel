@@ -11,6 +11,7 @@
 #include "systems/post_processor_system/effects/shake_effect.hpp"
 #include "systems/post_processor_system/effects/edge_effect.hpp"
 #include "systems/post_processor_system/effects/invert_colors_effect.hpp"
+#include "systems/post_processor_system/effects/mandelbrot_effect.hpp"
 #include "systems/post_processor_system/effects/chaos_effect.hpp"
 
 #include <GLFW/glfw3.h>
@@ -115,6 +116,7 @@ namespace aiko
             m_effects.emplace_back(std::make_unique<postprocessing::EdgeFx>());
             m_effects.emplace_back(std::make_unique<postprocessing::InvertColorsFx>());
             m_effects.emplace_back(std::make_unique<postprocessing::ChaosFx>());
+            m_effects.emplace_back(std::make_unique<postprocessing::MandelbrotFx>());
 
             {
                 constexpr const float offset = 1.0f / 300.0f;
