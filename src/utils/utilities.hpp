@@ -17,17 +17,22 @@ namespace aiko
             return (value - inFrom) * (outTo - outFrom) / (inTo - inFrom) + outFrom;
         }
 
+        static std::filesystem::path getFullPathToFile(const std::string& file)
+        {
+            // TODO : Not happy with this, find other solution
+            return std::filesystem::current_path() / ("../assets/" + file);
+        }
+
         static unsigned int loadBMPTexture(const std::string& fileName)
         {
-            auto fullPathToFile = std::filesystem::current_path() / ("../assets/" + fileName);
+            const auto fullPathToFile = getFullPathToFile(fileName);
             return SOIL_load_OGL_texture(fullPathToFile.string().c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS);
         }
 
         static std::string readFile(const std::string& fileName)
         {
 
-            // TODO : Not happy with this, find other solution
-            auto fullPathToFile = std::filesystem::current_path() / ("../assets/" + fileName);
+            const auto fullPathToFile = getFullPathToFile(fileName);
 
             std::string shaderCode;
             std::ifstream file(fullPathToFile, std::ios::in);

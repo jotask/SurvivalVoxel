@@ -16,6 +16,7 @@ namespace aiko
     class RenderSystem;
     class ShaderSystem;
     class DisplaySystem;
+    class ImguiSystem;
 
     class PostProcessorSystem : public System
     {
@@ -41,6 +42,7 @@ namespace aiko
         RenderSystem* m_renderSystem;
         DisplaySystem* m_displaySystem;
         ShaderSystem* m_shaderSystem;
+        ImguiSystem* m_imguiSystem;
         Shader* m_shader;
 
         Texture2D m_texture;
@@ -52,8 +54,8 @@ namespace aiko
         unsigned int m_width;
         unsigned int m_height;
 
+        bool m_renderImgui;
         bool m_renderEffects;
-        bool m_chaos;
 
         std::vector<AikoUPtr<postprocessing::Effect>> m_effects;
 

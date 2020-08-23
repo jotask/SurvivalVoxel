@@ -38,41 +38,6 @@ namespace aiko
         return true;
     }
 
-    bool ShaderSystem::connect(SystemConnector & connector)
-    {
-        return true;
-    }
-
-    void ShaderSystem::preUpdate()
-    {
-
-    }
-
-    void ShaderSystem::update()
-    {
-
-    }
-
-    void ShaderSystem::postUpdate()
-    {
-
-    }
-
-    void ShaderSystem::preRender()
-    {
-
-    }
-
-    void ShaderSystem::render()
-    {
-
-    }
-
-    void ShaderSystem::postRender()
-    {
-
-    }
-
     Shader& ShaderSystem::getShader(const std::string shader)
     {
         if (m_programs.find(shader) != m_programs.end())
@@ -94,8 +59,8 @@ namespace aiko
         const auto vertexShaderCode = Shadinclude::load((std::filesystem::current_path() / ("../assets/" + vertexShaderFilename)).u8string());
         const auto fragmentShaderCode = Shadinclude::load((std::filesystem::current_path() / ("../assets/" + fragmentShaderFilename)).u8string());
 
-        const auto vertexShaderId = createShader(GL_VERTEX_SHADER, vertexShaderCode, "vertex shader");
-        const auto fragmentShaderId = createShader(GL_FRAGMENT_SHADER, fragmentShaderCode, "fragment shader");
+        const auto vertexShaderId = createShader(GL_VERTEX_SHADER, vertexShaderFilename, vertexShaderCode, "vertex shader");
+        const auto fragmentShaderId = createShader(GL_FRAGMENT_SHADER, fragmentShaderFilename, fragmentShaderCode, "fragment shader");
 
         auto linkResult = GL_FALSE;
 
@@ -120,7 +85,7 @@ namespace aiko
 
     }
 
-    GLuint ShaderSystem::createShader(GLenum shader_type, const std::string & source, const std::string & shaderName)
+    GLuint ShaderSystem::createShader(GLenum shader_type, const std::string& file, const std::string & source, const std::string & shaderName)
     {
         auto compileResult = GL_FALSE;
 
@@ -139,7 +104,7 @@ namespace aiko
             glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLogLength);
             std::vector<char> shader_log(infoLogLength);
             glGetShaderInfoLog(shader, infoLogLength, NULL, &shader_log[0]);
-            printf("Error compiling shader %s\n", shaderName.c_str());
+            printf("Error compiling shader [%s] in file [%s] \n", shaderName.c_str(), file.c_str());
             printf("%s", &shader_log[0]);
             std::terminate();
         }

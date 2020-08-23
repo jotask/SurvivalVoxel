@@ -21,6 +21,8 @@
 
 #include "systems/chunk_system/chunk_system.hpp"
 
+#include <spdlog/spdlog.h>
+
 #include <algorithm>
 
 namespace aiko
@@ -66,10 +68,16 @@ namespace aiko
         // Connect all system before we initialize them
         auto systemConnector = SystemConnector(m_systems);
         m_displaySystem = systemConnector.findSystem<DisplaySystem>();
-        std::for_each(m_systems.begin(), m_systems.end(), [&systemConnector](auto& sys) { sys->connect(systemConnector); });
+        std::for_each(m_systems.begin(), m_systems.end(), [&systemConnector](auto& sys)
+        {
+            if (sys->connect(systemConnector) == false) { spdlog::error("Error Connecting system!"); std::terminate(); };
+        });
 
         // Initialise all systems
-        std::for_each(m_systems.begin(), m_systems.end(), [](auto& sys) { sys->init(); });
+        std::for_each(m_systems.begin(), m_systems.end(), [](auto& sys)
+        {
+            if (sys->init() == false) { spdlog::error("Error init system!"); std::terminate(); };
+        });
 
     }
 
